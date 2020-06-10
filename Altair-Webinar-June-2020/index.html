@@ -53,7 +53,7 @@ src="js/data/running_workflows_data.js"></script>
         >
         <div>
             <p>
-            Cycling Workflow Engine Overview:<br/>Altair Webinar June 2020
+            The Cylc Workflow Engine<br/>Altair Webinar June 2020
             </p>
 
             <img
@@ -74,247 +74,15 @@ src="js/data/running_workflows_data.js"></script>
     </div>
 
     <div
-        id="outline"
-        class="step"
-        data-rel-x="1.0w"
-        data-rel-to="title-slide"
-        >
-        <table class="iconlist">
-            <tr>
-                <td>
-                    <embed style="width: 120px" src="media/icons/hand.svg"/>
-                </td><td>
-                    Cylc's Mission
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <embed style="width: 120px" src="media/icons/hand.svg" />
-                </td><td>
-                    Origin and contributors
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <embed style="width: 120px" src="media/icons/hand.svg" />
-                </td><td>
-										Why Cylc is a popular choice <br/> &nbsp; &nbsp;  for
-										weather and climate workflows
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <embed style="width: 120px" src="media/icons/hand.svg" />
-                </td><td>
-                   Ongoing development 
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <embed style="width: 120px" src="media/icons/hand.svg" />
-                </td><td>
-                    Cylc 8 preview demo
-                </td>
-            </tr>
-        </table>
-    </div>
-
-    <div id="cylc-website"
-        data-rel-x="1.0w"
-        class="step full vflex"
-        >
-        <!--a href="https://cylc.org"-->
-        <!-- TODO: currently a redirect for http only, not https -->
-        <a href="http://cylc.org">
-            <img
-            class="flexgrow"
-            src="media/screenshots/website-1.png"
-            style="width:100%"
-            />
-        </a>
-        <div
-            style="position:absolute; right:-200px; top:-140px;">
-            <p>
-            Cylc's Mission
-            </p>
-        </div>
-    </div>
-
-    <div
-        id="cise-paper"
-        class="step full vflex"
-        data-rel-x="1.0w"
-        data-rel-y="0"
-        >
-        <div
-            style="width:100%; height:100%;
-            background:url(media/screenshots/cise-frontpage.png);
-            background-position:bottom left; background-repeat:no-repeat;
-            background-size:100% auto"
-            >
-            <embed
-            id="cise-cylcpage"
-            class="flexgrow substep flash"
-            src="media/screenshots/cise-cylcpage.png"
-            style="width:100%"
-            />
-        </div>
-    </div>
-
-    <div
-        id="simple-workflow"
-        class="step full vflex"
-        data-rel-y="1.0h"
-        data-rel-x="0"
-        data-rel-to="outline"
-        >
-        <embed
-        id="basic-workflow"
-        class="flexgrow"
-        src="media/graph/basic-workflow.svg"
-        />
-    </div>
-
-    <div
-      id="repeating-workflow-1"
-      class="step full vflex"
-      data-rel-x="1.0w"
-      data-rel-y="0"
-      >
-      <div
-      style="width:100%; height:100%; background:url(media/graph/repeating-workflow1a.svg);
-      background-position:bottom left; background-repeat:no-repeat;
-      background-size:auto 100%"
-    >
-      <embed
-        id="repeating-workflow1b"
-        class="flexgrow substep flash"
-        src="media/graph/repeating-workflow1b.svg"
-        style="height:100%; position:absolute; bottom:0; left:0; background-color:rgb(215, 215, 215)"
-      />
-       <embed
-        id="repeating-workflow1c"
-        class="flexgrow substep flash"
-        src="media/graph/repeating-workflow1c.svg"
-        style="height:100%; position:absolute; bottom:0; left:0; background-color:rgb(215, 215, 215);"
-      />
-    </div>
-    </div>
-
-		<div
-			 id="anim"
-			 class="step full vflex"
-			 >
-		</div>
-
-    <script type="text/javascript">
-      // write dependencies
-      const repeating_deps = [];
-      for (let i=1; i<4; i++) {
-        repeating_deps.push(`a${i} => c${i} => d${i}`);
-        repeating_deps.push(`a${i} => b${i}`);
-        repeating_deps.push(`b${i} => a${i+1}`);
-        repeating_deps.push(`d${i} => a${i+1}`);
-      }
-
-      // create graph
-			const repeating_animation = $('<embed />')
-        .addClass('minicylc flexgrow')
-        .data('mainLoopStep', '1500')
-        .data('theme', 'demo')
-        .data('dependencies', repeating_deps.join('//'))
-        .attr('src', 'media/graph/repeating-workflow1.svg')[0]
-      $('#anim').append(repeating_animation);
-
-      var repeating_workflow;
-      repeating_animation.onload = function() {
-        repeating_workflow = new MiniCylc(repeating_animation, false);
-        repeating_workflow.hold();
-        repeating_workflow.run();
- 
-        // unhold when on slide
-        addClassNameListener(
-          $('#anim')[0],
-          'active',
-          repeating_workflow.release.bind(repeating_workflow),
-          repeating_workflow.hold.bind(repeating_workflow)
-        );
-      };
-    </script>
-
-    <div
-      id="repeating-workflow-2"
-      class="step full vflex"
-      >
-      <img
-			style="width:100%; height:100%;",
-			src="media/graph/repeating-workflow3c.svg"
-      />
-    </div>
-
-
-
-    <div
-        id="cycling-workflow"
-        class="step full vflex"
-        >
-        <embed
-        id="cycling-workflow-svg"
-        class="flexgrow"
-        src="media/graph/cycling-workflow.svg"
-        style="height:120%; margin-top:-10%"
-        />
-    </div>
-
-    <div
-        id="infinite-cycling"
-        class="step full vflex"
-        >
-    </div>
-
-    <script type="text/javascript">
-// write dependencies
-const deps = [];
-for (let i=0; i<100; i++) {
-    deps.push(`a${i} => c${i} => d${i}`);
-    deps.push(`a${i} => b${i}`);
-    deps.push(`a${i} => a${i+1}`);
-    deps.push(`c${i} => b${i+1}`);
-}
-
-// create graph
-const infininte_animation = $('<embed />')
-.addClass('minicylc flexgrow')
-.data('focus', true)
-.data('theme', 'demo')
-.data('randomFactor', 0.5)
-.data('dependencies', deps.join('//'))
-.attr('src', 'media/graph/infinite-workflow.svg')[0]
-$('#infinite-cycling').append(infininte_animation);
-
-infininte_animation.onload = function() {
-    const infinite_workflow = new MiniCylc(infininte_animation, true);
-    infinite_workflow.hold();
-    infinite_workflow.run();
-
-    // unhold when on slide
-    addClassNameListener(
-            $('#infinite-cycling')[0],
-            'active',
-            infinite_workflow.release.bind(infinite_workflow),
-            infinite_workflow.hold.bind(infinite_workflow)
-            );
-};
-    </script>
-
-    <div
       id="more-info"
       class="step"
+        data-rel-x="1.0w"
+        data-rel-to="title-slide"
     >
       <p
         style="font-size: 1.5em;"
       >
-        How to get more information
+        Where to get more information:
       </p>
       <table
         class="iconlist"
@@ -381,6 +149,238 @@ infininte_animation.onload = function() {
     </div>
 
 
+    <div
+        id="outline"
+        class="step"
+        >
+        <table class="iconlist">
+            <tr>
+                <td>
+                    <embed style="width: 120px" src="media/icons/hand.svg"/>
+                </td><td>
+                    Cylc's mission
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <embed style="width: 120px" src="media/icons/hand.svg" />
+                </td><td>
+                    Origin and contributors
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <embed style="width: 120px" src="media/icons/hand.svg" />
+                </td><td>
+										Why Cylc is a popular choice <br/> &nbsp; &nbsp;  for
+										weather and climate workflows
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <embed style="width: 120px" src="media/icons/hand.svg" />
+                </td><td>
+                   Ongoing development 
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <embed style="width: 120px" src="media/icons/hand.svg" />
+                </td><td>
+                    Cylc 8 preview demo
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div id="cylc-website"
+        data-rel-x="1.0w"
+        class="step full vflex"
+        >
+        <!--a href="https://cylc.org"-->
+        <!-- TODO: currently a redirect for http only, not https -->
+        <a href="http://cylc.org">
+            <img
+            class="flexgrow"
+            src="media/screenshots/website-1.png"
+            style="width:100%"
+            />
+        </a>
+				<div class="topic">
+					 <p>
+            Cylc's Mission
+						</p>
+        </div>
+    </div>
+
+    <div
+        id="cise-paper"
+        class="step full vflex"
+        data-rel-x="1.0w"
+        data-rel-y="0"
+        >
+        <div
+            style="width:100%; height:100%;
+            background:url(media/screenshots/cise-frontpage.png);
+            background-position:bottom left; background-repeat:no-repeat;
+            background-size:100% auto"
+            >
+            <embed
+            id="cise-cylcpage"
+            class="flexgrow substep flash"
+            src="media/screenshots/cise-cylcpage.png"
+            style="width:100%"
+            />
+        </div>
+    </div>
+
+    <div
+        id="simple-workflow"
+        class="step full-shrink vflex"
+        data-rel-y="1.0h"
+        data-rel-x="0"
+        data-rel-to="outline"
+        >
+        <embed
+        id="basic-workflow"
+        class="flexgrow"
+        src="media/graph/basic-workflow.svg"
+        />
+    </div>
+
+    <div
+      id="repeating-workflow-1"
+      class="step full-shrink vflex"
+      data-rel-x="1.0w"
+      data-rel-y="0"
+      >
+      <div
+      style="width:100%; height:100%; background:url(media/graph/repeating-workflow1a.svg);
+      background-position:bottom left; background-repeat:no-repeat;
+      background-size:auto 100%"
+    >
+      <embed
+        id="repeating-workflow1b"
+        class="flexgrow substep flash"
+        src="media/graph/repeating-workflow1b.svg"
+        style="height:100%; position:absolute; bottom:0; left:0; background-color:rgb(215, 215, 215)"
+      />
+       <embed
+        id="repeating-workflow1c"
+        class="flexgrow substep flash"
+        src="media/graph/repeating-workflow1c.svg"
+        style="height:100%; position:absolute; bottom:0; left:0; background-color:rgb(215, 215, 215);"
+      />
+    </div>
+    </div>
+
+		<div
+			 id="anim"
+			 class="step full-shrink vflex"
+			 >
+		</div>
+
+    <script type="text/javascript">
+      // write dependencies
+      const repeating_deps = [];
+      for (let i=1; i<4; i++) {
+        repeating_deps.push(`a${i} => c${i} => d${i}`);
+        repeating_deps.push(`a${i} => b${i}`);
+        repeating_deps.push(`b${i} => a${i+1}`);
+        repeating_deps.push(`d${i} => a${i+1}`);
+      }
+
+      // create graph
+			const repeating_animation = $('<embed />')
+        .addClass('minicylc flexgrow')
+        .data('mainLoopStep', '1500')
+        .data('theme', 'demo')
+        .data('dependencies', repeating_deps.join('//'))
+        .attr('src', 'media/graph/repeating-workflow1.svg')[0]
+      $('#anim').append(repeating_animation);
+
+      var repeating_workflow;
+      repeating_animation.onload = function() {
+        repeating_workflow = new MiniCylc(repeating_animation, false);
+        repeating_workflow.hold();
+        repeating_workflow.run();
+ 
+        // unhold when on slide
+        addClassNameListener(
+          $('#anim')[0],
+          'active',
+          repeating_workflow.release.bind(repeating_workflow),
+          repeating_workflow.hold.bind(repeating_workflow)
+        );
+      };
+    </script>
+
+    <div
+      id="repeating-workflow-2"
+      class="step full-shrink vflex"
+      >
+      <img
+			style="width:100%; height:100%;",
+			src="media/graph/repeating-workflow3c.svg"
+      />
+    </div>
+
+
+
+    <div
+        id="cycling-workflow"
+        class="step full vflex"
+        >
+        <embed
+        id="cycling-workflow-svg"
+        class="flexgrow"
+        src="media/graph/cycling-workflow.svg"
+        style="height:120%; margin-top:-10%"
+        />
+    </div>
+
+    <div
+        id="infinite-cycling"
+        class="step full vflex"
+        >
+    </div>
+
+    <script type="text/javascript">
+// write dependencies
+const deps = [];
+for (let i=0; i<100; i++) {
+    deps.push(`a${i} => c${i} => d${i}`);
+    deps.push(`a${i} => b${i}`);
+    deps.push(`a${i} => a${i+1}`);
+    deps.push(`c${i} => b${i+1}`);
+}
+
+// create graph
+const infininte_animation = $('<embed />')
+.addClass('minicylc flexgrow')
+.data('focus', true)
+.data('theme', 'demo')
+.data('randomFactor', 0.5)
+.data('dependencies', deps.join('//'))
+.attr('src', 'media/graph/infinite-workflow.svg')[0]
+$('#infinite-cycling').append(infininte_animation);
+
+infininte_animation.onload = function() {
+    const infinite_workflow = new MiniCylc(infininte_animation, true);
+    infinite_workflow.hold();
+    infinite_workflow.run();
+
+    // unhold when on slide
+    addClassNameListener(
+            $('#infinite-cycling')[0],
+            'active',
+            infinite_workflow.release.bind(infinite_workflow),
+            infinite_workflow.hold.bind(infinite_workflow)
+            );
+};
+    </script>
+
+
     <div id="niwa-website"
         class="step full vflex"
         >
@@ -393,15 +393,16 @@ infininte_animation.onload = function() {
             style="width:100%"
             />
         </a>
-        <div
-            style="position:absolute; right:-200px; top:-140px;">
+				<div class="topic">
             <p>
             Cylc Origins
             </p>
         </div>
+        <div
+            style="position:absolute; right:-200px; top:0;">
+						<img src="media/decorative/nz-globe.png"/>
+        </div>
     </div>
-
-
 
     <div
         id="niwa-catch-up1"
@@ -427,70 +428,54 @@ infininte_animation.onload = function() {
     </div>
 
     <div
-      id="advanced-cycling"
+      id="met-office-figures"
       class="step full vflex"
-			style="
-      background:url(media/multiple-recurrences/1.svg);
-      background-size:100% auto;
-      background-position:center;
-      background-repeat:no-repeat"
-    >
-     <embed
-        class="flexgrow substep flash"
-        src="media/multiple-recurrences/2.svg"
-      />
-      <embed
-        class="flexgrow substep flash"
-        src="media/multiple-recurrences/3.svg"
-      />
-    </div>
- 
-    <div
-        id="large-workflows"
+			style="font-size:36px; text-align:left;
+			color:white;
+			text-shadow:2px 1px black;
+			background:url(media/decorative/metoffice.jpg);
+			background-size:100% auto"
+      >
+			<div style="width:100%; height:100%;">
+				 <img src="media/icons/metoffice-logo-black.png"
+				 alt="metoffice-logo-black"
+				 style="height:100px; width:auto">
+				 <p>&nbsp; &nbsp; As of Feb 2020: ~12 million HPC jobs/month, 99.6%
+				 via Cylc</p>
+			 </div>
+		</div>
+
+		<!--
+		Core team is now NIWA + Met Office
+		-->
+		<!--
+				<li>Demonstrated single-workflow scaling to:
+						<ul style="font-size: 0.8em; color:#8afda3">
+							 <li><b>&tilde;1000s</b> of <b>recurrences</b></li>
+							 <li><b>&tilde;10,000s</b> of <b>tasks</b></li>
+							 <li><b>&tilde;100,000s</b> of <b>dependencies</b></li>
+						</ul>
+						</li>
+		-->
+
+    <div id="cylc-contrib"
         class="step full vflex"
-				data-rel-to="simple-workflow"
-				data-rel-y="1.0h"
-				data-rel-x="0"
-				>
-        <div
-            style="
-            height:100%; width:100%; background:url(media/decorative/nzlam-ungrouped-2.svg);
-            background-size:100% 100%; background-repeat:no-repeat">
-            <embed
-            id="nzlam-2"
-            class="flexgrow substep flash"
-            src="media/decorative/nzlam-m10.svg"
-            style="background:rgb(215, 215, 215); width:100%; height:100%"
+        >
+        <!--a href="https://cylc.org"-->
+        <!-- TODO: currently a redirect for http only, not https -->
+        <a href="https://github.com/cylc/cylc-flow">
+            <img
+            class="flexgrow"
+            src="media/screenshots/contrib-md.png"
+            style="width:100%"
             />
-            <div class="flexgrow substep flash"
-                style="background:rgb(215, 215, 215); width:100%; height:100%">
-                <embed
-                id="nzlam-3"
-                src="media/decorative/graph0.png"
-                style="background:rgb(215, 215, 215); position:relative; height:150%; bottom:25%;"
-                />
-            </div>
-            <embed
-            id="nzlam-4"
-            class="flexgrow substep flash"
-            src="media/decorative/complex-1.png"
-            style="background:rgb(215, 215, 215); width:100%; height:100%"
-            />
+        </a>
+				<div class="topic2">
+            <p>
+            Cylc is Open Source
+            </p>
         </div>
     </div>
-
-    <!--  notes
-    <ul>
-      <li> 3 cycles of a small deterministic regional NWP suite. Obs
-        processing tasks in yellow. Atmospheric model red, plus DA and
-        other pre and post-processing tasks A few tasks ... generates
-        thousands of products from a few large model output files.</li>
-      <li> ... ~45 tasks (3 cycles)</li>
-      <li> ... as a 10-member ensemble, ~450 tasks (3 cycles)</li>
-      <li> ... as a 30-member ensemble, ~1300 tasks (3 cycles)</li>
-    </ul>
-  </div>
-  -->
 
     <div
         id="major-sites-map"
@@ -505,8 +490,9 @@ infininte_animation.onload = function() {
     <div
       id="weather-forecasting-example"
       class="step full vflex"
-			data-rel-x="1.0w"
-			data-rel-y="0"
+				data-rel-to="simple-workflow"
+				data-rel-y="1.0h"
+				data-rel-x="0"
       >
       <div class="flex-container" style="margin-top:10%">
 
@@ -549,7 +535,7 @@ infininte_animation.onload = function() {
         <div id="curvedarrow"></div>
      </div>
 
-		 <div><p><b><em>seamless</em></b><br> (meta-scheduling)<br>
+		 <div><p><em>seamless</em><br> (meta-scheduling)<br>
 					 transition</p></div>
 
       <!-- Struggled to align arrow via style, so hack with another flexbox -->
@@ -578,13 +564,18 @@ infininte_animation.onload = function() {
         </div>
 
       </div>
+			<div class="topic">
+				 <p>
+Why is Cylc a popular choice<br/>&nbsp; for weather and climate workflows? 
+</p>
+        </div>
     </div>
  
     <div
       id="cylc-features-1"
       class="step"
-      data-rel-y="0"
-      data-rel-x="1.0w"
+			data-rel-x="1.0w"
+			data-rel-y="0"
     >
       <table class="iconlist">
         <tr>
@@ -698,35 +689,12 @@ infininte_animation.onload = function() {
       </table>
 	 </div>
 
-	 <div
-			id="gcylc-screenshots"
-			class="step full vflex"
-			>
-			<div
-				 style="width:100%; height:100%;
-				 background:url(media/screenshots/gcylc-graph-dot.png);
-				 background-size:100% 100%"
-				 >
-				 <embed
-				 id="gcylc-tree"
-				 class="flexgrow substep flash"
-				 src="media/screenshots/gcylc-tree.png"
-				 style="width:100%; height:100%;"
-				 />
-				 <embed
-					id="cylc-8-mockup"
-					class="flexgrow substep flash"
-					src="media/compound-visuals/cylc-8-mockup.png"
-					style="width:100%; height:100%;"
-					/>
-			 </div>
-		</div>
 
-    <div
+   <div
       id="basic-configuration"
       class="step full vflex"
     >
-		<p>Smaller workflows are very easy!</p>
+		<div class="topic2"><p>Simple workflows are easy!</p></div>
 		<div style="width:100%; height:100%; margin-top:10%">
 			 <div style="width:70%; float:left">
 					<img src="media/decorative/simple-rc.png"
@@ -741,7 +709,54 @@ infininte_animation.onload = function() {
 		</div>
  </div>
 
+
  <div
+    id="large-workflows"
+       class="step full vflex"
+				>
+				<div class="topic2"><p>Complex workflows are pretty easy<br/>&nbsp;
+					 and very complex ones are feasible</p></div>
+        <div
+            style="
+            height:100%; width:100%; background:url(media/decorative/nzlam-ungrouped-2.svg);
+            background-size:100% 100%; background-repeat:no-repeat">
+            <embed
+            id="nzlam-2"
+            class="flexgrow substep flash"
+            src="media/decorative/nzlam-m10.svg"
+            style="background:rgb(215, 215, 215); width:100%; height:100%"
+            />
+            <div class="flexgrow substep flash"
+                style="background:rgb(215, 215, 215); width:100%; height:100%">
+                <embed
+                id="nzlam-3"
+                src="media/decorative/graph0.png"
+                style="background:rgb(215, 215, 215); position:relative; height:150%; bottom:25%;"
+                />
+            </div>
+            <embed
+            id="nzlam-4"
+            class="flexgrow substep flash"
+            src="media/decorative/complex-1.png"
+            style="background:rgb(215, 215, 215); width:100%; height:100%"
+            />
+        </div>
+    </div>
+
+    <!--  notes
+    <ul>
+      <li> 3 cycles of a small deterministic regional NWP suite. Obs
+        processing tasks in yellow. Atmospheric model red, plus DA and
+        other pre and post-processing tasks A few tasks ... generates
+        thousands of products from a few large model output files.</li>
+      <li> ... ~45 tasks (3 cycles)</li>
+      <li> ... as a 10-member ensemble, ~450 tasks (3 cycles)</li>
+      <li> ... as a 30-member ensemble, ~1300 tasks (3 cycles)</li>
+    </ul>
+  </div>
+  -->
+
+  <div
 		id="cycling-configuration"
 		class="step full vflex"
 		>
@@ -759,6 +774,25 @@ infininte_animation.onload = function() {
 		</div>
  </div>
 
+    <div
+      id="advanced-cycling"
+      class="step full-shrink vflex"
+			style="
+      background:url(media/multiple-recurrences/1.svg);
+      background-size:100% auto;
+      background-position:center;
+      background-repeat:no-repeat"
+    >
+     <embed
+        class="flexgrow substep flash"
+        src="media/multiple-recurrences/2.svg"
+      />
+      <embed
+        class="flexgrow substep flash"
+        src="media/multiple-recurrences/3.svg"
+      />
+    </div>
+ 
  <div
 		id="complex-configuration"
 		class="step"
@@ -803,17 +837,6 @@ infininte_animation.onload = function() {
 			 </table>
 		</div>
 
-		<div id="inherit"
-			 class="step full vflex">
-			 <div style="height:60%; margin-top:10%">
-			 <img
-			 class="flexgrow"
-			 src="media/decorative/inherit.png"
-			 style="height:100%"
-			 >
-		</div>
-		</div>
-
     <div
         id="params"
         class="step full vflex"
@@ -847,17 +870,7 @@ infininte_animation.onload = function() {
         id="comp2"
         class="step full vflex"
 				>
-        <div
-            style="
-            height:100%; width:100%; background:url(media/decorative/complex-0.png);
-            background-size:100% 100%; background-repeat:no-repeat">
-            <embed
-            id="comp3"
-            class="flexgrow substep flash"
-            src="media/decorative/complex-3.png"
-            style="background:rgb(215, 215, 215); width:100%; height:100%"
-            />
-        </div>
+        <img src="media/decorative/complex-3.png" />
     </div>
  
 		<div
@@ -940,54 +953,23 @@ infininte_animation.onload = function() {
         </div>
     </div>
 
-    <div
-      id="met-office-figures"
-      class="step full vflex"
-			style="font-size:40px; text-align:left;
-			color:white;
-			text-shadow:2px 1px black;
-			background:url(media/decorative/metoffice.jpg);
-			background-size:100% auto"
-      >
-			<div style="width:100%; height:100%;">
-				 <img src="media/icons/metoffice-logo-black.png"
-				 alt="metoffice-logo-black"
-				 style="height:100px; width:auto">
-				 <ul>
-						<li>Cylc: ~full HPC workload - <b>research</b>, and
-						(since Jan 2014) <b>production</b>:
-						<ul style="font-size: 0.8em; color:#8afda3">
-							 <li><b>460,672 cores</b></li>
-						</ul>
-						</li>
-						<li>Demonstrated single-workflow scaling to:
-						<ul style="font-size: 0.8em; color:#8afda3">
-							 <li><b>&tilde;1000s</b> of <b>recurrences</b></li>
-							 <li><b>&tilde;10,000s</b> of <b>tasks</b></li>
-							 <li><b>&tilde;100,000s</b> of <b>dependencies</b></li>
-						</ul>
-						</li>
-				 </ul>
+	 <div
+			id="gcylc-screenshots"
+			class="step full vflex"
+			>
+			<div
+				 style="width:100%; height:100%;
+				 background:url(media/screenshots/gcylc-graph-dot.png);
+				 background-size:100% 100%"
+				 >
+				 <embed
+				 id="gcylc-tree"
+				 class="flexgrow substep flash"
+				 src="media/screenshots/gcylc-tree.png"
+				 style="width:100%; height:100%;"
+				 />
 			 </div>
 		</div>
-
-		 <div
-      id="running-workflows-plot"
-      class="step full vflex"
-			style="font-size:40px; text-align:left"
-      >
-      <div id="running-workflows-plotted"></div>
-
-      <!-- Plotly: 3) custom JS for MO research running workflows plot:
-           & the script to process the data above & renders it on a plot: -->
-      <script type="text/javascript"
-       src="js/running-workflows-mo-research-plot.js"></script>
-
-      <ul style="font-size:0.8em; margin-top:0.6em">
-        <li><em>&gt; 500 consistently</em> since June</li>
-        <li>a general <em>upward trend</em> (ignoring noise)</li>
-      </ul>
-    </div>
 
     <div
         id="road-to-cylc8"
@@ -1016,31 +998,6 @@ infininte_animation.onload = function() {
         />
     </div>
 
-    <div
-      id="python2-eol"
-      class="step full vflex"
-			style="background:url(media/screenshots/python2-eol.png); background-size:100%"
-      data-rel-y="1.0h"
-      data-rel-x="0"
-      data-rel-to="large-workflows"
-      >
-     <embed
-		 class="flexgrow substep flash"
-		 src="media/screenshots/rhel-python2-1.png"
-		 style="width:100%;"
-		 />
-     <embed
-		 class="flexgrow substep flash"
-		 src="media/screenshots/rhel-python2-2.png"
-		 style="width:100%;"
-		 />
-     <embed
-		 class="flexgrow substep flash"
-		 src="media/screenshots/python2-gtk.png"
-		 style="width:100%;"
-		 />
-	</div>
-
 		<div id="c7-arch"
 			 class="step full vflex"
 			 data-rel-x="1.0w"
@@ -1068,11 +1025,10 @@ infininte_animation.onload = function() {
 								<li> <a
 									 href="https://cylc.github.io/cylc-admin/cylc-7-architecture">details</a>
 						 </ul>
-						 <p><em>cylc-7.8.4</em> - current stable production system</p>
+						 <p><em>cylc-7.9.1</em> - current stable production system</p>
 					</div>
 			 </div>
 		</div>
-
 
 		<div id="c8-arch"
 			 class="step full vflex"
@@ -1330,139 +1286,6 @@ infininte_animation.onload = function() {
 				</ul>
     </div>
 
-    <div id="c8-arch-wfs"
-			 class="step full vflex"
-			 >
-			 <h4>Cylc 8 Workflow Services</h4>
-			 <div style="font-size:30px; text-align:left">
-					<p>Server program &amp; CLI. Mostly unchanged, but:</p>
-					<div style="width:100%; height:100%;">
-						 <div style="width:40%; float:left">
-								<img
-								src="media/decorative/c8-arch-wfs.png"
-								style="width:100%; border: 2px dashed black"
-								/>
-						 </div>
-						 <div style="width:59%; float:right">
-								<ul>
-									 <li> Python 3!
-									 <li> ZMQ network layer
-									 <li> Incremental update to UI Server
-									 <li> Reduced UI loading!
-								</ul>
-						 </div>
-					</div>
-			 </div>
-		</div>
-
-    <div id="c8-arch-uis"
-			 class="step full vflex"
-			 >
-			 <h4>Cylc 8 UI Servers</h4>
-
-			 <div style="font-size:30px; text-align:left">
-			 <p>Serves the UI to the browser, and:</p>
-					<div style="width:100%; height:100%">
-						 <div style="width:40%; float:left">
-								<img
-								src="media/decorative/c8-arch-uis.png"
-								style="width:100%; border: 2px dashed black"
-								/>
-						 </div>
-						 <div style="width:59%; float:right; text-align:left">
-								<ul>
-									 <li> Collates data from user WFS's
-									 <li> Takes the load off of WFS's
-									 <li> Presents stopped WFs <b>etc.</b> too
-									 <li> Tornado server
-									 <ul>
-											<li> to UI: GraphQL by WebSocket
-											<li> to WFS: ProtoBuf by ZMQ
-									 </ul>
-									 <li> <a
-											href="https://cylc.github.io/cylc-admin/cylc-8-architecture#cylc-ui-server">details</a>
-								</ul>
-						 </div>
-					</div>
-			 </div>
-		</div>
-
-    <div id="c8-arch-hub"
-			 class="step full vflex"
-			 >
-			 <h4>Cylc 8 Hub</h4>
-
-			 <div style="font-size:30px; text-align:left">
-Uses <a href="https://github.com/jupyterhub/jupyterhub">JupyterHub</a>
-as a generic application spawner.
-					<div style="width:100%; height:100%; margin-top:5%">
-						 <div style="width:40%; float:left">
-								<img
-								src="media/decorative/c8-arch-hub.png"
-								style="width:100%; border:2px dashed black"
-								/>
-								<div style="position:absolute; left:10%; bottom:-7%;">
-									 <span style="font-size:10px">* "User A" can be across multiple hosts</span>
-								</div>
-						 </div>
-						 <div style="width:59%; float:right; text-align:left">
-								<ul>
-									 <li> single point of access
-									 <li> site identity management
-									 <li> spawn and proxy UI Servers
-									 <li> local and remote spawners
-									 <li> stores session information
-									 <li> <a href="details](https://cylc.github.io/cylc-admin/cylc-8-architecture#cylc-hub">details</a>
-								</ul>
-						 </div>
-					</div>
-			 </div>
-		</div>
-
-    <div id="c8-arch-ui"
-			 class="step full vflex"
-			 >
-			 <h4>Cylc 8 UI</h4>
-
-			 <div style="font-size:30px; text-align:left">
-					<p> Javascript with Vue.js</p>
-			 <div style="width:100%; height:100%">
-					<div style="width:40%; float:left">
-						 <img
-						 src="media/decorative/c8-arch-ui.png"
-						 style="width:100%; border:2px dashed black"
-						 />
-					</div>
-					<div style="width:59%; float:right; text-align:left">
-						 <ul>
-								<li> unified (<code>cylc gui, gscan</code>)
-								<li> dash board
-								<li> responsive design
-								<li> simplified set of task states
-								<li> (n=1,2,3 window?)
-								<li> shared data-store with incremental update
-						 </ul>
-					</div>
-			 </div>
-			 </div>
-		</div>
-
-		<div id="c8-arch-again"
-			 class="step full vflex"
-			 style="font-size:30px"
-			 >
-			 <h4>Cylc 8 Architecture</h4>
-			 <div style="height:100%; width:100%">
-					<img
-					src="media/decorative/cylc-8-architecture.svg"
-					style="height:100%"
-					/>
-					<div style="position:absolute; right:0; bottom:-7%">
-						 <span style="font-size:30%">* "User A" can be across multiple hosts</span>
-					</div>
-			 </div>
-		</div>
-
 		<div id="ui-design"
 			 class="step full vflex">
 			 <img
@@ -1550,27 +1373,6 @@ as a generic application spawner.
 		 </div>
 	</div>
 	
-	<div 
-		id="ghost-nodes"
-		class="step full">
-		<div
-			 style="height:130%; width:100%;
-			 margin-top:-10%;
-			 background:url(media/decorative/ghost-nodes.png);
-			 background-size:100% 100%;
-			 background-position:center;
-			 background-repeat:no-repeat;"
-			 >
-       <embed
-        id="ghost-nodes2"
-        class="flexgrow substep flash"
-        src="media/decorative/ghost-nodes-2.png"
-        style="background:rgb(215, 215, 215); width:100%"
-        />
-		 </div>
-	</div>
-
-
 <div id="ui-x"
     class="step full vflex">
 			 <img

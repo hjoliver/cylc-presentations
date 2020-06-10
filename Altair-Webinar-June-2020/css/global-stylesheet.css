@@ -7,6 +7,25 @@ q:before, q:after {
     content: none;
 }
 
+div.topic {
+	 position:absolute;
+	 right:-200px;
+	 top:-100px;
+	 font-size:80%;
+	 color:#00c798;
+	 text-align:right;
+}
+
+div.topic2 {
+	 position:absolute;
+	 right:-200px;
+	 top:-100px;
+	 font-size:50%;
+	 color:slategray;
+	 text-align:right;
+}
+
+
 body {
     font-family: "Trebuchet MS", sans-serif;
     min-height: 740px;
@@ -89,6 +108,13 @@ a.button:focus {
     text-align: center;
     padding: 0;
 }
+
+.step.full-shrink {
+    width: 900px;
+    height: 600px;
+    text-align: center;
+    padding: 0;
+ } 
 
 .impress-enabled .step {
     margin: 0;
