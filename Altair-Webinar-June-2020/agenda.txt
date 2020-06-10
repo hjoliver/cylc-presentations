@@ -1,0 +1,34 @@
+Cylc Overview (15 min)
+
+- Cylc's Mission
+    - 1st: to handle cycling workflows properly
+    - 2nd: site efficiency by equal support for
+      research/operations/individuals/climate/weather etc.
+    - 3rd: production support and robustness etc.
+    - Getting More INFO
+- Origin and contributors
+    - NIWA operations and research
+    - Met Office and UM Partnership adoption
+    - Usage
+    - (MO usage Feb 2020)
+- Why Cylc is a popular choice for weather and climate workflows
+    - seamless off/on the clock and transitions
+    - cycling:
+       - datetime
+       - integer
+       - multiple cycles
+       - efficient intuitive cycling syntax
+    - other...
+- Ongoing development
+    - Cylc 8:
+      - architecture
+      - UI
+      et.c
+
+- Altair and BoM collaboration
+    - the reason behind the Kafka-based architecture
+      (global view of a distributed system, for performance analytics etc.)
+
+
+- Cylc 8 Demo (5 min)
+
