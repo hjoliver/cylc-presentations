@@ -274,6 +274,7 @@ src="js/data/running_workflows_data.js"></script>
     </div>
     </div>
 
+		<!--
 		<div
 			 id="anim"
 			 class="step full-shrink vflex"
@@ -314,6 +315,7 @@ src="js/data/running_workflows_data.js"></script>
         );
       };
     </script>
+		-->
 
     <div
       id="repeating-workflow-2"
@@ -564,9 +566,9 @@ infininte_animation.onload = function() {
         </div>
 
       </div>
-			<div class="topic">
+			<div class="topic2" style="font-size:80%">
 				 <p>
-Why is Cylc a popular choice<br/>&nbsp; for weather and climate workflows? 
+Why is Cylc a popular choice for<br/> weather and climate workflows? 
 </p>
         </div>
     </div>
@@ -714,8 +716,8 @@ Why is Cylc a popular choice<br/>&nbsp; for weather and climate workflows?
     id="large-workflows"
        class="step full vflex"
 				>
-				<div class="topic2"><p>Complex workflows are pretty easy<br/>&nbsp;
-					 and very complex ones are feasible</p></div>
+				<div class="topic2"><p>Complex workflows are pretty easy...<br/>&nbsp;
+					 ... and very complex ones are feasible</p></div>
         <div
             style="
             height:100%; width:100%; background:url(media/decorative/nzlam-ungrouped-2.svg);
@@ -838,6 +840,13 @@ Why is Cylc a popular choice<br/>&nbsp; for weather and climate workflows?
 		</div>
 
     <div
+        id="comp2"
+        class="step full vflex"
+				>
+        <img src="media/decorative/complex-3.png" />
+    </div>
+ 
+    <div
         id="params"
         class="step full vflex"
 				>
@@ -866,13 +875,25 @@ Why is Cylc a popular choice<br/>&nbsp; for weather and climate workflows?
 		</div>
 		</div>
 
-    <div
-        id="comp2"
-        class="step full vflex"
-				>
-        <img src="media/decorative/complex-3.png" />
-    </div>
- 
+	 <div
+			id="gcylc-screenshots"
+			class="step full vflex"
+			>
+			<div
+				 style="width:100%; height:100%;
+				 background:url(media/screenshots/gcylc-graph-dot.png);
+				 background-size:100% 100%"
+				 >
+				 <embed
+				 id="gcylc-tree"
+				 class="flexgrow substep flash"
+				 src="media/screenshots/gcylc-tree.png"
+				 style="width:100%; height:100%;"
+				 />
+			 </div>
+		</div>
+
+		<!--
 		<div
 			 id="architecture"
 			 class="step full vflex"
@@ -883,6 +904,7 @@ Why is Cylc a popular choice<br/>&nbsp; for weather and climate workflows?
 		  	src="media/compound-visuals/system-diagram.svg"
 		  	/>
     </div>
+		-->
 
     <div
         id="cylc-architecture"
@@ -953,24 +975,6 @@ Why is Cylc a popular choice<br/>&nbsp; for weather and climate workflows?
         </div>
     </div>
 
-	 <div
-			id="gcylc-screenshots"
-			class="step full vflex"
-			>
-			<div
-				 style="width:100%; height:100%;
-				 background:url(media/screenshots/gcylc-graph-dot.png);
-				 background-size:100% 100%"
-				 >
-				 <embed
-				 id="gcylc-tree"
-				 class="flexgrow substep flash"
-				 src="media/screenshots/gcylc-tree.png"
-				 style="width:100%; height:100%;"
-				 />
-			 </div>
-		</div>
-
     <div
         id="road-to-cylc8"
         class="step full"
@@ -978,14 +982,13 @@ Why is Cylc a popular choice<br/>&nbsp; for weather and climate workflows?
         <div
             style="position:absolute; left:-40px; top:0;">
             <p>
-            The road to <br/>
-            Cylc 8!
+            Ongoing  <br/>development
             </p>
         </div>
 
-        <div style="float:right">
+        <div style="position:relative; left:15%">
             <span style="color:red; font-size:50%;">
-                Python 3 &amp; web UI
+                Cylc 8
             </span>
         </div>
         <!--
@@ -998,6 +1001,7 @@ Why is Cylc a popular choice<br/>&nbsp; for weather and climate workflows?
         />
     </div>
 
+		<!--
 		<div id="c7-arch"
 			 class="step full vflex"
 			 data-rel-x="1.0w"
@@ -1029,7 +1033,9 @@ Why is Cylc a popular choice<br/>&nbsp; for weather and climate workflows?
 					</div>
 			 </div>
 		</div>
+		-->
 
+		<!--
 		<div id="c8-arch"
 			 class="step full vflex"
 			 style="font-size:30px"
@@ -1045,13 +1051,24 @@ Why is Cylc a popular choice<br/>&nbsp; for weather and climate workflows?
 					</div>
 			 </div>
 		</div>
+		-->
 
     <div
         id="c8-reasons"
         class="step"
         >
 				<table class="iconlist2" >
-					 
+	            <tr>
+                <td>
+                    <embed
+                    style="width: 100px"
+                    src="media/icons/hand.svg"
+                    />
+                </td><td>
+										Unified remote web UI, with single point of access
+                </td>
+            </tr>
+				 
             <tr>
                 <td>
                     <embed
@@ -1059,7 +1076,7 @@ Why is Cylc a popular choice<br/>&nbsp; for weather and climate workflows?
                     src="media/icons/hand.svg"
                     />
                 </td><td>
-                    Single point of access
+										Site identity management integration, and authorization
                 </td>
             </tr>
 						<tr>
@@ -1069,33 +1086,10 @@ Why is Cylc a popular choice<br/>&nbsp; for weather and climate workflows?
                     src="media/icons/hand.svg"
                     />
                 </td><td>
-                    Site identity management integration
+										Python 3; Vue.js; <code>pip</code> and <code>conda</code> packaging
                 </td>
             </tr>
-           <tr>
-                <td>
-                    <embed
-                    style="width: 100px"
-                    src="media/icons/hand.svg"
-                    />
-                </td><td>
-                    Fine-grained authorization in WFS
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <embed
-                    style="width: 100px"
-                    src="media/icons/hand.svg"
-                    />
-                </td><td>
-                    In-browser UI, with no need for:
-										<ul style="margin-top:0">
-											 <li> front-end Cylc installation
-											 <li> shared FS with WF platforms
-										</ul>
-                </td>
-            </tr>
+
              <tr>
                 <td>
                     <embed
@@ -1103,295 +1097,38 @@ Why is Cylc a popular choice<br/>&nbsp; for weather and climate workflows?
                     src="media/icons/hand.svg"
                     />
                 </td><td>
-                    Retire suite-specific passphrase
+                    (Efficiency: "spawn-on-demand" back-end!)
                 </td>
             </tr>
         </table>
     </div>
 
-    <div
-      id="new-tech-stack"
-      class="step"
-      data-rel-y="0"
-      data-rel-x="1.0w"
-      >
-      <table
-        class="comparison-table"
-      >
-        <tr>
-          <td>
-            <p>Server and CLI</p>
-          </td>
-          <td>
-          <div class="container">
-            <!--
-              Used to indicate that Cylc uses Python, as permitted at source:
-              https://www.python.org/community/logos/
-            -->
-            <img src="media/external-logos/python-logo.png" alt="python-logo"
-              style="height:100px;">
-							<div class="centered-cont" style="color:white; text-shadow:2px 2px black"><b>2</b></div>
-          </div>
-          </td>
-          <td>
-            <span>&#10230;</span> 
-          </td>
-          <td>
-          <div class="container">
-            <!--
-              Used to indicate that Cylc uses Python, as permitted at source:
-              https://www.python.org/community/logos/
-            -->
-            <img src="media/external-logos/python-logo.png" alt="python-logo"
-              style="height:100px;">
-					  <div class="centered-cont" style="color:white; text-shadow:2px 2px black"><b>3</b></div>
-          </div>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <p>Data & network layer</p>
-          </td>
-          <td>
-            <!--
-              Source (used under Creative Commons Attribution-ShareAlike 4.0
-              International License) without any modifications:
-              https://restfulapi.net/rest/
-            -->
-            <img src="media/external-logos/rest-logo.png" alt="rest-logo"
-            style="height:100px;">
-          </td>
-          <td>
-            <span>&#10230;</span> 
-          </td>
-          <td>
-            <!--
-              Source (used under Creative Commons 4.0 Attribution International. https://creativecommons.org/licenses/by/4.0/) without any modifications:
-              https://github.com/graphql/graphql.github.io/blob/source/site/img/logo.svg
-            -->
-            <img src="media/external-logos/graphql-logo.png" alt="graphql-logo"
-            style="height:100px;">
-            <!--
-              Drawn on InkScape by Sadie(!) sicne the official logo is not
-              available with a transparent background, but is trivial in form.
-            -->
-            <img src="media/external-logos/homemade-zeromq-logo.svg" alt="zmq-logo"
-            style="height:100px;">
-						<br/><span style="font-size:20px">& Protocol Buffers</span>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <p>Web framework</p>
-          </td>
-          <td>
-            <!--
-              Source (fair usage):
-              https://github.com/cherrypy/cherrypy.github.io/blob/master/images/cherrypy.png
-            -->
-            <img src="media/external-logos/cherrypy-logo.png"
-              alt="cherrypy-logo"
-              style="height:100px;">
-          </td>
-          <td>
-            <span>&#10230;</span> 
-          </td>
-          <td>
-            <!--
-              Source (fair usage):
-              http://www.tornadoweb.org/en/stable/_images/tornado.png
-            -->
-            <img src="media/external-logos/tornado-logo.png"
-              alt="tornado-logo"
-              style="height:50px;">
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <p>Front-end</p>
-          </td>
-          <td>
-            <!--
-              Source (fair usage):
-              https://wiki.gnome.org/Projects/GTK/Logo
-            -->
-            <img src="media/external-logos/gtk-logo.png" alt="gtk-logo"
-            style="height:100px;">
-          </td>
-          <td>
-            <span>&#10230;</span> 
-          </td>
-          <td>
-            <!--
-              Sourced from Wikimedia Commons (free to use):
-              https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/CSS3_and_HTML5_logos_and_wordmarks.svg/500px-CSS3_and_HTML5_logos_and_wordmarks.svg.png
-            -->
-            <img src="media/external-logos/css3-and-html5-logos.png"
-            alt="css-html-logos"
-            style="height:75px;">
-            <!--
-              Source (fair usage):
-              https://github.com/vuejs/art/blob/master/logo.png
-            -->
-            <img src="media/external-logos/vue-logo.png" alt="vue-logo"
-            style="height:100px;">
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <p>Documentation</p>
-          </td>
-          <td>
-            <!--
-              Sourced from Wikimedia Commons (free to use):
-              https://commons.wikimedia.org/wiki/File:LaTeX_logo.svg
-            -->
-            <img src="media/external-logos/latex-logo.png" alt="latex-logo"
-            style="height:50px;">
-          </td>
-          <td>
-            <span>&#10230;</span> 
-          </td>
-          <td>
-            <!--
-              Source (fair usage):
-              http://www.sphinx-doc.org/en/master/_static/sphinxheader.png
-            -->
-            <img src="media/external-logos/sphinx-logo.png" alt="sphinx-logo"
-            style="height:50px;">
-          </td>
-        </tr>
-      </table>
-    </div>
-
-    <div
-        id="packaging"
-        class="step"
-				style="font-size:40px"
-        >
-				<h4>Cylc Packaging</h4>
-				<ul>
-					 <li><em>Cylc 7</em>
-					 <ul>
-							<li>Download &amp; unpack release tarball (Cylc and several
-							bundled libraries)
-							<li>Install all dependencies (good luck!)
-					 </ul>
-					 <li><em>Cylc 8</em>
-					 <ul>
-							<li> (<code>pip install cylc-flow</code>)
-							<li> (<code>pip install cylc-uiserver</code>)
-							<li> <em><code>conda install cylc</code></em>
-					 </ul>
-				</ul>
-    </div>
-
-		<div id="ui-design"
-			 class="step full vflex">
-			 <img
-			 class="flexgrow"
-			 src="media/decorative/cylc8-ui-design-hjo-z1.png"
-			 style="width:40%; margin-left:30%; margin-top:-8%"
-			 >
-		</div>
-
+		<!--
 <div id="UI"
     class="step full vflex">
-    <div style="height:100%; width:100%;
-        background:url(media/decorative/cylc8-ui-mockup.png);
-        background-size:100% auto;
-        background-repeat:no-repeat">
-        <embed
-        id="ui-z2"
-        class="flexgrow substep flash"
-        src="media/decorative/cylc8-ui-mockup-1.png"
-        style="background:rgb(215, 215, 215); width:100%;"
-        />
-        <embed
-        id="ui-z3"
-        class="flexgrow substep flash"
-        src="media/decorative/cylc8-ui-mockup-2.png"
-        style="background:rgb(215, 215, 215); width:100%;"
-        />
-        <embed
-        id="ui-z4"
-        class="flexgrow substep flash"
-        src="media/decorative/cylc8-ui-mockup-3.png"
-        style="background:rgb(215, 215, 215); width:100%;"
-        />
-        <embed
-        id="ui-z5"
-        class="flexgrow substep flash"
-        src="media/decorative/cylc8-ui-mockup-4.png"
-        style="background:rgb(215, 215, 215); width:100%;"
-        />
-    </div>
+		<img style="margin-top:5%" src="media/decorative/cylc8-ui-mockup.png"/>
  </div>
+-->
 
- <div id="task-job-sep"
-    class="step full vflex">
-    <div style="height:100%; width:100%;
-        background:url(media/decorative/cylc7-task-states.png);
-        background-size:60% auto;
-				background-position:center;
-        background-repeat:no-repeat">
-        <embed
-        id="ui-z5"
-        class="flexgrow substep flash"
-        src="media/decorative/cylc8-ui-task-job-sep-a.png"
-        style="background:rgb(215, 215, 215); width:100%"
-        />
- 
-        <embed
-        id="ui-z5"
-        class="flexgrow substep flash"
-        src="media/decorative/cylc8-ui-task-job-sep-b.png"
-        style="background:rgb(215, 215, 215); width:100%"
-        />
- 
-        <embed
-        id="ui-z5"
-        class="flexgrow substep flash"
-        src="media/decorative/cylc8-ui-task-job-sep-c.png"
-        style="background:rgb(215, 215, 215); width:100%"
-        />
- 
-        <embed
-        id="ui-z5"
-        class="flexgrow substep flash"
-        src="media/decorative/cylc8-ui-task-job-sep-d.png"
-        style="background:rgb(215, 215, 215); width:100%"
-        />
-
-        <embed
-        id="ui-z5"
-        class="flexgrow substep flash"
-        src="media/decorative/cylc8-ui-task-job-sep.png"
-        style="background:rgb(215, 215, 215); width:100%"
-        />
-
-		 </div>
-	</div>
-	
+		<!--
 <div id="ui-x"
     class="step full vflex">
 			 <img
 			 class="flexgrow"
 			 src="media/decorative/cylc8-ui-mockup-x.png"
-       style="width:70%"
+			 style="height:100%; width:80%; margin-left:10%"
 			 />
 </div>
+-->
 
 
-<div id="ui-mobile"
+<div id="ui-proto"
     class="step full vflex">
 			 <img
 			 class="flexgrow"
-			 src="media/decorative/cylc8-ui-mobile.png"
-       style="height:100%"
+			 src="media/screenshots/cylc-ui-proto.png"
 			 />
 </div>
-
 
 
 </div>

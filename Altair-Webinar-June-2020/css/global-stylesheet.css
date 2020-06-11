@@ -10,9 +10,10 @@ q:before, q:after {
 div.topic {
 	 position:absolute;
 	 right:-200px;
-	 top:-100px;
-	 font-size:80%;
-	 color:#00c798;
+	 top:-140px;
+	 /*font-size:80%;*/
+	 /*color:#00c798;*/
+	 color:slategray;
 	 text-align:right;
 }
 
@@ -173,7 +174,7 @@ body.impress-mouse-timeout {
         /* state before the animation (same as .impress-on-title-slide) */
         background:
             url(../media/niwa-brand/NIWA_Rev_Hor_2.png),
-            url(../media/decorative/titlepage.jpg);
+            url(../media/decorative/titlepage.png);
         background-size:
             200px,
             cover,
@@ -189,7 +190,7 @@ body.impress-mouse-timeout {
         /* state after the animation (~same as {body}) */
         background:
             url(../media/niwa-brand/NIWA_CMYK_Hor.png),
-            url(../media/decorative/titlepage.jpg);
+            url(../media/decorative/titlepage.png);
         background-size:
             200px,
             cover,
@@ -211,7 +212,7 @@ body.impress-mouse-timeout {
 .impress-on-title-slide {
     background:
         url(../media/niwa-brand/NIWA_Rev_Hor_2.png),
-				url(../media/decorative/titlepage.jpg);
+				url(../media/decorative/titlepage.png);
     background-size:
         200px,
         cover,

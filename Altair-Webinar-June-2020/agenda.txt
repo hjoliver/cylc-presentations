@@ -19,16 +19,13 @@ Cylc Overview (15 min)
        - multiple cycles
        - efficient intuitive cycling syntax
     - other...
+- Altair and BoM collaboration
+    - the reason behind the Kafka-based architecture
+      (global view of a distributed system, for performance analytics etc.)
 - Ongoing development
     - Cylc 8:
       - architecture
       - UI
       et.c
-
-- Altair and BoM collaboration
-    - the reason behind the Kafka-based architecture
-      (global view of a distributed system, for performance analytics etc.)
-
-
 - Cylc 8 Demo (5 min)
 
