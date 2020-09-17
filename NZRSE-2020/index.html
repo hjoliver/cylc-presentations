@@ -1,0 +1,2279 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Scaling: NZRSE 2020</title>
+
+		<link rel="stylesheet" href="dist/reset.css">
+		<link rel="stylesheet" href="dist/reveal.css">
+		<link rel="stylesheet" href="dist/theme/hjo.css" id="theme">
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="plugin/highlight/school-book.css" id="highlight-theme">
+	</head>
+	<body>
+	<div class="reveal">
+		 <div class="slides">
+
+				<!--
+				Slides 960 x 800 - see initialize script below.
+				But dynamically scaled by browser window size via div.slides.
+				--> 
+
+				<!--
+            - UI: cylc-7 global update; cylc-8 incremental
+							- premature optimization applies at system level too!
+								- no point in trying to optimize your program design for
+									future use cases that might or might not eventuate, or
+									you can't possibly anticipate where it might go, and you can
+									only do you best with the time, skills, and resources
+									available right now.  Aim to much for perfection and your
+									code will never get off the ground.
+						  - acknowledge the cylc team
+
+
+ As Donald Knuth famously quipped, "We should forget about small efficiencies,
+ say about 97% of the time: premature optimization is the root of all evil."
+					 -->
+
+				<section>
+						<section>
+								<!--
+							 <h1>NZ FSE 2020</h1>
+							 <p>NZ Fish Scaling Expo</p>
+							 <p>Hilary Oliver, September 2020</p>
+							 -->
+								<img src="hjo/media/fse.png"/>
+								<div style="position:absolute; top:100px; right:0;
+										background:red; color:white; padding:10px; font-size:50%;
+										border-radius:20px; box-shadow: 10px 10px 10px black;
+										opacity:50%">
+										HIT &lt;spacebar&gt; TO STEP <br/>THROUGH THESE SLIDES
+								</div>
+
+								<aside class="notes">
+										<p>Thanks for the introduction Celine, and hello invisible
+										people.</p>
+
+										<p>Unfortunately I wasn't able to make last year's
+										conference so it's good to have a crack at it
+										again this year.</p>
+
+										<p>BTW I've noticed everyone's hi-tech Zoom backgrounds of
+										lovely beaches and the like - as you can see I've gone low
+										tech, I can assure you that's a real plant behind me!</p>
+
+										<p><b>SHARE SCREEN</b></p>
+
+										<p>Well, it was both a pleasure and a surprise to be
+										invited to speak at the NZ Fish Scaling Expo. Mostly a
+										surprise, to be honest.</p>
+
+										<p>Ahh, so I had this genius idea to pretend I'd got the
+										wrong conference, and work it until people felt
+										really uncomfortable. Because this is a keynote and I
+										thought I'd better try something different!</p>
+
+										<p>But in the cold light of day, that's a really bad idea,
+										so I'll just skip over the next slide...  pretend you never
+										saw it!</p> 
+								</aside>
+						</section>
+
+						<section>
+								<img src="hjo/media/Whale_2_scales.svg" style="width:300px"/>
+								<img class="fragment" src="hjo/media/cross.svg" style="width:100px; position:absolute; left:130px; top:-50px"/>
+								<img class="fragment" src="hjo/media/dna-scissor.svg" style="width:260px"/>
+								<img class="fragment" src="hjo/media/tick.svg" style="width:100px; position:absolute; left:380px; top:-70px"/>
+								<img class="fragment" src="hjo/media/fish-sandwich.svg" style="width:280px; margin-bottom:40px"/>
+								<img class="fragment" src="hjo/media/tick.svg" style="width:100px; position:absolute; left:780px; top:-70px"/>
+								<!-- whale attribution:
+						https://all-free-download.com/free-vector/download/whale-2_117480.html
+								 -->
+								<!-- dna attribution:
+https://commons.wikimedia.org/wiki/File:202002_Laboratory_instrument_dna.svg	
+										(Scissors drawn and added by me in Inkscape)
+								 -->
+								<!-- burger attribution:
+https://commons.wikimedia.org/wiki/File:McDonald%27s_Filet-O-Fish_sandwich_(1).jpg
+								 -->
+								<aside class="notes">
+								</aside>
+						</section>
+
+						<section data-state="beer">
+								<img src="hjo/media/portrait-beer-2.png" style="height:700px"/>
+
+								<div style="position:absolute; border-radius:50px; padding:15px;
+										padding-bottom:0px; top:100px; color:white; font-size:120%;
+										font-family:courier; font-weight:bold; background:slategray"
+										id="cdown"></div>
+
+								<!--
+								<div style="font-size:30%" class="attribution-block"><a
+												href="http://dig.ccmixter.org/files/Loveshadow/61531">Tall Man
+												Strut.</a> by Loveshadow (c) copyright 2020 Licensed <br/> under a
+										Creative Commons <a
+												href="http://creativecommons.org/licenses/by-nc/3.0/">Attribution
+												Noncommercial  (3.0)</a> license. Ft: Panu</div>
+
+
+								<audio data-autoplay src="hjo/media/Loveshadow_-_Tall_Man_Strut..mp3"</audio>
+								-->
+								<aside class="notes">
+										The 45 minute virtual drinks keynote was a better idea,
+										but I couldn't figure out how to play lounge jazz
+										through my Zoom headset.
+								</aside>
+
+						</section>
+				</section>
+
+				<section>
+						<section data-background="hjo/media/ecox-2010-1.jpg"
+								data-background-position="contain">
+								<div style="background:white; opacity:90%">
+										<h2 style="text-shadow:5px 5px 3px black">
+												<span style="color:#e8da77">Scaling:</span>
+												<span style="color:#8ab9d3">it's <del>all</del></span>
+												<span style="color:#adcb97">
+														(well, quite a lot!)</span>
+												<span style="color:#8ab9d3">about the</span>
+												<span style="color:#d68198">workflow</span></h2>
+										<h4 style="color:#373564">NZ RSE Conference 2020</span></h4>
+								<p style="color:#373564">Hilary Oliver, NIWA, September 2020</p>
+						</div>
+						<aside class="notes">
+
+								<p>... so we'll just have to get on with the real thing.</p>
+
+								<p>
+								Right, so as some of you know, I lead the development of the
+								Cylc Workflow Engine, which originated at NIWA about 10 years
+								ago. So, to suit my biases as well as the conference theme, I'm
+								going try to convince you that scaling is really all about
+								workflow.
+								</p>
+
+								<p>And toward the end of the presentation I thought it
+								might be interesting, for this audience, to stretch the brief
+								a bit and talk about my experience of scaling Cylc up from
+								a one-person research project to a production system
+								with a small international team working on it every day.</p>
+
+						</aside>
+				</section>
+
+				<section>
+						<h1>
+								Backg<br/>
+								<span style="letter-spacing:-0.08em">
+										round</span>
+						</h1>
+						<aside class="notes">
+								<p>First though 
+								... some background so you can understand a bunch of
+								upcoming diagrams...</p>
+						</aside>
+				</section>
+
+				<section>
+						<div style="float:left; margin-left:150px">
+						<img src="hjo/media/cycling-0.png" height="500px"/>
+				</div>
+						<div class="fragment" style="float:right; width:550px; height:700px;">
+								<div>
+						<pre><code>graph = """
+    setup => model
+    model => cmp
+    model => post => prod
+        """</code></pre>
+				</div>
+						<div class="fragment"
+								style="position:absolute; width:550px; top:300px; right:0;
+								background:white">
+						<pre><code>graph = """
+
+    model => cmp
+
+        """</code></pre>
+				</div>
+
+						<div class="fragment"
+								style="position:absolute; width:550px; top:300px; right:0;
+								background:white">
+						<pre><code>graph = """
+
+    model:succeed => cmp
+
+        """</code></pre>
+				</div>
+
+
+
+						<div class="fragment"
+								style="position:absolute; width:550px; top:300px; right:0; background:white">
+						<pre><code>graph = """
+
+    model:submit => cmp
+
+        """</code></pre>
+				</div>
+
+
+						<div class="fragment"
+								style="position:absolute; width:550px; top:300px; right:0; background:white">
+						<pre><code>graph = """
+
+    model:submit-fail => cmp
+
+        """</code></pre>
+				</div>
+
+						<div class="fragment"
+								style="position:absolute; width:550px; top:300px; right:0; background:white">
+						<pre><code>graph = """
+
+    model:start => cmp
+
+        """</code></pre>
+				</div>
+
+						<div class="fragment"
+								style="position:absolute; width:550px; top:300px; right:0; background:white">
+						<pre><code>graph = """
+
+    model:fail => cmp
+
+        """</code></pre>
+				</div>
+
+
+						<div class="fragment"
+								style="position:absolute; width:550px; top:300px; right:0; background:white">
+						<pre><code>graph = """
+
+    model:finish => cmp
+
+        """</code></pre>
+				</div>
+
+						<div class="fragment"
+								style="position:absolute; width:550px; top:300px; right:0; background:white">
+						<pre><code>graph = """
+
+    model:file1 => cmp
+        """
+# e.g. "/path/to/file1 ready"</code></pre>
+				</div>
+						<div class="fragment"
+								style="position:absolute; width:550px; top:300px; right:0; background:white">
+						<pre><code>graph = """
+
+    (foo & bar ) | baz => qux
+
+        """
+</code></pre>
+				</div>
+				</div>
+						<aside class="notes">
+								<p>
+								Cylc allows you to construct and run distributed <b>application
+										workflows</b>, which can be represented by a graph.
+								Each node is a task, which represents an application that
+								runs on a computer somewhere: any executable basically.
+								</p>
+								<p>The arrows (or graph edges) represent dependencies.
+								For maximum flexibility, Cylc works with abstract dependencies,
+								as opposed to explicit data dependencies.</p>
+
+								<p>Here's a glimpse of the DSL we use for defining these
+								graphs in Cylc.</p>
+
+								<p>Note that the graph diagrams don't show the nuanced task
+								triggering conditions. They default to "upstream task
+								succeeded", but can be other things too... including
+								multi-task conditional triggers.</p>
+						</aside>
+				</section>
+
+				<section>
+						<div style="position:absolute">
+								2010...
+								<img src="hjo/media/ecox.png"/>
+						</div>
+						<div class="fragment" style="position:absolute; background:white">
+								2015...
+								<img src="hjo/media/complex-1.png" style="border:2px dashed slategray">
+						</div>
+						<aside class="notes">
+										<p>So, Cylc started as a small research project on how to
+										manage cycling workflows more efficiently. When we went
+										into production at NIWA in 2010 we had to manage this
+										early version of our weather and environmental system.
+										The red tasks here are large atmospheric model runs,
+										which drive downstream sub-workflows for sea state, storm
+										surge, river flow.</p>
+										<p>
+										This pretty much maxed out our aging HPC at the time and it
+										seemed very complicated to the small team who had to manage
+										it... (although it is actually worse than it looks due to
+										its cycling nature, which I'll come back to later)</p>
+
+										<p><b>Then the UK Met Office adopted Cylc around 2012, and by
+											 2015 or so we had to handle systems like this...</b></p>
+						</aside>
+				</section>
+
+				<section>
+						...2020
+						<div style="position:absolute">
+								<img src="hjo/media/ubx-zoom/ubx-1.png" style="height:640px; border:2px dashed slategray"/>
+						</div>
+						<div class="fragment" style="position:absolute">
+								<img src="hjo/media/ubx-zoom/ubx-2.png" style="height:640px; border:2px dashed slategray"/>
+						</div>
+						<div class="fragment" style="position:absolute">
+								<img src="hjo/media/ubx-zoom/ubx-3.png" style="height:640px; border:2px dashed slategray"/>
+						</div>
+						<div class="fragment" style="position:absolute">
+								<img src="hjo/media/ubx-zoom/ubx-4.png" style="height:640px; border:2px dashed slategray"/>
+						</div>
+						<div class="fragment" style="position:absolute">
+								<img src="hjo/media/ubx-zoom/ubx-5.png" style="height:640px; border:2px dashed slategray"/>
+						</div>
+						<div class="fragment" style="position:absolute">
+								<img src="hjo/media/ubx-zoom/ubx-6.png" style="height:640px; border:2px dashed slategray"/>
+						</div>
+						<div class="fragment" style="position:absolute">
+								<img src="hjo/media/ubx-zoom/ubx-7.png" style="height:640px; border:2px dashed slategray"/>
+						</div>
+						<div class="fragment" style="position:absolute">
+								<img src="hjo/media/ubx-zoom/ubx-8.png" style="height:640px; border:2px dashed slategray"/>
+						</div>
+						<div class="fragment" style="position:absolute">
+								<img src="hjo/media/ubx-zoom/ubx-9.png" style="height:640px; border:2px dashed slategray"/>
+						</div>
+						<div class="fragment" style="position:absolute">
+								<img src="hjo/media/ubx-zoom/ubx-10.png" style="height:640px; border:2px dashed slategray"/>
+						</div>
+						<div class="fragment" style="position:absolute">
+								<img src="hjo/media/ubx-zoom/ubx-11.png" style="height:640px; border:2px dashed slategray"/>
+						</div>
+						<div class="fragment" style="position:absolute">
+								<img src="hjo/media/ubx-zoom/ubx-12.png" style="height:640px; border:2px dashed slategray"/>
+						</div>
+						<div class="fragment" style="position:absolute">
+								<img src="hjo/media/ubx-zoom/ubx-13.png" style="height:640px; border:2px dashed slategray"/>
+						</div>
+						<div class="fragment" style="position:absolute">
+								<img src="hjo/media/ubx-zoom/ubx-14.png" style="height:640px; border:2px dashed slategray"/>
+						</div>
+						<div class="fragment" style="position:absolute">
+								<img src="hjo/media/ubx-zoom/ubx-15.png" style="height:640px; border:2px dashed slategray"/>
+						</div>
+						<div class="fragment" style="position:absolute">
+								<img src="hjo/media/ubx-zoom/ubx-16.png" style="height:640px; border:2px dashed slategray"/>
+						</div>
+						<div class="fragment" style="position:absolute">
+								<img src="hjo/media/ubx-zoom/ubx-17.png" style="height:640px; border:2px dashed slategray"/>
+						</div>
+						<div class="fragment" style="position:absolute">
+								<img src="hjo/media/ubx-zoom/ubx-18.png" style="height:640px; border:2px dashed slategray"/>
+						</div>
+						<div class="fragment" style="position:absolute">
+								<img src="hjo/media/ubx-zoom/ubx-19.png" style="height:640px; border:2px dashed slategray"/>
+						</div>
+						<div class="fragment" style="position:absolute">
+								<img src="hjo/media/ubx-zoom/ubx-20.png" style="height:640px; border:2px dashed slategray"/>
+						</div>
+						<div class="fragment" style="position:absolute">
+								<img src="hjo/media/ubx-zoom/ubx-7.png" style="height:640px; border:2px dashed slategray"/>
+						</div>
+						<aside class="notes">
+							 <p>And now in 2020 ... this is a modern global weather prediction
+										workflow from the UK, implemented in Cylc</p>
+
+										<p>
+								You can forget about trying to manage this with a bunch of ad
+								hoc scripts instead of a real workflow engine.
+								</p>
+
+								So I think you can see from this, that WF orchestration is
+								absolutely a scaling mechanism: it can greatly amplify the
+								scale and complexity of the work that you can do.
+						</aside>
+				</section>
+
+				<section>
+					 <h4>A hierarchy of scaling!</h4>
+					 <img src="hjo/media/scale-hierarchy.svg"/>
+					 <p style="position:absolute; font-size:40%">credit (but no blame!): Alex Pletzer</p>
+					 <aside class="notes">
+							<p>In fact my colleague Alex Pletzer suggested yesterday,
+								 it's helpful to think of a HIERARCHY OF SCALING, from program
+								 sub-units, to modules, to packages, to shared libraries, to
+								 programs, to parallel programs (including Dask-style data
+								 scaling), to complex application workflows (whose tasks can
+								 include everything lower in the hierarchy).</p>
+						</aside>
+					 </section>
+
+				<section>
+						<img src="hjo/media/cylc-map.png" style="border:2px dashed slategray">
+						<aside class="notes">
+						</aside>
+				</section>
+
+				<section data-background="hjo/media/metoffice.jpg"
+						data-background-size="contain">
+						<div style="width:900px; height:700px;">
+								<img style="position:absolute; top:0; left:0; width:300px"  src="hjo/media/metoffice-logo-black.png"/>
+								<br/>
+								<br/>
+								<p style="color:white; font-size:80%; text-shadow:2px 2px
+								black"> Feb 2020: ~12 million HPC jobs/month, 99.6% via
+								Cylc</p>
+						</div>
+						<aside class="notes">
+								<p>Our biggest site, and one of the largest and most important
+								global forecasting centres for weather and climate.</p>
+
+								<p>The UK Met Office has used Cylc 24/7 in research and
+								production since early 2014.</p>
+						</aside>
+				</section>
+
+		</section>
+
+		<section>
+				<section>
+						<h1>
+								<span style="letter-spacing:0.03em">
+								Where t<br/>
+								</span>
+								o get inf<br/>
+								<span style="letter-spacing:-0.06em">
+								o on Cylc
+						    </span>
+						</h1>
+						<aside class="notes">
+								<p>
+								This presentation isn't my usual introduction to Cylc, I'm
+								trying to focus mostly on things scaling-related, so I'll start
+								with a pointer to more information in case anyone wants to
+								follow up.
+								</p>
+						</aside>
+
+				</section>
+
+				<section>
+						<a href="http://www.cylc.org"><img src="hjo/media/website-1.png"
+								style="border:2px dashed slategray"></a>
+						<aside class="notes">
+								<p>
+								The cylc.org web site should be your first stop.
+								</p>
+								<ul>
+									 <li>front page explains it all, including "why another
+									 workflow engine"</li>
+									 <li>Download cylc releases</li>
+									 <li>Read the user guide</li>
+									 <li>Get support (Discourse forum)</li>
+									 <li>Get commercial support from Altair (the PBS Pro people)</li>
+								</ul>
+						</aside>
+				</section>
+
+				<section>
+						<img src="hjo/media/cise-frontpage.png" style="border:2px dashed slategray">
+						<aside class="notes">
+						</aside>
+				</section>
+
+				<section>
+						<img src="hjo/media/cise-cylcpage.png" style="border:2px dashed slategray">
+						<aside class="notes">
+						</aside>
+				</section>
+
+		</section>
+
+		<section>
+				<section>
+						<!--
+							<h1>Scaling of<br/>
+									MPP scient<br/>
+							 <span style="letter-spacing:-16px">
+									<span style="font-size:80px">i</span>
+									f
+							</span>
+							ic models</h1>
+							-->
+
+						<h1>Scaling of<br/>
+								MPP scient<br/>
+								<span style="letter-spacing:-0.02em">
+										ific models
+								</span>
+						</h1>
+						<aside class="notes">
+								<p>So, I will start now by touching on the traditional meaning
+								of "scaling" (as I understand it) in the computational physical
+								sciences, because that does actually provide an amusing segue
+								into workflow. And besides I have a background in
+								...</p>
+						</aside>
+				</section>
+
+				<section>
+					 <img src="hjo/media/light.png" height="700px"/>
+					 <aside class="notes">
+							<p> ... PHYSICS, **the one true science**.</p>
+					 </aside>
+				</section>
+
+				<section>
+						<img src="hjo/media/CrayC916_007.gif"/>
+						<aside class="notes">
+
+								<p>Well, last century, in the 1990s, I was doing
+								a PhD in plasma physics in the US and using the
+								Cray C90 pictured here, the last flagship vector machine at
+								NERSC (the National Energy Research Supercomputing Center) in
+								the US.</p>
+
+								<p>People had been playing around with early parallel
+								machines for quite a while at this point, but the Massively
+								Parallel Processing revolution hadn't hit yet, and Cray was
+								still fabricating these custom fast vector processors,
+								AND so as far as I recall SCALING wasn't a hot topic in the
+								real world at that stage. We just tried to make our models run
+								efficiently on these big single core systems.</p>
+						</aside>
+				</section>
+
+				<section>
+						<img src="hjo/media/cray-t3e-niwa.png"/>
+						<aside class="notes">
+								<p>
+								By the time I came back to NZ in late 1999, however, NIWA had
+								just got the first supercomputer in NZ, a Cray T3E MPP machine
+								built from commodity processors with fast interconnects. 
+								</p>
+
+								<p>
+								This one, Kupe, with 144 cores and peak performance of 168
+								gigaflops, was truly a step-change in our computing
+								capbility.</p>
+
+								<!--
+								Digital Alpha 600 MHz cores;  most cores 128 Mb, some 512 Mb.
+								Peak performance 168 gigaflops (168 Billion flops);-->
+
+								<p>Tiny by today's standards, but remarkably it briefly
+								held <b>64th position in the world top 500 list</b></p>
+						</aside>
+				</section>
+
+				<section>
+						<img src="hjo/media/fugaku.jpg"/>
+						<div style="position: absolute; bottom:-100px; right:100px;
+								font-size:50%"><p>Fugaku (Japan,
+								2020/21)</p></div>
+						<aside class="notes">
+								Here's the current top of top 500:
+								<ul>
+										<li> 415 Petaflops (P = Quadrillion; 1000 Trillion)</li>
+										<li> $US 1 billion </li>
+										<li> 7 million CPU cores; 28.3 MW power!</li>
+								</ul>
+								<p>What is usually meant by SCALING in scientific computing in
+								the MPP era is I THINK: getting massively parallel scientific
+								models to scale efficiently over as many processors as possible
+								on these huge machines.</p>
+						</aside>	
+				</section>
+
+				<section>
+						<!--
+							https://pdc-support.github.io/introduction-to-mpi/02-serial-and-parallel/index.html
+							Licensed under CC-BY-SA 4.0
+							-->
+						<img src="hjo/media/scaling_amdahl.png"/>
+						<aside class="notes">
+								<p>Amdahl's Law: for a fixed problem size, parallel scaling is
+								strongly limited by the fraction of serial code in your
+								program.</p>
+						</aside>	
+				</section>
+
+				<section>
+						<!--
+							https://pdc-support.github.io/introduction-to-mpi/02-serial-and-parallel/index.html
+							Licensed under CC-BY-SA 4.0
+							-->
+						<img src="hjo/media/scaling_gustafson.png"/>
+						<aside class="notes">
+								<p>Luckily most of us don't have a fixed problem size, and
+								Gustafson's Law saws that scaling is actually linear if the
+								problem size can be scaled up with the resources (by increasing
+								the model resolution for example)</p>
+
+								<p>(The parallel part scales with the resources, but the serial
+								part remains the same size)</p>
+
+								<p>I'm not going to say much more about this sort of
+								scaling, but I did want to mention one prominent example of it
+								as a natural lead-in to Cylc-style workflow scaling...</p>
+						</aside>	
+				</section>
+		</section>
+
+				<section>
+				<section>
+						<h1>
+								<span style="letter-spacing:0.14em">Examp</span><br/>
+								le UM-t<br/>
+								<span style="letter-spacing:-0.02em">
+										o-NGMS</span></h1>
+
+						<p style="font-size:65%">UK Met Office Unified Model Consortium</p>
+
+						<aside class="notes">
+							
+								<p>NIWA is a core partner in the UK Met Office Unified Model
+								Consortium, which has embarked on a once-in-a-generation
+								rewrite of their atmospheric model, the Unified Model, to make
+								the so-called Next Generation Modeling System.</p>
+				</section>
+
+				<section>
+						<img src="hjo/media/lfric-cubed-sphere.png"/>
+						<p style="font-size:40%">
+						<a
+								href="https://www.sciencedirect.com/science/article/abs/pii/S0743731518305306">
+								LFRic: Meeting the challenges of scalability and performance<br> portability in
+								Weather and Climate models (Adams et.al.)</a>
+						</p>
+
+						<aside class="notes">
+
+								<p>One of the primary reasons for this HUGE decade-long 
+								<b>170+ FTE EFFORT</b> is that the Unified Model (which has done
+								a remarkable job despite starting life in the pre-MPP era)
+								doesn't scale well enough for next-gen exascale HPC.
+								One of the reasons for that is its spherical coordinates are
+								singular at the poles, which causes numerical problems at
+								higher resolutions, where amusingly the virtual spacing of
+								model grid points near the poles can be smaller than the
+								physical spacing of the HPC cabinets that hold them.
+								</p>
+
+								<p>Early test cases apparently scale to 160,000 cores, far
+								beyond what the UM can do.</p>
+
+								<p>BUT in WORKFLOW terms what do you get for your 170+ FTE?...</p>
+						</aside>
+				</section>
+
+				<section>
+						<img src="hjo/media/exa-workflow-1.svg" height="600px">
+						<!-- sound license: creative commons, free
+							https://freesound.org/people/Wagna/sounds/326133/
+							-->
+						<!--
+						<audio data-autoplay src="hjo/media/falling.wav"</audio>
+						-->
+						<aside class="notes">
+								<p>GIMME A BREAK: that isn't scaling!</p> 
+
+								<p>I was generous enough too, to add gratuitous pre-
+								and post-processing tasks so that I could even call it a
+								workflow!</p> 
+
+								<p>(I might have to apologize to UM Partnership colleagues for
+								this slide later).<p>
+						</aside>
+				</section>
+
+				<section data-fullscreen data-background-color=#efefef>
+						<!--
+							<img style="position:absolute; top:0; left:0"
+							src="hjo/media/ubx-zoom/ubx-1.png" width="100%" height="100%"/>
+							-->
+						<div style="width:1000px; height:900px">
+								<img class="stretch" style="position:absolute; top:0; left:0" src="hjo/media/ubx-zoom/ubx-7.png" width="100%" height="100%"/>
+						</div>
+						<aside class="notes">
+								<p>THIS is scaling! A handlful of those dots are your puny
+								exascale model. SO, I rest my case: scaling is all about the
+								workflow.</p>
+
+								<p>But seriously, workflow orchestration really is at the heart
+								of good utilization of massive HPC resources, BECAUSE:</p>
+								<ul>
+										<li>You won't be running massive MPP models all of the
+										time</li>
+										
+										<li>and processing the output of huge models typically
+										involves staggering numbers of small jobs</li>
+
+										<li>and it's hard to use that much machine effectively by
+										submitting millions of jobs manually - you need some
+										serious automation</li>
+
+										<li>and finally, MPP scaling is actually not all that
+										matters for real world application of MPP models
+										- and workflow gets its foot in the door again here...
+										</li>
+								</ul>
+						</aside>
+				</section>
+		</section>
+
+	 <section>
+			 <section>
+					 <!--
+							<h1>Scaling a<br/>
+									<span style="letter-spacing:0.05em">single w</span></br/>
+									orkflow</h1>
+									-->
+							 <h1>
+									 <span style="letter-spacing:-0.04em">
+									 Why are we<br/>
+							 </span>
+									 <span style="letter-spacing:-0.01em">
+									 ather wor<br/>
+							 </span>
+									 <span style="letter-spacing:0.02em">
+									 kflows so<br/>
+							 </span>
+									 <span style="letter-spacing:0.05em">
+									 horrible?
+							 </span>
+							 </h1>
+							<aside class="notes">
+									<p>WHY ARE WE ... ATHER WOR ... KFLOWS... oh, sorry:</p>
+								 <p>Why are weather workflows so horrible?</p>
+
+								 <p>Well, thanks for asking.</p>
+
+								 <p>There are two main reasons:</p>
+								 <ol>
+										<li>cycling - which I'll come back to</li>
+										<li>and model ensembles</li>
+								 </ol>
+							</aside>
+					 </section>
+
+					 <section>
+							<!-- <a href="https://www.metoffice.gov.uk/research/weather/ensemble-forecasting/what-is-an-ensemble-forecast">schematic</a> -->
+
+							<div style="position:absolute; width:900px; height:700px; background:white">
+							<img src="hjo/media/ensemble_forecasting_schematic.png"/>
+					    </div>
+							<div class="fragment" style="position:absolute; width:900px;
+									height:700px; background:white">
+							<img src="hjo/media/spaghetti-plog.png"/>
+					    </div>
+	
+							<div class="fragment" style="position:absolute; width:900px;
+									height:700px; background:white">
+							<img src="hjo/media/stamp-map.png"/>
+					    </div>
+	
+							<aside class="notes">
+								 <p>Atmospheric dynamics is super-sensitive to initial
+								 conditions, and there is nowhere near enough observational
+								 data to nail them down. So the state of the art is NOT to 
+								 run one model as big as you can scale it. Instead, run an
+								 ensemble of many smaller models, each initialized slightly
+								 differently (within the bounds of observational and model
+								 uncertainty), and use the spread of the resulting forecasts to
+								 characterize predictive your uncertainty.</p>
+
+								 <p>Trajectory... in massive phase space</p>
+
+								 <p>THEN every pre and post-processing task around the model
+								 has to be replicated for each ensemble member...</p>
+
+								 <p>IN OTHER WORDS we're trading off MPP scaling for workflow
+								 scaling</p>
+
+								 <!--
+								 <p>In this diagram, The badly named "deterministic" model is
+								 your high res one with best guess ICs.</p>
+								 -->
+
+								 <!--
+								 <p>Climatalogy is where you expect to end up for any valid ICs</p>
+								 -->
+							</aside>
+					 </section>
+
+					 <section>
+							<div style="position:absolute; left:0; top:200px; width:1000px; height:780px; background:white">
+							<img src="hjo/media/nzlam-ungrouped-2a.svg"/>
+							<br/>
+								 <span style="font-size:60%">m=1</span>
+							</div>
+
+							<div class="fragment" style="position:absolute; left:0; top:100px; width:1000px; height:780px; background:white">
+								 <img src="hjo/media/nzlam-ungrouped-2.svg"/>
+								 <br/>
+								 <span style="font-size:60%">m=1</span>
+							</div>
+
+							<div class="fragment" style="position:absolute; left:0; top:0; height:760px; width:1000px; background:white">
+								 <img src="hjo/media/nzlam-m10.svg"/> <span
+										style="font-size:60%">m=10</span>
+							</div>
+	
+							<!--
+							<div class="fragment" style="position:absolute; left:0; top:0; height:780px; width:1000px; background:white">
+								 <img src="hjo/media/nzlam-m30.png"/> <span style="font-size:60%">m=30</span>
+							</div>
+							-->
+	
+							<div class="fragment" style="position:absolute; left:0; top:0; height:780px; width:1000px; background:white">
+								 <img src="hjo/media/graph0.png"/> <span style="font-size:60%">m=30</span>
+							</div>
+	
+							<div class="fragment" style="position:absolute; top:0; left:-250px; width:1400px; background:white">
+							<img src="hjo/media/CiSESI-2018-10-0164.R1_Oliver-Fig1.png"/>
+							</div>
+							<aside class="notes">
+									<p>So what does this do to your workflows?</p>
+									<p>Here's a real, small regional-model weather forecasting
+									workflow from NIWA several years ago.<p>
+									<p>RED = atmospheric model runs</p>
+									<p>YELLOW = obs processing, different types of obs</p>
+									<p>3 CYCLES: note the inter-cycle dependence, which I'll come
+									back to later</p>
+									<p>M = 10: you basically multiply the MODEL WORKFLOW, all
+									its tasks and dependencies, by 10</p>
+							</aside>
+					 </section>
+
+					 <section data-background="hjo/media/oliver1-600dpi-wider.png">
+							 <aside class="notes">
+									<p>This one's a global forecasting workflow from our CiSE
+									paper, and a similar ensemble structure is visible there if you
+									look closely.</p>
+						</aside>
+					 </section>
+
+				<section>
+							<div style="position:absolute; width:900px; height:700px; background:white">
+						<img src="hjo/media/complex-3.png" style="border:2px dashed slategray"/>
+				</div>
+							<div class="fragment" style="position:absolute; width:900px; height:700px; background:white">
+									<h4>task runtime inheritance</h4>
+							<img src="hjo/media/inherit.png"/>
+					    </div>
+	
+							<div class="fragment" style="position:absolute; width:900px; height:700px; background:white">
+									<h4>task parameter expansion</h4>
+							<img src="hjo/media/param-1.png" width="600px" height="500px"/>
+					    </div>
+	
+							<div class="fragment" style="position:absolute; width:900px; height:700px; background:white">
+									<h4>task parameter expansion</h4>
+							<img src="hjo/media/param-2.png" width="700px" height="580px"/>
+					    </div>
+	
+						<aside class="notes">
+									 <p>
+									 In a close-up of the guts on an ensemble worflow, you can
+									 see that there are many groups of similar tasks -
+									 e.g. the same model configuration but with slightly
+									 different initial conditions, or tasks that process each one
+									 of those models, and so on.
+									 </p>
+									 <p>So to facilitate this kind of scaling Cylc has built-in
+									 ways to easily and efficiently construct these kinds of
+									 workflows.</p>
+									 <ul>
+											 <li>inheritance: multiple, C3</li>
+											 <li>task parameters</li>
+											 <li>Support for general Pythonic templating, which
+											 essentially lets you generate workflow configurations
+											 programmatically</li>
+									 </ul>
+						</aside>
+				</section>
+
+					 <section>
+							<video data-autoplay loop src="hjo/media/nwpsfc_2020090518-utc_nzcsm-sfc_rh.webm"></video>
+							<aside class="notes">
+								 A reminder of the point of all this. What comes out of the
+								 Unified Model as implemented at NIWA.
+							</aside>
+					 </section>
+				</section>
+
+
+		<section>
+				<section>
+						<h1>Scaling a<br/> workflo<br/>w engine</h1>
+						<aside class="notes">
+								(Skip over quickly)
+						</aside>
+				</section>
+
+				<section>
+						<div style="position:absolute; background:white; width:900px">
+								<img src="hjo/media/scale-wf-one-a.svg" height="600px" style="margin-left:100px"/>
+						</div>
+
+						<div class="fragment" style="position:absolute; background:white; width:900px">
+								<img src="hjo/media/scale-wf.svg" height="600px" style="margin-left:100px"/>
+						</div>
+
+						<aside class="notes">
+
+							 <p>FIRST TWO IMAGES:<p/>
+								<p>
+								So, I've talked a little about scaling of workflows already,
+								by which I mean, as a user if I want to scale up my specific
+								workflows, can the system handle it?
+								</p>
+
+								<p>I'll say more about this soon, but let's just take a quick
+								detour to look at <b>system scaling</b> of Cylc at a
+								site like NIWA.
+
+								<p>(I'll also come back to program capabilities and
+								efficiency, later)</p>
+						</aside>
+				</section>
+
+				<section>
+						<div style="position:absolute; background:white; width:900px">
+								<img src="hjo/media/scale-wf-one.svg" width="800px"
+								style="margin-left:100px"/>
+						</div>
+						<div class="fragment" style="position:absolute; background:white;
+								width:900px">
+								<img src="hjo/media/scale-wf-multi.svg" width="800px"
+								style="margin-left:100px"/>
+						</div>
+						<aside class="notes">
+								<p>By system scaling I mean, how can we handle many workflows
+								for many users?</p>
+						</aside>
+				</section>
+
+				<section>
+						<div style="position:absolute; background:white">
+								<h4 style="text-align:left">monolithic server</h4>
+								<img src="hjo/media/mono.svg" width="800px"
+								style="margin-left:100px"/>
+						</div>
+						<div class="fragment" style="position:absolute; background:white">
+								<h4 style="text-align:left">distributed ad hoc servers</h4>
+								<img src="hjo/media/micro.svg" width="800px"
+								style="margin-left:100px"/>
+						</div>
+						<aside class="notes">
+								mono advantages?
+								<ul>
+										<li>likely to be a massive beast of a program</li>
+										<li>must run under a privileged account on the system</li>
+										<li>centralised control and easier integration with site
+										identity management and security demands?</li>
+										<li>(Some people very much prefer this, but they are, well,
+										wrong)</li>
+								</ul>
+
+								distributed model:
+								<ul>
+										<li>scales sideways arbitrarily</li>
+										<li>easy upgrades of long-running systems: one WF at a
+										time</li>
+										<li>simplicity: everything runs as the user!</li>
+										<li>security: ditto</li>
+										<li>basic load balancing at start-up</li>
+										<li>...</li>
+								</ul>
+						</aside>
+				</section>
+
+				<section>
+						<div style="position:absolute; width:900px; height:700px;
+								background:white">
+								<img src="hjo/media/arch-0.svg"/>
+						</div>
+						<div class="fragment" style="position:absolute; width:900px;
+								height:700px; background:white">
+								<img src="hjo/media/arch-1.svg"/>
+						</div>
+						<div class="fragment" style="position:absolute; width:900px;
+								height:700px; background:white">
+								<img src="hjo/media/arch-2.svg"/>
+						</div>
+
+						<div class="fragment" style="position:absolute; width:900px;
+								height:700px; background:white">
+								<img src="hjo/media/arch-3.svg"/>
+						</div>
+
+						<div class="fragment" style="position:absolute; width:900px;
+								height:700px; background:white">
+								<img src="hjo/media/arch-3a.svg"/>
+						</div>
+
+						<div class="fragment" style="position:absolute; width:900px;
+								 height:700px; background:white">
+								 <pre style="position:absolute; width:500px"><code class="ini" style="font-size:80%">[suite hosts]
+run hosts = cvm1, cvm2, cvm3, cvm4, cvm6
+condemned hosts = cvm5
+</code></pre>
+               <img src="hjo/media/arch-4a.svg"/>
+					 </div>
+					 <aside class="notes">
+					 </aside>
+			 </section>
+	 </section>
+	
+				<section>
+					 <section>
+							<h1>
+                <span style="letter-spacing:0.15em">
+								 Cyclin<br/>
+								 g wor<br/></span>
+											kflows
+							</h1>
+							<aside class="notes">
+								 <p>
+								 Right, let's get back to workflow scaling.
+								 </p>
+								 <p>
+								 The other thing that makes weather (and similar) workflows
+								 horrible is cycling - and this too can be framed as a form of
+								 scaling.
+								 </p>
+							</aside>
+					 </section>
+
+					 <section>
+							<div style="width:100%; position:absolute; left:0; top:0"/>
+								 <img src="hjo/media/cycling-1.png"/>
+							</div>
+							<div style="width:100%; position:absolute; left:0; top:0"/>
+								 <img class="fragment" src="hjo/media/cycling-2b0.png"/>
+							</div>
+							<div style="width:100%; position:absolute; left:0; top:0"/>
+								 <img class="fragment" src="hjo/media/cycling-2b00.png"/>
+							</div>
+							<div style="width:100%; position:absolute; left:0; top:0"/>
+								 <img class="fragment" src="hjo/media/cycling-2b000.png"/>
+							</div>
+							<div style="width:100%; position:absolute; left:0; top:0"/>
+								 <img class="fragment" src="hjo/media/cycling-2b.png"/>
+							</div>
+	
+							<div style="width:100%; position:absolute; left:0; top:0"/>
+								 <img class="fragment" src="hjo/media/cycling-2.png"/>
+							</div>
+							<div style="width:100%; position:absolute; left:0; top:0"/>
+								 <img class="fragment" src="hjo/media/cycling.png"/>
+							</div>
+							<!--
+							<div style="width:100%; position:absolute; left:0; top:0"/>
+								 <img class="fragment" src="hjo/media/cycling-close.png"/>
+							</div>
+							-->
+							<aside class="notes">
+								 <p>
+								 Here's a small workflow, the red task might be an
+								 atmospheric model.
+								 </p>
+								 <p>
+								 Let's say you want to run this periodically, say every six
+								 hours to generate new forecasts.
+								 <p>
+								 <p>1 ... 2 ... 3 ... you run whole cycles in sequence like
+								 this. That's fine because in real time operation there's
+								 always a gap between cycles while you want on new data to come
+								 in. </p>
+
+								 <p>BUT what if you suffer a major delay and get behind the
+								 clock, so that one cycle runs into the next?  Historically,
+								 you still had to run whole cycles in sequence because (a)
+								 people seemed to think these global cycles were a fundamental
+								 feature of the system; and (b) your workflow engine didn't
+								 know about inter-cycle dependence.</p>
+
+								 <p>E.g. each model task depends on the previous model task,
+								 because each forecast has to be partially initialized by the
+								 previous forecast.</p>
+
+								 <p>In fact those numbered "forecast cycle" boxes are clearly
+								 an artificial constraint on the system - each individual task
+								 in that workflow only cares about its own individual
+								 dependence on other upstream tasks.</p>
+
+								 <p>So, Cylc unwinds the cycle loop and gives each task its own
+								 cycle point label, to create <b>a single potentially INFINITE
+										workflow composed of repeating tasks</b> instead of a
+								 sequence of distinct single cycle workflows. So that's an
+								 interesting new form of scaling!</p>
+							</aside>
+					 </section>
+
+					 <!-- ANIM: MUST BE FOLLOWED BY data-state=postanim (PAUSE WORKFLOW) -->
+					 <section data-state="anim">
+							<div id="infinite-cycling" style="width:900px; height:700px; border: 1px dashed slategray;">
+							</div>
+							<span style="font-size:10px; position:absolute; bottom:0; left:0">Credit: Oliver Sanders</span>
+							<aside class="notes">
+									<ul>
+										 <li>dark blue tasks are running; light blue finished</li>
+											<li>each task advances individually to its next cycle,
+											so tasks from many cycles can run at once, as
+											dependencies allow</li>
+											<li>Cylc maintains an adaptive window on the evolving
+											infinite workflow</li>
+									</ul>
+							</aside>
+					 </section>
+
+					 <!-- POSTANIM: PAUSE WORKFLOW ON MOVE TO NEXT SLIDE -->
+					 <section data-state="postanim">
+							<div style="position:absolute; width:900px; height:700px;
+								 background:white">
+								 <img src="hjo/media/catchup-1.svg"/>
+							</div>
+							<div class="fragment" style="position:absolute; width:900px;
+								 height:700px; background:white">
+								 <img src="hjo/media/catchup-11.svg"/>
+							</div>
+							<div class="fragment" style="position:absolute; width:900px;
+								 height:700px; background:white">
+								 <img src="hjo/media/catchup-1a.svg" style="margin-top:200px"/>
+							</div>
+							<div class="fragment" style="position:absolute; width:900px;
+								 height:700px; background:white">
+								 <img src="hjo/media/catchup-2.svg" style="margin-top:200px"/>
+							</div>
+	
+							<div class="fragment" style="position:absolute; width:900px;
+								 height:700px; background:white">
+								 <img src="hjo/media/timeline-two.svg" style="margin-top:200px"
+								 width="500px"/>
+							</div>
+	
+							<aside class="notes">
+									<ul>
+											<li>This illustrates that Cylc's cycling system is NOT
+											cron-like real time scheduling - it is something more
+											powerful than that: if you get behind, Cylc clock
+											triggers provide no contraint until you catch up again,
+											and until then Cylc runs the entire intervening workflow 
+											(multiple cycles of it) as quickly as possible.</li>
+
+											<li>sustained high-throughput scheduling (external
+											resources depending) off the clock, e.g. for processing
+											historical data where there is no gap between cycles</li>
+									</ul>
+							</aside>
+					 </section>
+
+					 <section>
+							<div style="position:absolute; width:900px;
+								 height:700px; background:white">
+								 <img src="hjo/media/multiple-recurrences/1.svg" style="margin-top:200px"
+								 width="600px"/>
+							</div>
+							<div class="fragment" style="position:absolute; width:900px;
+								 height:700px; background:white">
+								 <img src="hjo/media/multiple-recurrences/2.svg" style="margin-top:200px"
+								 width="600px"/>
+							</div>
+							<div class="fragment" style="position:absolute; width:900px;
+								 height:700px; background:white">
+								 <img src="hjo/media/multiple-recurrences/3.svg" style="margin-top:200px"
+								 width="600px"/>
+							</div>
+							<aside class="notes">
+								 Another advantage of unrolling the cycle loop like this: it is
+								 trivially easy to have multiple cycling intervals in the same
+								 workflow, with dependence across them as needed, which turns
+								 out to be quite useful
+							</aside>
+					 </section>
+
+				<section>
+						<div style="margin-top:100px; position:absolute; left:0; width:900px; height:700px;">
+								<div>
+						<pre><code class="ini">[scheduling]
+  [[graph]]
+    R1 = """
+      a => b & c
+      c => d
+    """
+  [runtime]
+    [[a]]
+      script = "run-a.py arg1 arg2"
+    # ...
+</code></pre>
+				</div>
+						<div style="position:absolute; right:0; top:0">
+						<img src="hjo/media/basic-workflow.svg" height="450px"/>
+					 </div>
+				</section>
+
+				<section>
+						<div style="margin-top:100px; position:absolute; left:0; width:1000px; height:700px;">
+								<div>
+						<pre><code class="ini">[scheduling]
+  cycling mode = integer
+  initial cycle point = 1
+  [[graph]]
+    R/^/P1 = """
+      a => b & c
+      c => d
+      a[-P1] => a  # (inter-cycle)
+      c[-P1] => b  # (ditto)
+    """
+  [runtime]
+    [[a]]
+      script = "run-a.py arg1 arg2"
+    # ...
+</code></pre>
+				</div>
+					 <div style="position:absolute; right:0; top:-100px">
+							<img src="hjo/media/cycling-workflow.svg" height="600px"/>
+					 </div>
+				</section>
+		 </section>
+
+				<section>
+					 <section>
+							<h1>
+<span style="letter-spacing:0.16em">
+								 Prog<br/>
+							</span>
+<span style="letter-spacing:0.08em">
+								 ram s<br/>
+							</span>
+								 <span style="letter-spacing:-0.05em">caling</span>
+							</h1>
+							<aside class="notes">
+								 <p>
+								 OK, now I'll briefly touch on a few of the things that we've 
+								 found useful in terms of improving the efficiency of the Cylc
+								 scheduler program itself, so that it can scale to handle
+								 bigger and bigger workflows. These might loosely be grouped into:
+								 </p>
+								 <ul>
+										<li>memory footprint</li>
+										<li>computational efficiency, which includes:
+										<ul>
+											 <li>language choice and use</li>
+											 <li>concurrency</li>
+											 <li>algorithms</li>
+											 <li>...</li>
+										</ul>
+										</li>
+								 </ul>
+							</aside>
+					 </section>
+
+					 <section>
+							<h3>Is Python Slow?</h3>
+
+							<div style="background:white; position:absolute; width:100%">
+								 <pre><code class="python"># Compute intersection of two 100K sets (1/4)
+foo = set(range(    1, 100000))
+bar = set(range(99000, 199000))
+
+baz = set()  # <----
+for i in foo:
+    for j in bar:
+        if i == j:
+            baz.add(i)
+            break</code></pre>
+							<pre class="fragment"><code class="shell">drugs-and-money$ time ./intersect-1.py
+
+10m11.241s  # <---- 10 minutes ARGH!</code></pre>
+					 </div>
+
+					 <div style="background:white; position:absolute; width:100%"
+							class="fragment"> <pre><code class="python"># Compute intersection of two 100K sets (2/4)
+foo = set(range(    1, 100000))
+bar = set(range(99000, 199000))
+
+baz = foo.intersection(bar)  # <----
+
+
+
+
+
+</code></pre>
+							<pre><code class="console" style="background:white">drugs-and-money$ time ./intersect-2.py
+
+ 0m 0.032s  # <---- 19,000 x speedup</code></pre>
+							<p style="font-size:50%">(repeat runs vary by several sec/100)</p>
+					 </div>
+	
+				<div style="background:white; position:absolute; width:100%" class="fragment">
+					 <pre><code class="python"># Compute intersection of two 100K sets (3/4)
+foo = set(range(    1, 100000))
+bar = set(range(99000, 199000))
+
+baz = {i for i in foo if i in bar}  # <----
+
+
+
+
+
+</code></pre>
+					 <pre><code class="console" style="background:white">drugs-and-money$ time ./intersect-3.py
+
+ 0m 0.045s  # <---- 14,000 x speedup</code></pre>
+							<p style="font-size:50%">(repeat runs vary by several sec/100)</p>
+				</div>
+	
+					 <div style="background:white; position:absolute; width:100%" class="fragment">
+							<pre><code class="python"># Compute intersection of two 100K sets (4/4)
+foo = set(range(    1, 100000))
+bar = set(range(99000, 199000))
+
+baz = set()  # <----
+for i in foo:
+    if i in bar:
+        baz.add(i)
+
+
+</code></pre>
+							<pre><code class="console" style="background:white">drugs-and-money$ time ./intersect-4.py
+
+ 0m 0.056s  # <---- 11,000 x speedup</code></pre>
+				</div>
+							<p style="font-size:50%">(repeat runs vary by several sec/100)</p>
+							<aside class="notes">
+								 <p>Cylc is written in Python, which some claim is too slow
+								 for a program with such heavy demands on it.</p>
+
+								 <p>
+								 CODE...<br/>
+								 Fortunately Python library built-ins (and 3rd party
+								 libraries for that matter) usually aren't written (where speed
+								 matters) in Python!
+								 </p>
+
+								 <p>Avoid large amounts of computation inside nested loops, in
+								 your high-level Python code - the speed differential between
+								 Python and C, say, might hardly matter for everything else
+								 your program does (Premature optimization is the root of all
+								 evil!)</p>
+
+								 <p>In any case, it pays to remember the trade-off here: 
+								 Python makes it incredibly easy, relatively speaking, to do
+								 complex things quickly, with highly maintainable code, which
+								 is incredibly important. Striving for maximum speed and
+								 efficiency from the outset might not be to your advantage if
+								 it means you can't get a working product out the door in time.
+								 </p>
+							</aside>
+				</section>
+
+				<section>
+					<img src="hjo/media/tweet.jpg" style="height:700px; border:2px dashed
+					slategray"/>
+					<aside class="notes">
+							Thanks to Jonny and Alex for giving me permission to use this.
+					</aside>
+			 </section>
+
+			 <section>
+					<h3>Memoization</h3>
+					<p style="font-size:50%">Fibonacci sequence: <code>F(0) = 0; F(1) = 1; F(n) = F(n-1) + F(n-2)</code></p>
+					<div style="background:white; position:absolute; width:100%">
+						 <pre><code class="python3">
+
+
+def fibonacci(n):
+    """Compute the n-th Fibonacci number."""
+    if n < 2: 
+        return n 
+    return fibonacci(n-1) + fibonacci(n-2)
+
+# Print the first 40 Fibonacci numbers.
+print([fibonacci(i) for i in range(40)])</code></pre>
+							<pre class="fragment"><code class="console" style="background:white">drugs-and-money$ time ./fib.py 
+[0, 1, 1, 2, 3, 5, 8, ..., 39088169, 63245986]
+
+n_calls=535828550
+1m15.286s
+</code></pre>
+					 </div>
+
+					 <div style="background:white; position:absolute; width:100%"
+							class="fragment"> <pre><code class="python3">from functools import lru_cache
+
+@lru_cache
+def fibonacci(n): 
+    """Compute the n-th Fibonacci number."""
+    if n < 2: 
+        return n 
+    return fibonacci(n-1) + fibonacci(n-2) 
+
+# Print the first 40 Fibonacci numbers.
+print([fibonacci(i) for i in range(40)])</code></pre>
+							<pre><code class="console" style="background:white">drugs-and-money$ time ./fib.py 
+[0, 1, 1, 2, 3, 5, 8, ..., 39088169, 63245986]
+
+n_calls=40
+0m 0.033s  # <---- 2300 x speedup
+</code></pre>
+					 </div>
+					 <aside class="notes">
+							<p>
+							Memoization is: automatically caching a look-up table of function
+							arguments and results, so that you can avoid recomputing results
+							if the same arguments show up again.
+							</p>
+
+							<p>
+							Good for small functions that get called a large number of times
+							with the same arguments (and whose output depends entirely on the
+							arguments of course).
+							</p>
+
+							<p>
+							In Cylc we use this for vast numbers of date-time computations in
+							the cycling sub-system, for example.
+							</p>
+
+							<p>
+							We used to roll our own memoization, but now in Python 3 just
+							use the <code>lru_cache</code> decorator: "Least Recently Used Cache".
+							</p>
+
+							<p>
+							(Python decorators are syntactic sugar for higher order
+							functions: a function of a function if you like).
+							</p>
+
+							<p>
+							Here's the most simple and elegant implementation of a function to
+							generate the famous Fibonacci sequence (this example is actually
+							in the official Python docs, BTW)
+							</p>
+							<p>
+							However, while elegant it is also the poster boy for pathological
+							recursion - watch this!
+							</p>
+
+							<!--
+							(Note cache size configurable, but actually very small in this
+							case ~40).
+							-->
+					 </aside>
+							</section>
+
+					 <section>
+							<h3>__slots__</h3>
+					<div style="background:white; position:absolute; width:100%">
+						 <pre><code class="python3">
+class Cat:
+
+    def __init__(self, name, num_legs):
+        self.name = name
+        self.num_legs = num_legs 
+
+    def scratch(furniture="couch")
+        # ...
+
+my_cat = Cat(name="Fuzzy Boy", num_legs=3)
+
+
+</code></pre>
+</div>
+					<div class="fragment" style="background:white; position:absolute; width:100%">
+						 <pre><code class="python3">
+class Cat:
+
+    def __init__(self, name, num_legs):
+        self.name = name
+        self.num_legs = num_legs 
+
+    def scratch(furniture="couch")
+        # ...
+
+my_cat = Cat(name="Fuzzy Boy", num_legs=3)
+my_cat.attitude = "bad"  # OK
+
+</code></pre>
+</div>
+
+					<div class="fragment" style="background:white; position:absolute; width:100%">
+						 <pre><code class="python3">
+class Cat:
+    __slots__ = ["name", "num_legs"]  # <-----
+    def __init__(self, name, num_legs):
+        self.name = name
+        self.num_legs = num_legs 
+ 
+    def scratch(furniture="couch")
+        # ...
+
+my_cat = Cat(name="Fuzzy Boy", num_legs=3)
+my_cat.attitude = "bad"  # ERROR!
+
+</code></pre>
+</div>
+
+							<aside class="notes">
+								 Memory footprint:
+
+								 <p>
+								 In Python, class instance (object) attributes are stored in a
+								 dictionary that contains empty "buckets", and doubles in size
+								 each time it fills up.</p>
+								 <p>
+								 This is what allows you to add attributes on the fly, like
+								 this.</p>
+								 <p>
+								 BUT if you have to instantiate a large number of objects,
+								 the empty memory buckets can hurt you.
+								 </p>
+								 <p>Slots are a simple optimization to fix this.</p>
+
+							</aside>
+					 </section>
+
+
+					 <section>
+							 <h4>concurrency</h4>
+							<div style="position:absolute; width:900px; height:700px;
+								 background:white">
+								 <img src="hjo/media/async-one-aa.svg"/>
+							</div>
+							<div class="fragment" style="position:absolute; width:900px;
+								 height:700px; background:white">
+								 <img src="hjo/media/async-one-a.svg"/>
+							</div>
+							<div class="fragment" style="position:absolute; width:900px;
+								 height:700px; background:white">
+								 <img src="hjo/media/async-one-b.svg"/>
+							</div>
+							<div class="fragment" style="position:absolute; width:900px;
+								 height:700px; background:white">
+								 <img src="hjo/media/async-one.svg"/>
+							</div>
+	
+							<div class="fragment" style="position:absolute; width:900px;
+								 height:700px; background:white">
+								 <img src="hjo/media/async-two.svg"/>
+								 <div style="position:absolute; top:300px; right:20px;
+										 font-size:50%">(threading omitted!)
+								 </div> 
+							</div>
+	
+							<div class="fragment" style="position:absolute; width:900px;
+								 height:700px; background:white">
+								 <img src="hjo/media/async-all.svg"/>
+								 <div style="position:absolute; top:300px; right:20px;
+										 font-size:50%">(threading omitted!)
+								 </div> 
+							</div>
+		
+							<aside class="notes">
+
+								 <p>In Cylc, there's a lot of stuff we have to get done
+								 concurrently, to avoid blocking the main scheduling algorithm
+								 for instance.  That includes all interaction with the external
+								 world: job submissions, event handlers, external triggers.
+								 </p>
+
+								 <p>Consider a function called task-1 that takes this long to
+								 run.<p>
+
+								 <p>And it happens to do a bunch of IO in the middle: compute
+								 is colored, IO is gray</p>
+
+								 <p>Now compute happens to go a gazillion times faster than IO:
+								 disk or network, so your CPU is more or less idle forever
+								 during IO operations.</p>
+
+								 <p>Typical synchronous program: read and process 3 files in
+								 sequence.</p>
+
+								 <p>What are our options for speeding this up?</p>
+								 <ul>
+										<li>Multiprocessing: truly parallel processing, and it even
+										works for CPU-bound programs, but it uses more resources,
+										and it only scales to the number of processors. Used a lot
+										in Cylc</li>
+										<li> (Threading will also help alot for IO-bound programs,
+										but that's harder to represent in a
+										diagram like this, and harder to explain, especially in
+										Python, so I won't go there today).
+										</li>
+								 </ul>
+
+										<!--
+								 (the OS switches randomnly between threads and in Python, the
+								 GIL won't let the coloured bits execute in parallel, but they
+								 can execute in parallel with the gray IO)-->
+
+							   <p>Now there's a new kid on the block, in terms of nice
+										built-in Python-3 language support at least: asynchronous
+										"cooperative multi-tasking"</p>
+
+									<p>It works like this: instead of executing your tasks
+									directly and deterministically as per synchronous paradigm,
+									you cede control to something called an event loop which 
+									can start executing other tasks during asynchronous IO operations.
+									Remarkably, because of the extreme discrepancy between IO and
+									compute time, for IO-bound programs this can often scale to
+									thousands of tasks in a single thread, without the complexity
+									and danger of thread management.</p>
+
+                 <!--
+								 asyncio: tornado, wf scan, and more...
+
+								  - CPU Bound => Multi Processing
+									-	I/O Bound, Fast I/O, Limited Number of Connections => Multi Threading
+									-	I/O Bound, Slow I/O, Many connections => Asyncio
+									-->
+
+									<!--
+									GIL - only one thread at a time can manipulate Python objects
+
+									CPython implementation detail: In CPython, due to the Global
+									Interpreter Lock, only one thread can execute Python code at
+									once (even though certain performance-oriented libraries
+									might overcome this limitation). If you want your application
+									to make better use of the computational resources of
+									multi-core machines, you are advised to use multiprocessing
+									or concurrent.futures.ProcessPoolExecutor. However, threading
+									is still an appropriate model if you want to run multiple
+									I/O-bound tasks simultaneously.
+
+									https://docs.python.org/3/glossary.html#term-global-interpreter-lock
+
+									    The mechanism used by the CPython interpreter to assure
+									that only one thread executes Python bytecode at a time. This
+									simplifies the CPython implementation by making the object
+									model (including critical built-in types such as dict)
+									implicitly safe against concurrent access. Locking the entire
+									interpreter makes it easier for the interpreter to be
+									multi-threaded, at the expense of much of the parallelism
+									afforded by multi-processor machines.
+
+									    However, some extension modules, either standard or
+									third-party, are designed so as to release the GIL when doing
+									computationally-intensive tasks such as compression or
+									hashing. Also, the GIL is always released when doing I/O.
+
+									    Past efforts to create a “free-threaded” interpreter (one
+									which locks shared data at a much finer granularity) have not
+									been successful because performance suffered in the common
+									single-processor case. It is believed that overcoming this
+									performance issue would make the implementation much more
+									complicated and therefore costlier to maintain.
+									-->
+
+									<!--
+									The battle over async IO versus multiprocessing is not really
+									a battle at all. In fact, they can be used in concert. If you
+									have multiple, fairly uniform CPU-bound tasks (a great
+									example is a grid search in libraries such as scikit-learn or
+									keras), multiprocessing should be an obvious choice.
+
+									The contest between async IO and threading is a little bit
+									more direct. I mentioned in the introduction that “threading
+									is hard.” The full story is that, even in cases where
+									threading seems easy to implement, it can still lead to
+									infamous impossible-to-trace bugs due to race conditions and
+									memory usage, among other things.
+
+									Threading also tends to scale less elegantly than async IO,
+									because threads are a system resource with a finite
+									availability. Creating thousands of threads will fail on many
+									machines, and I don’t recommend trying it in the first place.
+									Creating thousands of async IO tasks is completely feasible.
+
+									Async IO shines when you have multiple IO-bound tasks where
+									the tasks would otherwise be dominated by blocking IO-bound
+									wait time, such as:
+									-->
+							</aside>
+					 </section>
+	
+			 <section>
+					<div style="background:white; position:absolute; width:100%">
+					<h5>synchronous</h5>
+						 <pre><code class="python">
+
+def task(n):
+    loc = compute_location(n)  # compute
+    data = read_from_disk(loc)  # IO
+    return compute_stuff(data)  # compute
+
+def main():
+    print(
+        [task(i) for i in range(3)])
+
+if __name__ == "__main__":
+    main()
+</code></pre>
+					 </div>
+
+					 <div style="background:white; position:absolute; width:100%"
+							class="fragment">
+					<h5>asynchronous</h5>
+							<pre><code class="python">import asyncio
+
+async def task(n):
+    loc = compute_location(n)  # compute
+    data = await read_from_disk_async(loc)  # IO
+    return compute_stuff(data)  # compute
+
+async def main():
+    print(await asyncio.gather(
+       *[task(i) for i in range(3)]))
+
+if __name__ == "__main__":
+    asyncio.run(main())
+</code></pre>
+					 </div>
+					 <aside class="notes">
+							<p>
+							Python 3's "asyncio" lets you write async code that (at least in
+							simple cases) looks a lot like good old synchronous code, but
+							gets amazingly scalable concurrency (for IO bound programs) with
+							no worries about thread safety, and no need to code the event
+							loop and underlying call-backs etc.  that allow this to work.</p>
+							<p>Cylc: beginning to use asyncio, e.g. for filesystem scanning,
+							web server (Tornado) and more.<p>
+					 </aside>
+							</section>
+
+
+				</section>
+
+				<section>
+			 <section>
+					<h3>Better Algorithms</h3>
+					<div style="position:absolute; top:100px; right:0">
+							<span style="font-size:40%">Cylc 7: spawn-before-needed, with dependency matching</span>
+					</div>
+					<div style="margin-left:100px">
+							<video data-autoplay loop src="hjo/media/cycling-workflow-10-retries.webm"></video>
+				  </div>
+					<aside class="notes">
+						 <p>
+						 If your core algorithms could be much better you might be wasting your 
+						 time worrying about the speed of Python or spending loads of time
+						 optimizing the existing system.
+						 </p>
+
+						 <p>Somewhat surprisingly, we recently hit a massive example of
+						 this 10 years into the Cylc project.</p>
+
+						 <p>This animation shows something of how Cylc 7 (and earlier) manages
+						 infinite workflows of repeating tasks.</p>
+						 <p>As per my earlier description each task advances individually
+						 according to its own private dependencies, and cylc maintains a
+						 window on the evolving infinite workflow that contracts and
+						 expands as needed. The GREEN tasks are running.</p>
+
+						 <p>BUT to achieve this, note there are blue WAITING
+						 tasks that are spawned ahead before they are needed; and gray
+						 finished tasks that are kept around until no longer need for
+						 matching the depedencies of waiting tasks. This works well BUT it
+						 has quite high overheads: the scheduler has to be aware of,
+						 and manage, at least one cycle-point instance of every
+						 single task in the workflow.</p>
+					</aside>
+			 </section>
+	
+					 <!-- ANIM: MUST BE FOLLOWED BY data-state=postanim (PAUSE WORKFLOW) -->
+					 <section data-state="anim-2">
+					<div style="position:absolute; top:100px; right:0">
+							<span style="font-size:40%">Cylc 8: spawn-on-demand</span>
+					</div>
+							<div id="infinite-cycling-2" style="width:900px; height:700px; border: 1px dashed slategray;">
+							</div>
+							<span style="font-size:10px; position:absolute; bottom:0; left:0">Credit: Oliver Sanders</span>
+							<aside class="notes">
+						 <p>
+						 In Cylc-8 we have a brand new core scheduling algorithm called
+						 spawn on demand, that even in an infinite workflow only needs to manage
+						 the current active tasks - this can be orders of magnitude more
+						 effecient (for the scheduling subsystem if not the whole program) in huge
+						 workflows.</p>
+
+									<ul>
+											<li></li>
+											<li></li>
+											<li></li>
+									</ul>
+							</aside>
+					 </section>
+
+					 <!-- POSTANIM2: PAUSE WORKFLOW ON MOVE TO NEXT SLIDE -->
+					 <section data-state="postanim-2">
+							 <h1>
+									 Refl<br/>
+									 <span style="letter-spacing:0.1em">
+									 ow!
+							 </span>
+							 </h1>
+					 </section>
+
+					 <section data-state="anim-3">
+							<div style="position:absolute; top:100px; right:0">
+								 <span style="font-size:50%">Cylc 8: spawn-on-demand with REFLOW</span>
+							</div>
+	
+							<div id="infinite-cycling-3" style="width:900px; height:700px; border: 1px dashed slategray;">
+							</div>
+							<span style="font-size:10px; position:absolute; bottom:0; left:0">Credit: Oliver Sanders</span>
+							<aside class="notes">
+									<p>
+									multiple workflow wavefronts, if you like, traveling through
+									the infinite graph. A new front can be triggered simply by
+									triggering the task or tasks at the head of it.
+									</p>
+							</aside>
+					 </section>
+
+				</section>
+
+				<section data-state="postanim-3">
+
+					 <section>
+					 <!--
+					 <h1>Project<br/>Scaling</h1>
+					 -->
+					 <h1>Proje<br/>
+							<span style="letter-spacing:0.08em">
+							ct Sc<br/>
+							<span style="letter-spacing:0.02em">
+							aling
+					 </span>
+					 </h1>
+							<aside class="notes">
+									<p>
+								 This is the last section, so I'll present a few thoughts and
+								 observations on issues we've faced in scaling up the Cylc
+								 project from a small one-man research toy, to a
+								 production-quality system with a lot of demands on it and a
+								 small international team working on it every day. Which
+								 has been a massive ongoing learning experience, to say the
+								 least!
+								 </p>
+							</aside>
+					 </section>
+	
+					 <section>
+							<h3>working practices</h3>
+							<div style="position:absolute; font-size:50%">
+							<a href="https://guides.github.com/introduction/flow/">
+								 https://guides.github.com/introduction/flow/</a>
+					 </div>
+							<img src="hjo/media/github-flow.png"/>
+							<aside class="notes">
+								 <p>
+									 Proper revision control and associated distributed
+									 collaborative branch and merge working practices, should be
+									 a given these days.
+									 </p>
+
+									 <p>
+									 Without that, forgot about it, you're seriously screwed.
+									 </p>
+
+									 <p>We just use the basic "GitHub Flow" model, as documented
+									 here on GitHub - "A lightweight branch-based workflow that
+									 supports teams and projects where deployments are made
+									 regularly".</p>
+
+							</aside>
+					 </section>
+
+					 <section>
+							<h3>TEMPORAL SCALING?</h3>
+							<img src="hjo/media/cylc-flow-code-changes.png"/>
+							<aside class="notes">
+									 <p>I've been saying this a lot lately: any non-trivial
+									 software that is still in use will NEVER be finished, and
+									 you'd better get used to the idea</p>
+
+									 <ul>
+										<li>requirements change, users keep pushing it</li>
+										 <li>languages, libraries, packages, and tools that you
+										 depend on continually evolve</li>
+										 <li>you will never in a million years anticipate all of
+										 this, or be able to design ahead for it all</li>
+										 <li>if you don't deal with this by resourcing your project
+										 properly, it will die</li>
+										 <li>Managers and funders in the science world may need to
+										 be reminded of this!  Frequently!</li>
+									</ul>
+
+									 <p>I presented this diagram of the Cylc project change
+									 history for laughs at the first NZ RSE Conference (Then
+									 called Scientific Coding Conference), and things have only
+									 got worse since then.</p>
+
+									 <p>The blue star shows my initial estimate of project
+									 completion in 2009 or so. Note units...</p>
+
+							</aside>
+					 </section>
+
+					 <section>
+							<img src="hjo/media/python2-gtk.png">
+
+							<aside class="notes">
+								 <p>
+								 The current big example of this problem for Cylc
+								 </p>
+
+								 <p>Python 2 is EOL Jan this year, but Cylc 7 - our production
+								 system is still Python 2 based. Luckily RHEL for example, is
+								 maintaining Python 2 for a while yet.</p>
+								 <p>Why haven't we finished Cylc 8 with Python 3 yet? - Py2 EOL
+								 also took out our desktop GUI, with 2-3 FTE of work in it, 
+								 and our stakeholders decided we should replace it with a
+								 modern web UI... which requires a complex new architecture...
+								 which required getting recognition of the need for this, and
+								 resourcing it, and spinning up a bigger team to do it</p>
+							</aside>
+					 </section>
+
+					 <section>
+							<img src="hjo/media/cylc8-ui-preview.png">
+							<aside class="notes">
+									BK will tell you a bit about the amazing new Cylc web UI in
+									an upcoming lightening talk. There's also some interesting
+									scaling problems there too, some of which impact the Cylc
+									back end. In a nutshell, if you want display many thousands of
+									objects in a web UI, figure out how not to display many
+									thousands of objects in a web UI.
+									<!-- reduce the data and comp load (spawn on demand,
+									incremental updates)-->
+							</aside>
+					 </section>
+
+					 <section>
+							<img src="hjo/media/cylc-8-architecture.svg">
+							<aside class="notes">
+									<p>
+								 Cylc 8 architecture diagram - don't worry about the details,
+								 but it gives an impression of what we're up against.
+								 </p>
+
+								 <p>
+								 We have distributed jobs and schedulers on the right, running
+								 as the user; the schedulers communicate with a UI Server
+								 running as the user.  And the UI Servers are spawned by a
+								 privileged central hub, and serve the UI to remote browsers.
+								 </p>
+								 
+								 <p>
+								 Note LEVERAGING Jupyterhub for the central hub - configured 
+								 to spawn Cylc UI Servers instead of Jupyter Notebooks.
+								 </p>
+								 
+							</aside>
+					 </section>
+
+					 <section>
+							<h3>testing</h3>
+							<div style="position:absolute;">
+								 <img src="hjo/media/GHA.png" width="900px"
+								 style="border:2px dashed slategray">
+						 </div>
+							<div class="fragment" style="position:absolute; width:900px;
+									background:white">
+								 <img src="hjo/media/golub.png" height="600px"
+								 style="border:2px dashed slategray; margin-left:100px">
+						 </div>
+						 <!--
+							<a href="https://tyrrrz.me/blog/unit-testing-is-overrated">
+							https://tyrrrz.me/blog/unit-testing-is-overrated</a>
+							-->
+							<aside class="notes">
+								 <ul>
+										<li>Testing and continuous integration are critical. You
+										CANNOT change anything in a complex program without
+										breaking something else, and only automated tests will
+										reliably pick this up.</li>
+										<li>Cylc has thousands of functional tests, loads of unit
+										tests, and a growing number of integration tests.</li>
+										<li> BUT Testing is DIFFICULT. Sometimes we spend as much
+										time trying to improve or fix the tests as we do the real code.</li>
+										<li>And despite what you may have heard, how best to do
+										this is not really a solved problem - witness this recent
+										blog that got quite a lot of attention on the web.</li>
+								 </ul>
+
+								 <!--
+								 <p>
+								 Unit testing is a popular approach for testing software, but
+								 mostly for the wrong reasons. It’s often touted as an
+								 effective way for developers to test their code while also
+								 enforcing best design practices, however many find it
+								 encumbering and superficial.
+								 </p>
+								 -->
+
+								 <!--
+								 It’s important to understand that development testing does not
+								 equate to unit testing.-->
+								 <p>
+								 The primary goal is not to write tests
+								 which are as isolated as possible, but rather to gain
+								 confidence that the code works according to its functional
+								 requirements. And there are better ways to achieve that.
+								 </p>
+
+								 <p>
+								 Writing high-level tests that are driven by user behavior will
+								 provide you with much higher return on investment in the long
+								 run, and it isn’t as hard as it seems.
+								 </p>
+								 <!--
+								 Find an approach that
+								 makes the most sense for your project and stick to it.
+
+								 Here are the main takeaways:
+
+								     Think critically and challenge best practices
+										     Don’t rely on the test pyramid
+												     Separate tests by functionality, rather than by
+												 classes, modules, or scope
+												     Aim for the highest level of integration while
+												 maintaining reasonable speed and cost
+												     Avoid sacrificing software design for testability
+														     Consider mocking only as a last resort
+																 -->
+							</aside>
+					 </section>
+
+
+					 <section>
+							<h3>Code review</h3>
+							<img src="hjo/media/sod-pr.png">
+							<aside class="notes">
+									<p>Code review is essential but challenging</p>
+								 <ul>
+										<li> +3000/-5000 line code change; touched 370 files, 249
+										review comments addressed</li>
+										<li>code review is critical but can be as hard/time
+										consuming as writing the code, but not as much fun</li>
+										<li> team size is problematic given the current scale of
+										development: we're too small to delegate to sub-teams, but
+										big enough that the most experienced members are spread too thinly.
+										</li>
+								 </ul>
+							</aside>
+					 </section>
+
+					 <section>
+							<h4>Wider uptake?</h4>
+
+							<div style="float:left; width:300px">
+									<img src="hjo/media/domination.jpg"/>
+							</div>
+							<div style="float:right; width:600px; font-size:60%;
+									text-align:left">
+									<p>Cylc is (incorrectly!) perceived to:</p>
+									<ul>
+											<li>be a niche weather and HPC tool</li>
+											<li>be complicated/hard for small use-cases</li>
+											<li>do cron-like real-time scheduling</li>
+									</ul>
+									<p>Other barriers: </p>
+									<ul>
+											<li>choices (non-cycling)</li>
+											<li>cycling is (evidently) hard to understand</li>
+											<li>cloud and container "support" (coming)</li>
+											<li>Python API (coming)</li>
+											<li>luck and timing?</li>
+											<li>(and any real deficiencies!)</li>
+									</ul>
+							</div>
+							<aside class="notes">
+									<p>Cylc has been quite successful within its home base of
+									climate, weather, and weather-driven forecasting.</p>
+									<p>At this point, our first priority has to be to continue
+									to support our existing sites and users, but I can imagine
+									it might be useful to get wider uptake.</p>
+									<p>IMO the barriers here are at least partly of perception and
+									superficial trend-following, but that's life innit - so what
+									can we do about it?
+									</p>
+
+									<p>OTHER BARRIERS... (historical) frustratingly, much of
+									this is trivial - trust me, it is easier to bolt "cloud
+									support" (e.g.) on to Cylc than to make other systems do
+									cycling properly. But the reality is, that's how people see
+									it, so we have to take that seriously.</p>
+
+									<p>One thing we're trying to do with Cylc 8 is make the
+									generality of Cylc more obvious, for instance by getting
+									rid of domain-specific terminology such as "suite" for
+									"workflow".</p>
+
+							</aside>
+					 </section>
+					 </section>
+					 <section>
+					 <section>
+							<h2>THANKS</h2>
+
+							<span style="font-size:55%">Cylc dev team members and contributors, present and past: <code class="shell">git shortlog -ns</code></p>
+							<img src="hjo/media/people.png"/>
+							 <aside class="notes">
+							 </aside>
+					 </section>
+			 </section>
+	
+		 </div>
+	</div>
+
+
+		<script src="dist/reveal.js"></script>
+		<script src="plugin/notes/notes.js"></script>
+		<script src="plugin/markdown/markdown.js"></script>
+		<script src="plugin/highlight/highlight.js"></script>
+		<script src="plugin/fullscreen/plugin.js"></script>
+		<script>
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+                hash: true,
+								width: 960,
+                height: 800,
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes, RevealFullscreen ],
+				transition:'none',
+			});
+		</script>
+		
+		<script>
+      Reveal.on('beer', event => {
+							count_down();
+      }, false);
+
+
+       function count_down() {
+					// Set the date we're counting down to
+					var countDownDate = new Date().getTime() + 45*60000;
+					// Update the count down every 1 second
+					var x = setInterval(function() {
+									var now = new Date().getTime();
+									// Find the distance between now and the count down date
+									var d = countDownDate - now;
+									// Time calculations for days, hours, minutes and seconds
+									var min = Math.floor((d % (1000 * 60 * 60)) / (1000 * 60));
+									var sec = Math.floor((d % (1000 * 60)) / 1000);
+									// Display the result in the element with id="cdown"
+									document.getElementById("cdown").innerHTML = min.toString().padStart(2, "0") + ":" + sec.toString().padStart(2,"0");
+									}, 1000);
+			}
+		</script>
+
+		<script src="hjo/js/minicylc.js"></script>
+	  <script type="text/javascript" src="hjo/js/jquery.min.js"></script>
+
+		<script>
+
+      // write dependencies
+      const deps = [];
+      for (let i=0; i<100; i++) {
+        deps.push(`a${i} => c${i} => d${i}`);
+        deps.push(`a${i} => b${i}`);
+        deps.push(`a${i} => a${i+1}`);
+        deps.push(`c${i} => b${i+1}`);
+      }
+
+      // create graph
+      const infinite_animation = $('<embed style="background:#eaeaea;"/>')
+        .addClass('minicylc')
+        .data('focus', true)
+        .data('randomFactor', 0.5)
+        .data('dependencies', deps.join('//'))
+        .attr('src', 'hjo/media/infinite-workflow.svg')[0]
+      $('#infinite-cycling').append(infinite_animation);
+
+      const infinite_animation_2 = $('<embed style="background:#eaeaea;"/>')
+        .addClass('minicylc')
+        .data('focus', true)
+        .data('randomFactor', 0.5)
+        .data('dependencies', deps.join('//'))
+				.data('succeed_fill', 'white')
+        .attr('src', 'hjo/media/infinite-workflow.svg')[0]
+      $('#infinite-cycling-2').append(infinite_animation_2);
+
+      const infinite_animation_3 = $('<embed style="background:#eaeaea;"/>')
+        .addClass('minicylc')
+        .data('focus', true)
+        .data('randomFactor', 0.5)
+        .data('dependencies', deps.join('//'))
+				.data('succeed_fill', 'white')
+				.data('reflow', 'a7')
+        .attr('src', 'hjo/media/infinite-workflow.svg')[0]
+      $('#infinite-cycling-3').append(infinite_animation_3);
+
+
+			const infinite_worklow = undefined
+			const infinite_worklow_2 = undefined
+			const infinite_worklow_3 = undefined
+
+      Reveal.on('anim', event => {
+						console.log(event);
+						if (typeof infinite_workflow === 'undefined') {
+							 infinite_workflow = new MiniCylc(infinite_animation, true);
+							 infinite_workflow.run();
+						}
+						infinite_workflow.release();
+      }, false);
+
+      Reveal.on('postanim', event => {
+						infinite_workflow.hold();
+						}, false);
+
+      Reveal.on('anim-2', event => {
+						if (typeof infinite_workflow_2 === 'undefined') {
+							 infinite_workflow_2 = new MiniCylc(infinite_animation_2, true);
+							 infinite_workflow_2.run();
+						}
+						infinite_workflow_2.release();
+      }, false);
+
+      Reveal.on('postanim-2', event => {
+						infinite_workflow_2.hold();
+						}, false);
+
+      Reveal.on('anim-3', event => {
+						if (typeof infinite_workflow_3 === 'undefined') {
+							 infinite_workflow_3 = new MiniCylc(infinite_animation_3, true);
+							 infinite_workflow_3.run();
+						}
+						infinite_workflow_3.release();
+						}, false);
+
+      Reveal.on('postanim-3', event => {
+						infinite_workflow_3.hold();
+						}, false);
+
+     </script>
+		
+	</body>
+</html>

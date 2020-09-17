@@ -6,6 +6,7 @@
 
 ### General Audience
 
+- [NZRSE "Scaling" Keynote September 2020](https://hjoliver.github.io/cylc-presentations/NZRSE-2020/index.html)
 - [Altair Webinar June 2020](https://hjoliver.github.io/cylc-presentations/Altair-Webinar-June-2020/index.html)
 - [SC19 Denver Altair Booth](https://cylc.github.io/cylc-presentations/Altair-SC19-Denver-Booth/index.html)
 - [SC19 Denver Altair Event](https://cylc.github.io/cylc-presentations/Altair-SC19-Denver/index.html)
