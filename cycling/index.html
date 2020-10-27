@@ -1,0 +1,364 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Scaling: NZRSE 2020</title>
+
+		<link rel="stylesheet" href="dist/reset.css">
+		<link rel="stylesheet" href="dist/reveal.css">
+		<link rel="stylesheet" href="dist/theme/hjo.css" id="theme">
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="plugin/highlight/school-book.css" id="highlight-theme">
+	</head>
+	<body>
+	<div class="reveal">
+		 <div class="slides">
+
+				<section>
+					 <section>
+							<h1>
+                <span style="letter-spacing:0.15em">
+								 Cyclin<br/>
+								 g wor<br/></span>
+											kflows
+							</h1>
+							<aside class="notes">
+								 <p>
+								 Right, let's get back to workflow scaling.
+								 </p>
+								 <p>
+								 The other thing that makes weather (and similar) workflows
+								 horrible is cycling - and this too can be framed as a form of
+								 scaling.
+								 </p>
+							</aside>
+					 </section>
+
+					 <section>
+							<div style="width:100%; position:absolute; left:0; top:0"/>
+								 <img src="hjo/media/cycling-1.png"/>
+							</div>
+							<div style="width:100%; position:absolute; left:0; top:0"/>
+								 <img class="fragment" src="hjo/media/cycling-2b0.png"/>
+							</div>
+							<div style="width:100%; position:absolute; left:0; top:0"/>
+								 <img class="fragment" src="hjo/media/cycling-2b00.png"/>
+							</div>
+							<div style="width:100%; position:absolute; left:0; top:0"/>
+								 <img class="fragment" src="hjo/media/cycling-2b000.png"/>
+							</div>
+							<div style="width:100%; position:absolute; left:0; top:0"/>
+								 <img class="fragment" src="hjo/media/cycling-2b.png"/>
+							</div>
+	
+							<div style="width:100%; position:absolute; left:0; top:0"/>
+								 <img class="fragment" src="hjo/media/cycling-2.png"/>
+							</div>
+							<div style="width:100%; position:absolute; left:0; top:0"/>
+								 <img class="fragment" src="hjo/media/cycling.png"/>
+							</div>
+							<div style="width:100%; position:absolute; left:0; top:0"/>
+								 <img class="fragment" src="hjo/media/cycling-running.png"/>
+							</div>
+							<aside class="notes">
+								 <p>
+								 Here's a small workflow, the red task might be an
+								 atmospheric model.
+								 </p>
+								 <p>
+								 Let's say you want to run this periodically, say every six
+								 hours to generate new forecasts.
+								 <p>
+								 <p>1 ... 2 ... 3 ... you run whole cycles in sequence like
+								 this. That's fine because in real time operation there's
+								 always a gap between cycles while you want on new data to come
+								 in. </p>
+
+								 <p>BUT what if you suffer a major delay and get behind the
+								 clock, so that one cycle runs into the next?  Historically,
+								 you still had to run whole cycles in sequence because (a)
+								 people seemed to think these global cycles were a fundamental
+								 feature of the system; and (b) your workflow engine didn't
+								 know about inter-cycle dependence.</p>
+
+								 <p>E.g. each model task depends on the previous model task,
+								 because each forecast has to be partially initialized by the
+								 previous forecast.</p>
+
+								 <p>In fact those numbered "forecast cycle" boxes are clearly
+								 an artificial constraint on the system - each individual task
+								 in that workflow only cares about its own individual
+								 dependence on other upstream tasks.</p>
+
+								 <p>So, Cylc unwinds the cycle loop and gives each task its own
+								 cycle point label, to create <b>a single potentially INFINITE
+										workflow composed of repeating tasks</b> instead of a
+								 sequence of distinct single cycle workflows. So that's an
+								 interesting new form of scaling!</p>
+							</aside>
+					 </section>
+
+					 <!-- ANIM: MUST BE FOLLOWED BY data-state=postanim (PAUSE WORKFLOW) -->
+					 <section data-state="anim">
+							<div id="infinite-cycling" style="width:900px; height:700px; border: 1px dashed slategray;">
+							</div>
+							<span style="font-size:10px; position:absolute; bottom:0; left:0">Credit: Oliver Sanders</span>
+							<aside class="notes">
+									<ul>
+										 <li>dark blue tasks are running; light blue finished</li>
+											<li>each task advances individually to its next cycle,
+											so tasks from many cycles can run at once, as
+											dependencies allow</li>
+											<li>Cylc maintains an adaptive window on the evolving
+											infinite workflow</li>
+									</ul>
+							</aside>
+					 </section>
+
+					 <!-- POSTANIM: PAUSE WORKFLOW ON MOVE TO NEXT SLIDE -->
+					 <section data-state="postanim">
+							<div style="position:absolute; width:900px; height:700px;
+								 background:white">
+								 <img src="hjo/media/catchup-1.svg"/>
+							</div>
+							<div class="fragment" style="position:absolute; width:900px;
+								 height:700px; background:white">
+								 <img src="hjo/media/catchup-11.svg"/>
+							</div>
+							<div class="fragment" style="position:absolute; width:900px;
+								 height:700px; background:white">
+								 <img src="hjo/media/catchup-1a.svg" style="margin-top:200px"/>
+							</div>
+							<div class="fragment" style="position:absolute; width:900px;
+								 height:700px; background:white">
+								 <img src="hjo/media/catchup-2.svg" style="margin-top:200px"/>
+							</div>
+	
+							<div class="fragment" style="position:absolute; width:900px;
+								 height:700px; background:white">
+								 <img src="hjo/media/timeline-two.svg" style="margin-top:200px"
+								 width="500px"/>
+							</div>
+	
+							<aside class="notes">
+									<ul>
+											<li>This illustrates that Cylc's cycling system is NOT
+											cron-like real time scheduling - it is something more
+											powerful than that: if you get behind, Cylc clock
+											triggers provide no contraint until you catch up again,
+											and until then Cylc runs the entire intervening workflow 
+											(multiple cycles of it) as quickly as possible.</li>
+
+											<li>sustained high-throughput scheduling (external
+											resources depending) off the clock, e.g. for processing
+											historical data where there is no gap between cycles</li>
+									</ul>
+							</aside>
+					 </section>
+
+					 <section>
+							<div style="position:absolute; width:900px;
+								 height:700px; background:white">
+								 <img src="hjo/media/multiple-recurrences/1.svg" style="margin-top:200px"
+								 width="600px"/>
+							</div>
+							<div class="fragment" style="position:absolute; width:900px;
+								 height:700px; background:white">
+								 <img src="hjo/media/multiple-recurrences/2.svg" style="margin-top:200px"
+								 width="600px"/>
+							</div>
+							<div class="fragment" style="position:absolute; width:900px;
+								 height:700px; background:white">
+								 <img src="hjo/media/multiple-recurrences/3.svg" style="margin-top:200px"
+								 width="600px"/>
+							</div>
+							<aside class="notes">
+								 Another advantage of unrolling the cycle loop like this: it is
+								 trivially easy to have multiple cycling intervals in the same
+								 workflow, with dependence across them as needed, which turns
+								 out to be quite useful
+							</aside>
+					 </section>
+
+				<section>
+						<div style="margin-top:100px; position:absolute; left:0; width:900px; height:700px;">
+								<div>
+						<pre><code class="ini">[scheduling]
+  [[graph]]
+    R1 = """
+      a => b & c
+      c => d
+    """
+  [runtime]
+    [[a]]
+      script = "run-a.py arg1 arg2"
+    # ...
+</code></pre>
+				</div>
+						<div style="position:absolute; right:0; top:0">
+						<img src="hjo/media/basic-workflow.svg" height="450px"/>
+					 </div>
+				</section>
+
+				<section>
+						<div style="margin-top:100px; position:absolute; left:0; width:1000px; height:700px;">
+								<div>
+						<pre><code class="ini">[scheduling]
+  cycling mode = integer
+  initial cycle point = 1
+  [[graph]]
+    R/^/P1 = """
+      a => b & c
+      c => d
+      a[-P1] => a  # (inter-cycle)
+      c[-P1] => b  # (ditto)
+    """
+  [runtime]
+    [[a]]
+      script = "run-a.py arg1 arg2"
+    # ...
+</code></pre>
+				</div>
+					 <div style="position:absolute; right:0; top:-100px">
+							<img src="hjo/media/cycling-workflow.svg" height="600px"/>
+					 </div>
+				</section>
+		 </section>
+
+		 </div>
+	</div>
+
+
+		<script src="dist/reveal.js"></script>
+		<script src="plugin/notes/notes.js"></script>
+		<script src="plugin/markdown/markdown.js"></script>
+		<script src="plugin/highlight/highlight.js"></script>
+		<script src="plugin/fullscreen/plugin.js"></script>
+		<script>
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+                hash: true,
+								width: 960,
+                height: 800,
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes, RevealFullscreen ],
+				transition:'none',
+			});
+		</script>
+		
+		<script>
+      Reveal.on('beer', event => {
+							count_down();
+      }, false);
+
+
+       function count_down() {
+					// Set the date we're counting down to
+					var countDownDate = new Date().getTime() + 45*60000;
+					// Update the count down every 1 second
+					var x = setInterval(function() {
+									var now = new Date().getTime();
+									// Find the distance between now and the count down date
+									var d = countDownDate - now;
+									// Time calculations for days, hours, minutes and seconds
+									var min = Math.floor((d % (1000 * 60 * 60)) / (1000 * 60));
+									var sec = Math.floor((d % (1000 * 60)) / 1000);
+									// Display the result in the element with id="cdown"
+									document.getElementById("cdown").innerHTML = min.toString().padStart(2, "0") + ":" + sec.toString().padStart(2,"0");
+									}, 1000);
+			}
+		</script>
+
+		<script src="hjo/js/minicylc.js"></script>
+	  <script type="text/javascript" src="hjo/js/jquery.min.js"></script>
+
+		<script>
+
+      // write dependencies
+      const deps = [];
+      for (let i=0; i<100; i++) {
+        deps.push(`a${i} => c${i} => d${i}`);
+        deps.push(`a${i} => b${i}`);
+        deps.push(`a${i} => a${i+1}`);
+        deps.push(`c${i} => b${i+1}`);
+      }
+
+      // create graph
+      const infinite_animation = $('<embed style="background:#eaeaea;"/>')
+        .addClass('minicylc')
+        .data('focus', true)
+        .data('randomFactor', 0.5)
+        .data('dependencies', deps.join('//'))
+        .attr('src', 'hjo/media/infinite-workflow.svg')[0]
+      $('#infinite-cycling').append(infinite_animation);
+
+      const infinite_animation_2 = $('<embed style="background:#eaeaea;"/>')
+        .addClass('minicylc')
+        .data('focus', true)
+        .data('randomFactor', 0.5)
+        .data('dependencies', deps.join('//'))
+				.data('succeed_fill', 'white')
+        .attr('src', 'hjo/media/infinite-workflow.svg')[0]
+      $('#infinite-cycling-2').append(infinite_animation_2);
+
+      const infinite_animation_3 = $('<embed style="background:#eaeaea;"/>')
+        .addClass('minicylc')
+        .data('focus', true)
+        .data('randomFactor', 0.5)
+        .data('dependencies', deps.join('//'))
+				.data('succeed_fill', 'white')
+				.data('reflow', 'a7')
+        .attr('src', 'hjo/media/infinite-workflow.svg')[0]
+      $('#infinite-cycling-3').append(infinite_animation_3);
+
+
+			const infinite_worklow = undefined
+			const infinite_worklow_2 = undefined
+			const infinite_worklow_3 = undefined
+
+      Reveal.on('anim', event => {
+						console.log(event);
+						if (typeof infinite_workflow === 'undefined') {
+							 infinite_workflow = new MiniCylc(infinite_animation, true);
+							 infinite_workflow.run();
+						}
+						infinite_workflow.release();
+      }, false);
+
+      Reveal.on('postanim', event => {
+						infinite_workflow.hold();
+						}, false);
+
+      Reveal.on('anim-2', event => {
+						if (typeof infinite_workflow_2 === 'undefined') {
+							 infinite_workflow_2 = new MiniCylc(infinite_animation_2, true);
+							 infinite_workflow_2.run();
+						}
+						infinite_workflow_2.release();
+      }, false);
+
+      Reveal.on('postanim-2', event => {
+						infinite_workflow_2.hold();
+						}, false);
+
+      Reveal.on('anim-3', event => {
+						if (typeof infinite_workflow_3 === 'undefined') {
+							 infinite_workflow_3 = new MiniCylc(infinite_animation_3, true);
+							 infinite_workflow_3.run();
+						}
+						infinite_workflow_3.release();
+						}, false);
+
+      Reveal.on('postanim-3', event => {
+						infinite_workflow_3.hold();
+						}, false);
+
+     </script>
+		
+	</body>
+</html>
