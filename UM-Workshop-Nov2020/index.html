@@ -1,0 +1,414 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Cylc 8 Nov 2020</title>
+
+		<link rel="stylesheet" href="dist/reset.css">
+		<link rel="stylesheet" href="dist/reveal.css">
+		<link rel="stylesheet" href="dist/theme/hjo.css" id="theme">
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="plugin/highlight/school-book.css" id="highlight-theme">
+	</head>
+	<body>
+	<div class="reveal">
+		 <div class="slides">
+
+				<section>
+					 <section>
+							<h1>
+								 Cylc 8 Project Report
+							</h1>
+							<h2>
+									UM Workshop
+									Nov 2020
+							</h2>
+							<p>Hilary Oliver, NIWA</p>
+							<aside class="notes">
+							</aside>
+					</section>
+			</section>
+
+			<section>
+					 <section>
+							 <h2>Outline</h2>
+							 <ul>
+									 <li> why is Cylc changing?
+									 <li> what's not changing?
+									 <li> what is changing?
+									 <li> when is it changing?
+							 </ul>
+							<aside class="notes">
+							 why? - reminder!
+							</aside>
+	  			 </section>
+			 </section>
+	
+			<section>
+					 <section>
+							 <h2>why is cylc<br/>
+									 changing?</h2>
+					 </section>
+	
+					 <section>
+							<div style="width:100%; position:absolute; left:0; top:0"/>
+								 <img src="hjo/media/python2-gtk.png"/>
+							</div>
+							<!--
+							Python 2 RIP image credit: datree.io
+							-->
+							<aside class="notes">
+							<ul>
+									<li>Cylc 7 scheduler and CLI are Python 2 based
+									<li>Cylc 7 GUI is a Python 2 PyGTK desktop application
+									   (several years FTE in it)
+									<li>Python 2 is now 10 months past EOL
+									<li>PyGTK is obsolete - no Python 3 version
+							</ul>
+							</aside>
+					</section>
+	
+					 <section>
+							<div style="width:100%; position:absolute; left:0; top:0"/>
+								 <img src="hjo/media/evolution.jpg"/>
+							</div>
+							<!--
+							image credit: Harvard Gazette
+							-->
+							<aside class="notes">
+
+							<p>Cylc has evolved organically over more than 10 years now.
+							Consequently it has accumulated "technical debt" and has some
+							serious design flaws that need addressing if it is to remain
+							fit-for-purpose as demands on it continue to increase. Cylc 7
+							is pretty well optimized but in many ways (scheduling algorithm,
+							GUI and network latyer) it is reaching its limits in current
+							massive workflows.
+							The security model is also considered bespoke and quirky by
+							security people, and that was becoming increasingly problematic.
+							</p>
+
+							<p>
+							NOW the minimal solution was migrate to Python 3 and rewrite the
+							GUIs in modern desktop GUI toolkit. But that would not address
+							most of the aforementioned problems, AND besides all stakeholders
+							wanted more than that. Chiefly, a web UI to allow proper remote
+							access and integrate with site identity management. But that 
+							had architectural implications, and also required solving some of
+							the bigger problems.
+							</p>
+
+							</aside>
+					</section>
+			</section>
+	
+			<section>
+					 <section>
+							 <h2>what's <span style="color:red">not</span><br/> changing?</h2>
+					 </section>
+
+					 <section>
+					 <ul>
+							 <li> still no global cycle loop!
+							 <li> support Cylc 7 <code>suite.rc</code> (with deprecations)
+							 <li> support Cylc 7 CLI syntax (with deprecations)
+							 <li> core Cylc 7 functionality (supported by tests)
+					 </ul>
+					 <aside class="notes">
+							 core: xtriggers, event handling, all control functionality (in
+							 general terms, if not in detail or implementation)
+					 </aside>
+					 </section>
+
+					 <section>
+							<div style="width:100%; position:absolute; left:0; top:0"/>
+								 <img src="hjo/media/cycling-1.png"/>
+							</div>
+							<div style="width:100%; position:absolute; left:0; top:0"/>
+								 <img class="fragment" src="hjo/media/cycling-2b0.png"/>
+							</div>
+							<div style="width:100%; position:absolute; left:0; top:0"/>
+								 <img class="fragment" src="hjo/media/cycling-2b00a.png"/>
+							</div>
+							<div style="width:100%; position:absolute; left:0; top:0"/>
+								 <img class="fragment" src="hjo/media/cycling-2b000a.png"/>
+							</div>
+							<div style="width:100%; position:absolute; left:0; top:0"/>
+								 <img class="fragment" src="hjo/media/cycling-2b000b.png"/>
+							</div>
+							<!--
+							<div style="width:100%; position:absolute; left:0; top:0"/>
+								 <img class="fragment" src="hjo/media/cycling-2b00.png"/>
+							</div>
+							<div style="width:100%; position:absolute; left:0; top:0"/>
+								 <img class="fragment" src="hjo/media/cycling-2b000.png"/>
+							</div>
+							-->
+							<div style="width:100%; position:absolute; left:0; top:0"/>
+								 <img class="fragment" src="hjo/media/cycling-2b.png"/>
+							</div>
+	
+							<div style="width:100%; position:absolute; left:0; top:0"/>
+								 <img class="fragment" src="hjo/media/cycling-2.png"/>
+							</div>
+							<div style="width:100%; position:absolute; left:0; top:0"/>
+								 <img class="fragment" src="hjo/media/cycling.png"/>
+							</div>
+							<div style="width:100%; position:absolute; left:0; top:0"/>
+								 <img class="fragment" src="hjo/media/cycling-running.png"/>
+							</div>
+							<aside class="notes">
+									<p>A remember of our core cycling functionality, which is
+									relevant later:</p>
+								 <p>Cylc unwinds the cycle loop and gives each task its own
+								 cycle point label, to create <b>a single potentially INFINITE
+										workflow composed of repeating tasks</b> instead of a
+								 sequence of distinct single cycle workflows. So that's an
+								 interesting new form of scaling!</p>
+							</aside>
+					 </section>
+
+					 <!-- ANIM: MUST BE FOLLOWED BY data-state=postanim (PAUSE WORKFLOW) -->
+					 <section data-state="anim">
+							<div id="infinite-cycling" style="width:900px; height:700px; border: 1px dashed slategray;">
+							</div>
+							<span style="font-size:10px; position:absolute; bottom:0; left:0">Credit: Oliver Sanders</span>
+							<aside class="notes">
+									<ul>
+										 <li>dark blue tasks are running; light blue finished</li>
+											<li>each task advances individually to its next cycle,
+											so tasks from many cycles can run at once, as
+											dependencies allow</li>
+											<li>Cylc maintains an adaptive window on the evolving
+											infinite workflow</li>
+									</ul>
+							</aside>
+					 </section>
+
+					 <!-- POSTANIM: PAUSE WORKFLOW ON MOVE TO NEXT SLIDE -->
+					 <section data-state="postanim">
+							 (pass)
+					 </section>
+
+			 </section>
+
+			<section>
+					 <section>
+							 <h2>what <span style="color:red">IS</span><br/> changing?</h2>
+					 </section>
+
+					 <section style="font-size:80%">
+					 <ul>
+							 <li> web UI
+							 <li class="fragment"> architecture: components, network layer(s)
+							 <li class="fragment"> "spawn on demand" scheduling algorithm
+							 <ul>
+									 <li> efficient! no suicide triggers; reflow!
+							 </ul>
+							 <li class="fragment"> window on the workflow (forget the "task pool")
+							 <li class="fragment"> terminology, e.g. "suite" -> "(work)flow"
+							 <li class="fragment"> filenames: "suite.rc" -> "flow.cylc"
+							 <li class="fragment"> packaging: <code>conda install cylc</code>
+							 <li class="fragment"> documentation (arggh)
+							 <li class="fragment"> security: authentication, authorization
+							 <li class="fragment"> code repositories: was 1, now 6+
+							 <li class="fragment"> (all manner of non user-facing internals)
+							 <li class="fragment"> ...
+					 </ul>
+					 <aside class="notes">
+							authentication: users and jobs	
+							internals: e.g. self-documenting config classes linked to the
+							user guide build
+					 </aside>
+					 </section>
+
+		 </section>
+
+		 <section>
+				 <section>
+						 <h2>Cylc web UI and TUI</h2>
+				 </section>
+				 <section>
+							<div style="width:100%; position:absolute; left:0; top:0"/>
+								 <img src="hjo/media/cylc-ui-demo-1.gif"/>
+							</div>
+					 </section>
+  				 <section>
+							<div style="width:100%; position:absolute; left:0; top:0"/>
+								 <img src="hjo/media/cylc-ui-1.gif"/>
+							</div>
+					 </section>
+	
+  				 <section>
+							<div style="width:100%; position:absolute; left:0; top:0"/>
+								 <img src="hjo/media/cylc-ui-mutations.gif"/>
+							</div>
+					 </section>
+	
+					 <section>
+							<div style="width:100%; position:absolute; left:0; top:0"/>
+								 <img src="hjo/media/cylc-tui-demo-1.gif"/>
+							</div>
+					 </section>
+			 </section>
+	
+		 <section>
+  				 <section>
+							<div style="width:100%; position:absolute; left:0; top:0"/>
+								 <img src="hjo/media/cylc-ui-demo-1.gif"/>
+							</div>
+					 </section>
+					 <section>
+							<div style="width:100%; position:absolute; left:0; top:0"/>
+								 <img src="hjo/media/cylc-tui-demo-1.gif"/>
+							</div>
+					 </section>
+			 </section>
+	
+		 <section>
+
+					 <section>
+							<div style="width:100%; position:absolute; left:0; top:0"/>
+								 <img src="hjo/media/mug-shots.png"/>
+							</div>
+					 </section>
+
+		 </section>
+
+		 </div>
+	</div>
+
+
+		<script src="dist/reveal.js"></script>
+		<script src="plugin/notes/notes.js"></script>
+		<script src="plugin/markdown/markdown.js"></script>
+		<script src="plugin/highlight/highlight.js"></script>
+		<script src="plugin/fullscreen/plugin.js"></script>
+		<script>
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+                hash: true,
+								width: 960,
+                height: 800,
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes, RevealFullscreen ],
+				transition:'none',
+			});
+		</script>
+		
+		<script>
+      Reveal.on('beer', event => {
+							count_down();
+      }, false);
+
+
+       function count_down() {
+					// Set the date we're counting down to
+					var countDownDate = new Date().getTime() + 45*60000;
+					// Update the count down every 1 second
+					var x = setInterval(function() {
+									var now = new Date().getTime();
+									// Find the distance between now and the count down date
+									var d = countDownDate - now;
+									// Time calculations for days, hours, minutes and seconds
+									var min = Math.floor((d % (1000 * 60 * 60)) / (1000 * 60));
+									var sec = Math.floor((d % (1000 * 60)) / 1000);
+									// Display the result in the element with id="cdown"
+									document.getElementById("cdown").innerHTML = min.toString().padStart(2, "0") + ":" + sec.toString().padStart(2,"0");
+									}, 1000);
+			}
+		</script>
+
+		<script src="hjo/js/minicylc.js"></script>
+	  <script type="text/javascript" src="hjo/js/jquery.min.js"></script>
+
+		<script>
+
+      // write dependencies
+      const deps = [];
+      for (let i=0; i<100; i++) {
+        deps.push(`a${i} => c${i} => d${i}`);
+        deps.push(`a${i} => b${i}`);
+        deps.push(`a${i} => a${i+1}`);
+        deps.push(`c${i} => b${i+1}`);
+      }
+
+      // create graph
+      const infinite_animation = $('<embed style="background:#eaeaea;"/>')
+        .addClass('minicylc')
+        .data('focus', true)
+        .data('randomFactor', 0.5)
+        .data('dependencies', deps.join('//'))
+        .attr('src', 'hjo/media/infinite-workflow.svg')[0]
+      $('#infinite-cycling').append(infinite_animation);
+
+      const infinite_animation_2 = $('<embed style="background:#eaeaea;"/>')
+        .addClass('minicylc')
+        .data('focus', true)
+        .data('randomFactor', 0.5)
+        .data('dependencies', deps.join('//'))
+				.data('succeed_fill', 'white')
+        .attr('src', 'hjo/media/infinite-workflow.svg')[0]
+      $('#infinite-cycling-2').append(infinite_animation_2);
+
+      const infinite_animation_3 = $('<embed style="background:#eaeaea;"/>')
+        .addClass('minicylc')
+        .data('focus', true)
+        .data('randomFactor', 0.5)
+        .data('dependencies', deps.join('//'))
+				.data('succeed_fill', 'white')
+				.data('reflow', 'a7')
+        .attr('src', 'hjo/media/infinite-workflow.svg')[0]
+      $('#infinite-cycling-3').append(infinite_animation_3);
+
+
+			const infinite_worklow = undefined
+			const infinite_worklow_2 = undefined
+			const infinite_worklow_3 = undefined
+
+      Reveal.on('anim', event => {
+						console.log(event);
+						if (typeof infinite_workflow === 'undefined') {
+							 infinite_workflow = new MiniCylc(infinite_animation, true);
+							 infinite_workflow.run();
+						}
+						infinite_workflow.release();
+      }, false);
+
+      Reveal.on('postanim', event => {
+						infinite_workflow.hold();
+						}, false);
+
+      Reveal.on('anim-2', event => {
+						if (typeof infinite_workflow_2 === 'undefined') {
+							 infinite_workflow_2 = new MiniCylc(infinite_animation_2, true);
+							 infinite_workflow_2.run();
+						}
+						infinite_workflow_2.release();
+      }, false);
+
+      Reveal.on('postanim-2', event => {
+						infinite_workflow_2.hold();
+						}, false);
+
+      Reveal.on('anim-3', event => {
+						if (typeof infinite_workflow_3 === 'undefined') {
+							 infinite_workflow_3 = new MiniCylc(infinite_animation_3, true);
+							 infinite_workflow_3.run();
+						}
+						infinite_workflow_3.release();
+						}, false);
+
+      Reveal.on('postanim-3', event => {
+						infinite_workflow_3.hold();
+						}, false);
+
+     </script>
+		
+	</body>
+</html>
