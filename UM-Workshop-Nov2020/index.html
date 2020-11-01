@@ -10,6 +10,14 @@
 		<link rel="stylesheet" href="dist/reveal.css">
 		<link rel="stylesheet" href="dist/theme/hjo.css" id="theme">
 
+		<style>
+code {
+	 color:red;
+}
+span.quote {
+	 color:orange;
+}
+		</style>
 		<!-- Theme used for syntax highlighted code -->
 		<link rel="stylesheet" href="plugin/highlight/school-book.css" id="highlight-theme">
 	</head>
@@ -112,10 +120,14 @@
 
 					 <section>
 					 <ul>
-							 <li> still no global cycle loop!
-							 <li> support Cylc 7 <code>suite.rc</code> (with deprecations)
-							 <li> support Cylc 7 CLI syntax (with deprecations)
-							 <li> core Cylc 7 functionality (supported by tests)
+							 <li> no global cycle loop 
+							 <span style="font-size:50%">(our original raison detre)</span>
+							 <li> support Cylc 7 <code>suite.rc</code>
+							 <span style="font-size:50%">(with deprecations)</span>
+							 <li> support Cylc 7 CLI syntax 
+							 <span style="font-size:50%">(with deprecations)</span>
+							 <li> core Cylc 7 functionality
+							 <span style="font-size:50%">(supported by tests)</span>
 					 </ul>
 					 <aside class="notes">
 							 core: xtriggers, event handling, all control functionality (in
@@ -200,30 +212,102 @@
 							 <h2>what <span style="color:red">IS</span><br/> changing?</h2>
 					 </section>
 
-					 <section style="font-size:80%">
+					 <section>
+							<h4>what's changing (1/4)</h4>
 					 <ul>
-							 <li> web UI
-							 <li class="fragment"> architecture: components, network layer(s)
-							 <li class="fragment"> "spawn on demand" scheduling algorithm
+							 <li class="fragment"> new architecture:
 							 <ul>
-									 <li> efficient! no suicide triggers; reflow!
-							 </ul>
-							 <li class="fragment"> window on the workflow (forget the "task pool")
-							 <li class="fragment"> terminology, e.g. "suite" -> "(work)flow"
-							 <li class="fragment"> filenames: "suite.rc" -> "flow.cylc"
-							 <li class="fragment"> packaging: <code>conda install cylc</code>
-							 <li class="fragment"> documentation (arggh)
-							 <li class="fragment"> security: authentication, authorization
-							 <li class="fragment"> code repositories: was 1, now 6+
-							 <li class="fragment"> (all manner of non user-facing internals)
-							 <li class="fragment"> ...
+									<li> new components:<br/>Hub,  web UI, UI Server</li>
+									<li> new network protocols and technologies: <br/>
+									Protobuf, ZeroMQ, Tornado, GraphQL, WebSocket</li> 
+							 </ul></li>
+							 <li class="fragment"> web UI with integrated "gscan"
+							 <ul>
+									<li> graph-based "window on the workflow"
+									<li> shared datastore and incremental update
+							 </ul></li>
+						</ul>
+						</section>
+
+					 <section>
+							<h4>what's changing (2/4)</h4>
+					 <ul>
+							 <li> new "spawn on demand" scheduling
+							 <ul>
+									<li> dramatically more efficient and scalable
+									<ul>
+										 <li> real task pool limiting
+									</ul></li>
+									<li> dramatically more efficient and scalable</li>
+									<li> no suicide triggers for path branching</li>
+									<li> allows a sensible "window on the workflow"</li>
+									<li> task.cycle instances can run out of order</li>
+									<li> no leakage of "task pool" internals
+									<ul>
+										 <li> no <code>cylc insert</code></li>
+										 <li> sensible window on the workflow
+									</ul>
+							 </ul></li>
+
 					 </ul>
 					 <aside class="notes">
-							authentication: users and jobs	
-							internals: e.g. self-documenting config classes linked to the
-							user guide build
+							complex suite with 1000 tasks/per cycle : runs with max 10
+							active
 					 </aside>
 					 </section>
+
+					 <section>
+							<h4>what's changing (3/4)</h4>
+
+					 <ul>
+							<ul>
+								 <li class="fragment"> <code>rose suite-run</code> migrated to Cylc
+							<ul>
+								 <li> <span class="quote">platforms</span> support</li>
+								 <li> separation of source and run dir</li>
+								 <li> suite installation </li>
+								 <li> new suite run semantics
+								 <ul>
+										<li> play, pause, resume (and reflow)</li>
+										<li> new run-dir for each new install/run
+								 </ul></li>
+							</ul> </li>
+
+
+							 <li class="fragment"> terminology and filenames
+							 <ul>
+									<li> <span class="quote"> suite -&gt; (work)flow</span>
+									<li> <code>suite.rc</code> -&gt; <code>flow.cylc</code>
+							 </ul></li>
+
+						</ul>
+						</section>
+
+						<section>
+							<h4>what's changing (4/4)</h4>
+						<ul>
+							 <li class="fragment"> code repositories: was 1, now 6+</li>
+							 <li class="fragment"> packaging:<br/> <code>conda install cylc</code></li>
+							 <li class="fragment"> cylc <span class="quote">plugins</span>
+							 <li class="fragment"> documentation (arggh)</li>
+							 <li class="fragment"> security: authentication,
+							 authorization</li>
+							 <li class="fragment"> ...</li>
+					 </ul>
+					 <aside class="notes">
+							<ul>
+								 <li> authentication: users and jobs	
+								  <li> states: OLD 13 task/job states. NEW 5 task/job states 3
+									<ul>
+										 <li> submitted, submit-failed, running, succeeded, failed
+										 <li> waiting, preparing, expired
+									</ul>
+								 <li> internals: e.g. self-documenting config classes linked to
+								 the user guide build
+							</ul>
+					 </aside>
+					 </section>
+
 
 		 </section>
 
@@ -268,6 +352,40 @@
 					 </section>
 			 </section>
 	
+		 <section>
+					 <section>
+							<div style="width:100%; position:absolute; left:0; top:0"/>
+								 <img src="hjo/media/SoS.png"/>
+							</div>
+					 </section>
+					 <section>
+							<div style="width:100%; position:absolute; left:0; top:0"/>
+								 <img src="hjo/media/SoD.png"/>
+							</div>
+							<aside class="notes">
+								 the "task pool": Python objects that represent the tasks in
+								 the infinite graph that the scheduler has to be aware of at
+								 this point in time.
+								 <ul>
+										<li> small suite: 4 tasks per cycle
+										<li> Cylc 0-7: at least one running or waiting cycle-point
+										instance of every task in the suite, PLUS all succeeded
+										tasks in the current window .
+										<ul>
+											 <li> in this example, active tasks (green) spread of 5
+											 cycle points: task pool 16 (but up to 20 or more)
+										</ul>
+										<li> Cylc 8: task pool 3!! (actually 2, blue not necessary
+										here - just to show runhead limited waiting task)
+								 </ul>
+
+							</aside>
+					 </section>
+
+
+		 </section>
+
+
 		 <section>
 
 					 <section>
