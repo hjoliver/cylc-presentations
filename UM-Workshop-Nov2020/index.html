@@ -191,29 +191,6 @@ span.quotebold {
 								 interesting new form of scaling!</p>
 							</aside>
 					 </section>
-
-					 <!-- ANIM: MUST BE FOLLOWED BY data-state=postanim (PAUSE WORKFLOW) -->
-					 <section data-state="anim">
-							<div id="infinite-cycling" style="width:900px; height:700px; border: 1px dashed slategray;">
-							</div>
-							<span style="font-size:10px; position:absolute; bottom:0; left:0">Credit: Oliver Sanders</span>
-							<aside class="notes">
-									<ul>
-										 <li>dark blue tasks are running; light blue finished</li>
-											<li>each task advances individually to its next cycle,
-											so tasks from many cycles can run at once, as
-											dependencies allow</li>
-											<li>Cylc maintains an adaptive window on the evolving
-											infinite workflow</li>
-									</ul>
-							</aside>
-					 </section>
-
-					 <!-- POSTANIM: PAUSE WORKFLOW ON MOVE TO NEXT SLIDE -->
-					 <section data-state="postanim">
-							 (pass)
-					 </section>
-
 			 </section>
 
 			<section>
@@ -464,12 +441,39 @@ span.quotebold {
 </code></pre>
 </section>
 
+					 <!-- ANIM: MUST BE FOLLOWED BY data-state=postanim (PAUSE WORKFLOW) -->
+					 <section data-state="anim-2">
+					<div style="position:absolute; top:100px; right:0">
+							<span style="font-size:50%">Cylc 8: spawn-on-demand</span>
+					</div>
+							<div id="infinite-cycling-2" style="width:900px; height:700px; border: 1px dashed slategray;">
+							</div>
+							<span style="font-size:10px; position:absolute; bottom:0; left:0">Credit: Oliver Sanders</span>
+							<aside class="notes">
+					 </section>
 
-		 </section>
-
+					 <!-- POSTANIM2: PAUSE WORKFLOW ON MOVE TO NEXT SLIDE -->
+					 <section data-state="anim-3 postanim-2">
+							<div style="position:absolute; top:100px; right:0">
+									<span style="font-size:50%">Cylc 8: spawn-on-demand<br/>REFLOW</span>
+							</div>
+	
+							<div id="infinite-cycling-3" style="width:900px; height:700px; border: 1px dashed slategray;">
+							</div>
+							<span style="font-size:10px; position:absolute; bottom:0; left:0">Credit: Oliver Sanders</span>
+							<aside class="notes">
+									<p>
+									multiple workflow wavefronts, if you like, traveling through
+									the infinite graph. A new front can be triggered simply by
+									triggering the task or tasks at the head of it.
+									</p>
+							</aside>
+					</section>
+			</section>
 
 		 <section>
-				 <section>
+				 <!-- POSTANIM3: PAUSE WORKFLOW ON MOVE TO NEXT SLIDE -->
+				 <section data-state="postanim-3">
 						 <h2><span style="color:red">When</span> Cylc 8.0.0?</h2>
 				 </section>
 
@@ -515,13 +519,13 @@ span.quotebold {
 
 				 <section style="font-size:80%">
 						 <h4>timeline</h4>
-						 <p>some delays (pandemic, team size, ...) but:</p>
+						 <p>we are behind schedule (team size, pandemic, ...) but:</p>
 						 <br/>
 						 <ul>
 								 <li> first beta release <code>cylc-8.0b0</code> Jan 2021??
 								 <ul>
-										 <li>some non-critical features missing (e.g. graph view)</li>
-										 <li>encourage heavy testing</li>
+										 <li>some non-critical features missing (e.g. UI graph view)</li>
+										 <li>we will encourage heavy testing at this point</li>
 								 </ul></li>
 								 <br/>
 								 <li> first full release <code>cylc-8.0</code> late Q2 2021?</li>
