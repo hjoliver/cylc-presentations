@@ -51,13 +51,12 @@ span.quotebold {
 			<section>
 					 <section>
 							 <ul>
-									 <li> recap: why is Cylc changing?
+									 <li> recap: why Cylc 8?
 									 <li> what's not changing?
 									 <li> what is changing?
-									 <li> when will it change?
+									 <li> when?
 							 </ul>
 							<aside class="notes">
-							 why? - reminder!
 							</aside>
 	  			 </section>
 			 </section>
@@ -77,32 +76,27 @@ span.quotebold {
 							-->
 							<aside class="notes">
 							<ul>
-									<li>Cylc 7 scheduler and CLI are Python 2 based</li>
-									<li>Cylc 7 GUI is a Python 2 PyGTK desktop application
-									(several years FTE in it)</li>
-									<li>Python 2 is now 10 months past EOL</li>
-									<li>PyGTK is obsolete - no Python 3 version</li>
+									<li>The Cylc 7 scheduler and CLI are Python 2 based, and Python 2
+									is now 10 months past EOL</li>
+									<li>The Cylc 7 GUI is a Python 2 PyGTK desktop
+									application, and PyGTK is obsolete - there is no Python 3
+									version</li>
 							</ul>
 							<p>
-							NOW the easiest solution (relatively speaking - the old good
-							embodies several person-years of effort) would have been to
-							migrate Cylc 7 to Python 3 and rewrite the GUIs for a modern
-							desktop GUI toolkit.</p>
+							NOW the easiest solution (relatively speaking - given that even
+							the old GUI embodies several person-years of effort) would have
+							been to migrate Cylc 7 to Python 3 and migrate our existing GUIs
+							to another GUI toolkit.</p>
 
 							<p>
 							BUT all stakeholders wanted more than this. Chiefly, a web UI to
 							allow proper remote access and integrate with site identity
-							management - has had big architectural implications.
+							management - which has major architectural implications.
 							</p>
 
-							<p>Further, Cylc has evolved organically over more than 10 years,
-							accumulating "technical debt", and various aspects of the system 
-							needed a serious rethink if it is to remain fit-for-purpose as
-							demands continue to increase into the future. E.g. the Cylc 7
-							core scheduling algorithm, GUI, and data update layer are
-							reaching their limits in current massive workflows. And
-							the bespoke Cylc 7 security model seems suspiciously quirky
-							to security people, and that was becoming problematic for us.
+							<p>Further, Cylc has evolved organically over more than 10 years
+							and various aspects of the system needed a serious redesign in
+							order to remain fit-for-purpose into the future.
 							</p>
 							</aside>
 					</section>
@@ -171,10 +165,10 @@ span.quotebold {
 						</div>
 						-->
 						<aside class="notes">
-								One of the majors demands on Cylc (well, far from the only
-								one, but the easiest to depict here) is the ever-increasing
-								size of workflows.  Here's a recent global suite I got off the
-								shared repository.
+								One of the major demands (well, far from the only
+								one, but the easiest to depict here) that is pushing the limits
+								wof Cylc 7  is of course the ever-increasing size of workflows.
+								Here's a recent global suite off the shared repository.
 						</aside>
 				</section>
 
@@ -188,15 +182,14 @@ span.quotebold {
 					 <section>
 					 <ul>
 							 <li> no barrier between cycles
-							 <span style="font-size:50%">(our original raison
+							 <span style="font-size:50%"><br/>(our original raison
 									 d'etre)</span></li>
 							 <li> support for Cylc 7 <code>suite.rc</code>
-							 <span style="font-size:50%">(with deprecations)</span></li>
+							 <span style="font-size:50%"><br/>(with deprecations)</span></li>
 							 <li> support for Cylc 7 CLI syntax 
-							 <span style="font-size:50%">(with deprecations)</span></li>
-							 <li> all core Cylc 7 functionality
-							 <span style="font-size:50%">(supported by tests)</span><br/>
-							 <span style="font-size:80%">kept or replaced with minimal impact on users</span></li>
+							 <span style="font-size:50%"><br/>(with deprecations)</span></li>
+							 <li> ~all user-facing Cylc 7 functionality</br>
+							 <span style="font-size:50%">(supported by tests)</span></li>
 					 </ul>
 					 <aside class="notes">
 							 core: xtriggers, event handling, all control functionality (in
@@ -204,48 +197,6 @@ span.quotebold {
 					 </aside>
 					 </section>
 
-					 <section>
-							<div style="width:100%; position:absolute; left:0; top:0"/>
-								 <img src="hjo/media/cycling-1.png"/>
-							</div>
-							<div style="width:100%; position:absolute; left:0; top:0"/>
-								 <img class="fragment" src="hjo/media/cycling-2b0.png"/>
-							</div>
-							<div style="width:100%; position:absolute; left:0; top:0"/>
-								 <img class="fragment" src="hjo/media/cycling-2b00a.png"/>
-							</div>
-							<div style="width:100%; position:absolute; left:0; top:0"/>
-								 <img class="fragment" src="hjo/media/cycling-2b000a.png"/>
-							</div>
-							<div style="width:100%; position:absolute; left:0; top:0"/>
-								 <img class="fragment" src="hjo/media/cycling-2b000b.png"/>
-							</div>
-							<div style="width:100%; position:absolute; left:0; top:0"/>
-								 <img class="fragment" src="hjo/media/cycling-2b.png"/>
-							</div>
-	
-							<div style="width:100%; position:absolute; left:0; top:0"/>
-								 <img class="fragment" src="hjo/media/cycling-2.png"/>
-							</div>
-							<div style="width:100%; position:absolute; left:0; top:0"/>
-								 <img class="fragment" src="hjo/media/cycling.png"/>
-							</div>
-							<div style="width:100%; position:absolute; left:0; top:0"/>
-								 <img class="fragment" src="hjo/media/cycling-running.png"/>
-							</div>
-							<aside class="notes">
-									<p>First a quick reminder of how Cylc manages cycling systems,
-									because this is relevant to what comes next:</p>
-
-									<p>We don't just run successive cycles one after the other.
-									Instead, we take account of any real inter-cycle dependence
-									and unroll the cycle loop to get <b>a single potentially
-									INFINITE workflow composed of repeating tasks.</b></p>
-    
-									<p>An at run time you can think of this as a wavefront of active
-									tasks advancing along the abstract workflow graph.</p>
-							</aside>
-					 </section>
 			 </section>
 
 			<section>
@@ -253,43 +204,45 @@ span.quotebold {
 							 <h2>what <span style="color:red">IS</span><br/> changing?</h2>
 					 </section>
 
-					 <section>
+					 <section style="font-size:80%">
 							<h4>what's changing (1/4)</h4>
 					 <ul>
 							 <li> <span class="quotebold">new architecture:</span>
 							 <ul>
 									 <li> <span class="quote">components:</span><u>Hub</u>,
 									 <u>web UI</u>, <u>UI Server</u>, Scheduler, CLI</li>
-									 <li> <span class="quote">network:</span> Protobuf, ZeroMQ, Tornado, GraphQL, WebSocket</li> 
+									 <li> <span class="quote">network:</span> Protobuf, ZeroMQ, GraphQL, WebSocket</li> 
 							 </ul></li>
 							 <li class="fragment"><span class="quotebold"> web UI</span>
 							 <ul>
 									 <li> integrated "gscan"</li>
-									 <li> responsive design: desktop to mobile</li>
+									 <li> separation of task and job states <br/>(and fewer
+									 states, without loss of information)</li>
+									 <li> responsive web design: from desktop to mobile</li>
 									 <li> shared datastore and incremental update</li>
 							 </ul></li>
 						</ul>
 						</section>
 
-					 <section>
+					 <section style="font-size:90%">
 							<h4>what's changing (2/4)</h4>
 					 <ul>
 							 <li> <span class="quotebold">new "spawn on demand" scheduler</span>
 							 <ul>
-									 <li> efficient, scalable (real task pool limiting!)</li>
+									 <li> much more efficient and scalable</li>
 									 <li> no suicide triggers for path branching</li>
-									 <li> no implicit dep on prev task.cycle submit <ul>
-											 <li> task.cycle instances can run out of order</li>
-											 <li> no unnecessary stall below failed tasks</li>
-									 </ul></li>
-									 <li> allows a comprehensible graph-based "window on the
-									 workflow" that also deloads the UI</li>
-									 <li>no leakage of <em>task pool</em> internals into user
-									 space <br/>(e.g. <code>cylc insert</code> no longer
-									 needed)</li>
+									 <li> no implicit prev-instance submit dependence</li>
+									 <li> allows a better "window on the workflow"</li>
+									 <li> no leakage of internal implementation</li>
 							 </ul></li>
 					 </ul>
 					 <aside class="notes">
+					 <p>
+					 no implicit submit-dependence - solves a bunch of problems!
+					 </p>
+					 <p>
+					 leakage: task pool, insertion, UI content
+					 </p>
 					 </aside>
 					 </section>
 
@@ -298,7 +251,7 @@ span.quotebold {
 
 					 <ul>
 							<ul>
-								 <li class="fragment"> <code>rose suite-run+</code> migrated to Cylc
+								 <li> <code>rose suite-run+</code> migrated to Cylc
 							<ul>
 								 <li> <span class="quote">platforms</span> support</li>
 								 <li> <span class="quote">suite install</span> (src to run-dir; job hosts)</li>
@@ -317,24 +270,29 @@ span.quotebold {
 
 						</ul>
 					 <aside class="notes">
-							 cylc play etc.: c.f. cylc run (cold or warm start), restart,
-							 hold, release; with "run" destructively overwriting files in
-							 existing run-dir and preventing subsequent restart
+							 <p>
+							 rose suite-run migration: because it was compensating for a
+							 deficiency of Cylc itself
+							 </p>
+							 <p>
+							 platforms: cylc 8 understands multi-host platforms, not just
+							 individual job hosts, and that has a bunch of benefits
+							 </p>
+
+							 <p>
+							 cylc play etc.  In Cylc 7 if  you accidentally do a "run"
+							 instead of a restart you will screw up you run directory and
+							 won't be able to go back to do a restart. In Cylc 8, new run
+							 commands are simpler and safer.
+							 </p>
 					 </aside>
 	
 						</section>
 
-					 <section>
-							<div style="width:100%; position:absolute; left:0; top:0"/>
-								 <img src="hjo/media/cise-cylcpage.png"/>
-							</div>
-							<div style="position:absolute; top:0; right:0"><strong>CiSE 2019</strong></div>
-					 </section>
-
 						<section>
 							<h4>what's changing (4/4)</h4>
 						<ul>
-							 <li class="fragment"> authentication (user and job)</li>
+							 <li> authentication (user and job)</li>
 							 <li class="fragment"> fine-grained authorization</li>
 							 <li class="fragment"> migration to Python 3</li>
 							 <li class="fragment"> code management: 6+ repositories (was 1)</li>
@@ -389,9 +347,53 @@ span.quotebold {
 			 </section>
 
 		 <section>
+
 					 <section>
 							 <h2>Spawn on<br/> Demand</h2>
 							 <p>(new scheduling algorithm)</p>
+					 </section>
+
+					 <section>
+							<div style="width:100%; position:absolute; left:0; top:0"/>
+								 <img src="hjo/media/cycling-1.png"/>
+							</div>
+							<div style="width:100%; position:absolute; left:0; top:0"/>
+								 <img class="fragment" src="hjo/media/cycling-2b0.png"/>
+							</div>
+							<div style="width:100%; position:absolute; left:0; top:0"/>
+								 <img class="fragment" src="hjo/media/cycling-2b00a.png"/>
+							</div>
+							<div style="width:100%; position:absolute; left:0; top:0"/>
+								 <img class="fragment" src="hjo/media/cycling-2b000a.png"/>
+							</div>
+							<div style="width:100%; position:absolute; left:0; top:0"/>
+								 <img class="fragment" src="hjo/media/cycling-2b000b.png"/>
+							</div>
+							<div style="width:100%; position:absolute; left:0; top:0"/>
+								 <img class="fragment" src="hjo/media/cycling-2b.png"/>
+							</div>
+	
+							<div style="width:100%; position:absolute; left:0; top:0"/>
+								 <img class="fragment" src="hjo/media/cycling-2.png"/>
+							</div>
+							<div style="width:100%; position:absolute; left:0; top:0"/>
+								 <img class="fragment" src="hjo/media/cycling.png"/>
+							</div>
+							<div style="width:100%; position:absolute; left:0; top:0"/>
+								 <img class="fragment" src="hjo/media/cycling-running.png"/>
+							</div>
+							<aside class="notes">
+									<p>First a quick reminder of how Cylc manages cycling systems,
+									because this is relevant to what comes next:</p>
+
+									<p>We don't just run successive cycles one after the other.
+									Instead, we take account of any real inter-cycle dependence
+									and unroll the cycle loop to get <b>a single potentially
+									INFINITE workflow composed of repeating tasks.</b></p>
+    
+									<p>An at run time you can think of this as a wavefront of active
+									tasks advancing along the abstract workflow graph.</p>
+							</aside>
 					 </section>
 
 					 <section>
@@ -446,19 +448,21 @@ span.quotebold {
 					 </section>
 
 					 <section>
+							 <!--
 							<div style="width:100%; position:absolute; left:0; top:0"/>
 								 <img src="hjo/media/n-dist-1.svg"/>
 							</div>
-							<div class="fragment" style="width:100%; position:absolute; left:0; top:0"/>
+							-->
+							<div style="width:100%; position:absolute; left:0; top:0"/>
 								 <img src="hjo/media/n-dist-2.svg"/>
 							</div>
-							<div class="fragment" style="width:100%; position:absolute; left:0; top:0"/>
+							<div class="fragment" style="width:100%; position:absolute; left:0; top:0; background:white"/>
 								 <img src="hjo/media/n-dist-3.svg"/>
 							</div>
-							<div class="fragment" style="width:100%; position:absolute; left:0; top:0"/>
+							<div class="fragment" style="width:100%; position:absolute; left:0; top:0; background:white"/>
 								 <img src="hjo/media/n-dist-4.svg"/>
 							</div>
-							<div class="fragment" style="width:100%; position:absolute; left:0; top:0"/>
+							<div class="fragment" style="width:100%; position:absolute; left:0; top:0; background:white"/>
 								 <img src="hjo/media/n-dist-5.svg"/>
 							</div>
 							<aside class="notes">
