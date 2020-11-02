@@ -77,47 +77,107 @@ span.quotebold {
 							-->
 							<aside class="notes">
 							<ul>
-									<li>Cylc 7 scheduler and CLI are Python 2 based
+									<li>Cylc 7 scheduler and CLI are Python 2 based</li>
 									<li>Cylc 7 GUI is a Python 2 PyGTK desktop application
-									   (several years FTE in it)
-									<li>Python 2 is now 10 months past EOL
-									<li>PyGTK is obsolete - no Python 3 version
+									(several years FTE in it)</li>
+									<li>Python 2 is now 10 months past EOL</li>
+									<li>PyGTK is obsolete - no Python 3 version</li>
 							</ul>
-							</aside>
-					</section>
-	
-					 <section>
-							<div style="width:100%; position:absolute; left:0; top:0"/>
-								 <img src="hjo/media/evolution.jpg"/>
-							</div>
-							<!--
-							image credit: Harvard Gazette
-							-->
-							<aside class="notes">
-
-							<p>Cylc has evolved organically over more than 10 years now.
-							Consequently it has accumulated "technical debt" and has some
-							serious design flaws that need addressing if it is to remain
-							fit-for-purpose as demands on it continue to increase. Cylc 7
-							is pretty well optimized but in many ways (scheduling algorithm,
-							GUI and network latyer) it is reaching its limits in current
-							massive workflows.
-							The security model is also considered bespoke and quirky by
-							security people, and that was becoming increasingly problematic.
-							</p>
+							<p>
+							NOW the easiest solution (relatively speaking - the old good
+							embodies several person-years of effort) would have been to
+							migrate Cylc 7 to Python 3 and rewrite the GUIs for a modern
+							desktop GUI toolkit.</p>
 
 							<p>
-							NOW the minimal solution was migrate to Python 3 and rewrite the
-							GUIs in modern desktop GUI toolkit. But that would not address
-							most of the aforementioned problems, AND besides all stakeholders
-							wanted more than that. Chiefly, a web UI to allow proper remote
-							access and integrate with site identity management. But that 
-							had architectural implications, and also required solving some of
-							the bigger problems.
+							BUT all stakeholders wanted more than this. Chiefly, a web UI to
+							allow proper remote access and integrate with site identity
+							management - has had big architectural implications.
 							</p>
 
+							<p>Further, Cylc has evolved organically over more than 10 years,
+							accumulating "technical debt", and various aspects of the system 
+							needed a serious rethink if it is to remain fit-for-purpose as
+							demands continue to increase into the future. E.g. the Cylc 7
+							core scheduling algorithm, GUI, and data update layer are
+							reaching their limits in current massive workflows. And
+							the bespoke Cylc 7 security model seems suspiciously quirky
+							to security people, and that was becoming problematic for us.
+							</p>
 							</aside>
 					</section>
+
+				<section>
+						<div style="position:absolute">
+								<img src="hjo/media/ubx-zoom/ubx-20.png" style="height:640px; border:1px solid slategray"/>
+						</div>
+						<div class="fragment" style="position:absolute">
+								<img src="hjo/media/ubx-zoom/ubx-19.png" style="height:640px; border:1px solid slategray"/>
+						</div>
+						<div class="fragment" style="position:absolute">
+								<img src="hjo/media/ubx-zoom/ubx-18.png" style="height:640px; border:1px solid slategray"/>
+						</div>
+						<div class="fragment" style="position:absolute">
+								<img src="hjo/media/ubx-zoom/ubx-17.png" style="height:640px; border:1px solid slategray"/>
+						</div>
+						<div class="fragment" style="position:absolute">
+								<img src="hjo/media/ubx-zoom/ubx-16.png" style="height:640px; border:1px solid slategray"/>
+						</div>
+						<div class="fragment" style="position:absolute">
+								<img src="hjo/media/ubx-zoom/ubx-15.png" style="height:640px; border:1px solid slategray"/>
+						</div>
+						<div class="fragment" style="position:absolute">
+								<img src="hjo/media/ubx-zoom/ubx-14.png" style="height:640px; border:1px solid slategray"/>
+						</div>
+						<div class="fragment" style="position:absolute">
+								<img src="hjo/media/ubx-zoom/ubx-13.png" style="height:640px; border:1px solid slategray"/>
+						</div>
+						<div class="fragment" style="position:absolute">
+								<img src="hjo/media/ubx-zoom/ubx-12.png" style="height:640px; border:1px solid slategray"/>
+						</div>
+						<div class="fragment" style="position:absolute">
+								<img src="hjo/media/ubx-zoom/ubx-11.png" style="height:640px; border:1px solid slategray"/>
+						</div>
+						<div class="fragment" style="position:absolute">
+								<img src="hjo/media/ubx-zoom/ubx-10.png" style="height:640px; border:1px solid slategray"/>
+						</div>
+						<div class="fragment" style="position:absolute">
+								<img src="hjo/media/ubx-zoom/ubx-9.png" style="height:640px; border:1px solid slategray"/>
+						</div>
+						<div class="fragment" style="position:absolute">
+								<img src="hjo/media/ubx-zoom/ubx-8.png" style="height:640px; border:1px solid slategray"/>
+						</div>
+						<div class="fragment" style="position:absolute">
+								<img src="hjo/media/ubx-zoom/ubx-7.png" style="height:640px; border:1px solid slategray"/>
+						</div>
+						<div class="fragment" style="position:absolute">
+								<img src="hjo/media/ubx-zoom/ubx-6.png" style="height:640px; border:1px solid slategray"/>
+						</div>
+						<div class="fragment" style="position:absolute">
+								<img src="hjo/media/ubx-zoom/ubx-5.png" style="height:640px; border:1px solid slategray"/>
+						</div>
+						<div class="fragment" style="position:absolute">
+								<img src="hjo/media/ubx-zoom/ubx-4.png" style="height:640px; border:1px solid slategray"/>
+						</div>
+						<div class="fragment" style="position:absolute">
+								<img src="hjo/media/ubx-zoom/ubx-3.png" style="height:640px; border:1px solid slategray"/>
+						</div>
+						<!--
+						<div class="fragment" style="position:absolute">
+								<img src="hjo/media/ubx-zoom/ubx-2.png" style="height:640px; border:1px solid slategray"/>
+						</div>
+						<div class="fragment" style="position:absolute">
+								<img src="hjo/media/ubx-zoom/ubx-1.png" style="height:640px; border:1px solid slategray"/>
+						</div>
+						-->
+						<aside class="notes">
+								One of the majors demands on Cylc (well, far from the only
+								one, but the easiest to depict here) is the ever-increasing
+								size of workflows.  Here's a recent global suite I got off the
+								shared repository.
+						</aside>
+				</section>
+
 			</section>
 	
 			<section>
@@ -136,7 +196,7 @@ span.quotebold {
 							 <span style="font-size:50%">(with deprecations)</span></li>
 							 <li> all core Cylc 7 functionality
 							 <span style="font-size:50%">(supported by tests)</span><br/>
-							 <span style="font-size:80%">(kept or replaced with minimal impact on users)</span></li>
+							 <span style="font-size:80%">kept or replaced with minimal impact on users</span></li>
 					 </ul>
 					 <aside class="notes">
 							 core: xtriggers, event handling, all control functionality (in
@@ -160,14 +220,6 @@ span.quotebold {
 							<div style="width:100%; position:absolute; left:0; top:0"/>
 								 <img class="fragment" src="hjo/media/cycling-2b000b.png"/>
 							</div>
-							<!--
-							<div style="width:100%; position:absolute; left:0; top:0"/>
-								 <img class="fragment" src="hjo/media/cycling-2b00.png"/>
-							</div>
-							<div style="width:100%; position:absolute; left:0; top:0"/>
-								 <img class="fragment" src="hjo/media/cycling-2b000.png"/>
-							</div>
-							-->
 							<div style="width:100%; position:absolute; left:0; top:0"/>
 								 <img class="fragment" src="hjo/media/cycling-2b.png"/>
 							</div>
@@ -182,13 +234,16 @@ span.quotebold {
 								 <img class="fragment" src="hjo/media/cycling-running.png"/>
 							</div>
 							<aside class="notes">
-									<p>A remember of our core cycling functionality, which is
-									relevant later:</p>
-								 <p>Cylc unwinds the cycle loop and gives each task its own
-								 cycle point label, to create <b>a single potentially INFINITE
-										workflow composed of repeating tasks</b> instead of a
-								 sequence of distinct single cycle workflows. So that's an
-								 interesting new form of scaling!</p>
+									<p>First a quick reminder of how Cylc manages cycling systems,
+									because this is relevant to what comes next:</p>
+
+									<p>We don't just run successive cycles one after the other.
+									Instead, we take account of any real inter-cycle dependence
+									and unroll the cycle loop to get <b>a single potentially
+									INFINITE workflow composed of repeating tasks.</b></p>
+    
+									<p>An at run time you can think of this as a wavefront of active
+									tasks advancing along the abstract workflow graph.</p>
 							</aside>
 					 </section>
 			 </section>
@@ -201,9 +256,10 @@ span.quotebold {
 					 <section>
 							<h4>what's changing (1/4)</h4>
 					 <ul>
-							 <li class="fragment"> <span class="quotebold">new architecture:</span>
+							 <li> <span class="quotebold">new architecture:</span>
 							 <ul>
-									 <li> <span class="quote">components:</span>Hub,  web UI, UI Server, Scheduler, CLI</li>
+									 <li> <span class="quote">components:</span><u>Hub</u>,
+									 <u>web UI</u>, <u>UI Server</u>, Scheduler, CLI</li>
 									 <li> <span class="quote">network:</span> Protobuf, ZeroMQ, Tornado, GraphQL, WebSocket</li> 
 							 </ul></li>
 							 <li class="fragment"><span class="quotebold"> web UI</span>
@@ -226,23 +282,14 @@ span.quotebold {
 											 <li> task.cycle instances can run out of order</li>
 											 <li> no unnecessary stall below failed tasks</li>
 									 </ul></li>
-									 <li> allows a graph-based "window on the workflow" with no
-									 leakage of <em>task pool</em> internals into user space
-									 <br/>(e.g. no <code>cylc insert</code>)</li>
+									 <li> allows a comprehensible graph-based "window on the
+									 workflow" that also deloads the UI</li>
+									 <li>no leakage of <em>task pool</em> internals into user
+									 space <br/>(e.g. <code>cylc insert</code> no longer
+									 needed)</li>
 							 </ul></li>
 					 </ul>
 					 <aside class="notes">
-							in Cylc 7 the task pool bloat is the major performance limiting
-							factor in huge suites (the tasks in the infinite graph that cylc
-							has to maintain an awareness of: runahead limiting only limits
-							the task pool across cycles, not within a cycle. Queue limiting
-							limiting active tasks (protecting external resources) but not the
-							internal task pool.
-
-							complex suite with 1000 tasks/per cycle : runs with max 10
-							active
-
-
 					 </aside>
 					 </section>
 
@@ -287,18 +334,20 @@ span.quotebold {
 						<section>
 							<h4>what's changing (4/4)</h4>
 						<ul>
+							 <li class="fragment"> authentication (user and job)</li>
+							 <li class="fragment"> fine-grained authorization</li>
 							 <li class="fragment"> migration to Python 3</li>
 							 <li class="fragment"> code management: 6+ repositories (was 1)</li>
 							 <li class="fragment"> packaging: <code>conda install cylc</code></li>
 							 <li class="fragment"> cylc plugins</li>
 							 <li class="fragment"> documentation (arggh)</li>
-							 <li class="fragment"> authentication (user and job)</li>
-							 <li class="fragment"> fine-grained authorization</li>
 							 <li class="fragment"> ...</li>
 					 </ul>
 					 <aside class="notes">
 							<ul>
-								 <li> authentication: users and jobs	
+									<li> authentication: users and jobs	<br/>
+									user auth now integrates with site identity management
+
 								  <li> states: OLD 13 task/job states. NEW 5 task/job states 3
 									<ul>
 										 <li> submitted, submit-failed, running, succeeded, failed
@@ -342,6 +391,7 @@ span.quotebold {
 		 <section>
 					 <section>
 							 <h2>Spawn on<br/> Demand</h2>
+							 <p>(new scheduling algorithm)</p>
 					 </section>
 
 					 <section>
@@ -354,9 +404,13 @@ span.quotebold {
 								 <img src="hjo/media/SoD.png"/>
 							</div>
 							<aside class="notes">
-								 the "task pool": Python objects that represent the tasks in
+
+									<p>
+								 The "task pool": Python objects that represent the tasks in
 								 the infinite graph that the scheduler has to be aware of at
 								 this point in time.
+								 </p>
+
 								 <ul>
 										<li> small suite: 4 tasks per cycle
 										<li> Cylc 0-7: at least one running or waiting cycle-point
@@ -366,9 +420,27 @@ span.quotebold {
 											 <li> in this example, active tasks (green) spread of 5
 											 cycle points: task pool 16 (but up to 20 or more)
 										</ul>
-										<li> Cylc 8: task pool 3!! (actually 2, blue not necessary
-										here - just to show runhead limited waiting task)
+										<li> NOTE the task pool does not populate whole cycles! and
+										it is near impossible for users to understand the rationale
+										for exactly what they see in the GUI.
+
+										<li> in Cylc 7 task pool bloat is the major performance
+										limiting factor in huge suites. Runahead limiting only
+										limits the task pool across cycles, not within a cycle.
+										Queue limiting limits active tasks (which protects external
+										resources) but not the internal task pool.
 								 </ul>
+								 <p>
+										Cylc 8: task pool size 3!! (actually the blue waiting task
+										would not even be there unless it has a pre-success
+										dependence on the upstream tasks and was held back by for
+										external (non-graph) reasons.
+										</p>
+
+							<p>
+							this is a massive step forward because even huge suites typically
+							have much smaller number tasks active at any given time.
+							</p>
 
 							</aside>
 					 </section>
@@ -377,41 +449,43 @@ span.quotebold {
 							<div style="width:100%; position:absolute; left:0; top:0"/>
 								 <img src="hjo/media/n-dist-1.svg"/>
 							</div>
-					 </section>
-					 <section>
-							<div style="width:100%; position:absolute; left:0; top:0"/>
+							<div class="fragment" style="width:100%; position:absolute; left:0; top:0"/>
 								 <img src="hjo/media/n-dist-2.svg"/>
 							</div>
-					 </section>
-					 <section>
-							<div style="width:100%; position:absolute; left:0; top:0"/>
+							<div class="fragment" style="width:100%; position:absolute; left:0; top:0"/>
 								 <img src="hjo/media/n-dist-3.svg"/>
 							</div>
-					 </section>
-					 <section>
-							<div style="width:100%; position:absolute; left:0; top:0"/>
+							<div class="fragment" style="width:100%; position:absolute; left:0; top:0"/>
 								 <img src="hjo/media/n-dist-4.svg"/>
 							</div>
-					 </section>
-					 <section>
-							<div style="width:100%; position:absolute; left:0; top:0"/>
+							<div class="fragment" style="width:100%; position:absolute; left:0; top:0"/>
 								 <img src="hjo/media/n-dist-5.svg"/>
 							</div>
 							<aside class="notes">
+								 Spawn on demand also allows us to make a sensible graph-based
+								 window on the workflow
+								 <ul>
+										 <li>
 									- n=0 (active): submitted, running, (or unhandled-failed)
+									<li>
 									- n=1: what comes next, including ready-but-held-back tasks
+									<li>
 									- makes graph view useful even in very large suites
+									<li>
 									- the rationale behind what you see in the UI makes sense
 							</aside>
 					 </section>
-
-
-
 
 					 <section>
 							<div style="width:100%; position:absolute; left:0; top:0"/>
 								 <img src="hjo/media/suicide.png"/>
 							</div>
+							<aside class="notes">
+									Another benefit of spawn on demand: no suicide triggers for
+									graph branching.
+
+									So here's your classic failure recovery branching scenario...
+							</aside>
 					 </section>
 	
 					 <section>
@@ -519,21 +593,26 @@ span.quotebold {
 
 				 <section style="font-size:80%">
 						 <h4>timeline</h4>
-						 <p>we are behind schedule (team size, pandemic, ...) but:</p>
+						 <p>Behind schedule (team size, pandemic impact, ...) but good
+						 progress nonetheless (see previous slides)</p>
 						 <br/>
 						 <ul>
-								 <li> first beta release <code>cylc-8.0b0</code> Jan 2021??
+								 <li> First beta release <code>cylc-8.0b0</code> Jan 2021??
 								 <ul>
 										 <li>some non-critical features missing (e.g. UI graph view)</li>
 										 <li>we will encourage heavy testing at this point</li>
 								 </ul></li>
 								 <br/>
-								 <li> first full release <code>cylc-8.0</code> late Q2 2021?</li>
+								 <li> First full release <code>cylc-8.0</code> late Q2 2021?</li>
 						 </ul>
 						 <aside class="notes">
-								 "critical" vs essential!
-								 Graph view is essential to Cylc, but not critical because you
-								 can run any workflow perfectly well without it
+								 "critical" vs essential! Graph view is essential to Cylc, but
+								 not critical - you can run workflows perfectly well without it
+								 (in fact in Cylc 7 it is useless for large suites)
+
+								 Perhaps we underestimated the scale of the task too (but in
+								 the spin-up period 2 years ago we had anticipated having
+								 several more people).
 
 								 Note we are going as fast as we possibly can.
 						 </aside>
@@ -548,7 +627,7 @@ span.quotebold {
 							 <h4>thanks to the Cylc team</h4>
 								 <img src="hjo/media/mug-shots.png"/>
 								 <br/>
-								 <span style="font-size:50%">(plus former members and
+								 <span style="font-size:50%">(plus former team members and
 										 contributors too)</span>
 					 </section>
 		 </section>
