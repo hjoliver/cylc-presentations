@@ -9,17 +9,25 @@
 		<link rel="stylesheet" href="dist/reset.css">
 		<link rel="stylesheet" href="dist/reveal.css">
 		<link rel="stylesheet" href="dist/theme/hjo.css" id="theme">
-
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="plugin/highlight/school-book.css" id="highlight-theme">
 		<style>
+section {
+		color: slategray;
+}
 code {
-	 color:red;
+	 color:darkseagreen;
+	 font-weight:bold;
 }
 span.quote {
 	 color:orange;
 }
+span.quotebold {
+	 color:darkorange;
+}
+	
 		</style>
-		<!-- Theme used for syntax highlighted code -->
-		<link rel="stylesheet" href="plugin/highlight/school-book.css" id="highlight-theme">
+
 	</head>
 	<body>
 	<div class="reveal">
@@ -42,12 +50,11 @@ span.quote {
 
 			<section>
 					 <section>
-							 <h2>Outline</h2>
 							 <ul>
-									 <li> why is Cylc changing?
+									 <li> recap: why is Cylc changing?
 									 <li> what's not changing?
 									 <li> what is changing?
-									 <li> when is it changing?
+									 <li> when will it change?
 							 </ul>
 							<aside class="notes">
 							 why? - reminder!
@@ -120,14 +127,16 @@ span.quote {
 
 					 <section>
 					 <ul>
-							 <li> no global cycle loop 
-							 <span style="font-size:50%">(our original raison detre)</span>
-							 <li> support Cylc 7 <code>suite.rc</code>
-							 <span style="font-size:50%">(with deprecations)</span>
-							 <li> support Cylc 7 CLI syntax 
-							 <span style="font-size:50%">(with deprecations)</span>
-							 <li> core Cylc 7 functionality
-							 <span style="font-size:50%">(supported by tests)</span>
+							 <li> no barrier between cycles
+							 <span style="font-size:50%">(our original raison
+									 d'etre)</span></li>
+							 <li> support for Cylc 7 <code>suite.rc</code>
+							 <span style="font-size:50%">(with deprecations)</span></li>
+							 <li> support for Cylc 7 CLI syntax 
+							 <span style="font-size:50%">(with deprecations)</span></li>
+							 <li> all core Cylc 7 functionality
+							 <span style="font-size:50%">(supported by tests)</span><br/>
+							 <span style="font-size:80%">(kept or replaced with minimal impact on users)</span></li>
 					 </ul>
 					 <aside class="notes">
 							 core: xtriggers, event handling, all control functionality (in
@@ -215,16 +224,16 @@ span.quote {
 					 <section>
 							<h4>what's changing (1/4)</h4>
 					 <ul>
-							 <li class="fragment"> new architecture:
+							 <li class="fragment"> <span class="quotebold">new architecture:</span>
 							 <ul>
-									<li> new components:<br/>Hub,  web UI, UI Server</li>
-									<li> new network protocols and technologies: <br/>
-									Protobuf, ZeroMQ, Tornado, GraphQL, WebSocket</li> 
+									 <li> <span class="quote">components:</span>Hub,  web UI, UI Server, Scheduler, CLI</li>
+									 <li> <span class="quote">network:</span> Protobuf, ZeroMQ, Tornado, GraphQL, WebSocket</li> 
 							 </ul></li>
-							 <li class="fragment"> web UI with integrated "gscan"
+							 <li class="fragment"><span class="quotebold"> web UI</span>
 							 <ul>
-									<li> graph-based "window on the workflow"
-									<li> shared datastore and incremental update
+									 <li> integrated "gscan"</li>
+									 <li> responsive design: desktop to mobile</li>
+									 <li> shared datastore and incremental update</li>
 							 </ul></li>
 						</ul>
 						</section>
@@ -232,27 +241,31 @@ span.quote {
 					 <section>
 							<h4>what's changing (2/4)</h4>
 					 <ul>
-							 <li> new "spawn on demand" scheduling
+							 <li> <span class="quotebold">new "spawn on demand" scheduler</span>
 							 <ul>
-									<li> dramatically more efficient and scalable
-									<ul>
-										 <li> real task pool limiting
-									</ul></li>
-									<li> dramatically more efficient and scalable</li>
-									<li> no suicide triggers for path branching</li>
-									<li> allows a sensible "window on the workflow"</li>
-									<li> task.cycle instances can run out of order</li>
-									<li> no leakage of "task pool" internals
-									<ul>
-										 <li> no <code>cylc insert</code></li>
-										 <li> sensible window on the workflow
-									</ul>
+									 <li> efficient, scalable (real task pool limiting!)</li>
+									 <li> no suicide triggers for path branching</li>
+									 <li> no implicit dep on prev task.cycle submit <ul>
+											 <li> task.cycle instances can run out of order</li>
+											 <li> no unnecessary stall below failed tasks</li>
+									 </ul></li>
+									 <li> allows a graph-based "window on the workflow" with no
+									 leakage of <em>task pool</em> internals into user space
+									 <br/>(e.g. no <code>cylc insert</code>)</li>
 							 </ul></li>
-
 					 </ul>
 					 <aside class="notes">
+							in Cylc 7 the task pool bloat is the major performance limiting
+							factor in huge suites (the tasks in the infinite graph that cylc
+							has to maintain an awareness of: runahead limiting only limits
+							the task pool across cycles, not within a cycle. Queue limiting
+							limiting active tasks (protecting external resources) but not the
+							internal task pool.
+
 							complex suite with 1000 tasks/per cycle : runs with max 10
 							active
+
+
 					 </aside>
 					 </section>
 
@@ -261,37 +274,49 @@ span.quote {
 
 					 <ul>
 							<ul>
-								 <li class="fragment"> <code>rose suite-run</code> migrated to Cylc
+								 <li class="fragment"> <code>rose suite-run+</code> migrated to Cylc
 							<ul>
 								 <li> <span class="quote">platforms</span> support</li>
-								 <li> separation of source and run dir</li>
-								 <li> suite installation </li>
-								 <li> new suite run semantics
+								 <li> <span class="quote">suite install</span> (src to run-dir; job hosts)</li>
+								 <li>  <span class="quote">safe suite run semantics</span>
 								 <ul>
-										<li> play, pause, resume (and reflow)</li>
-										<li> new run-dir for each new install/run
+										 <li> play, pause, resume (and reflow)</li>
+										 <li> new run-dir for each new install/run</li>
 								 </ul></li>
-							</ul> </li>
+						 </ul> </li>
 
-
-							 <li class="fragment"> terminology and filenames
-							 <ul>
-									<li> <span class="quote"> suite -&gt; (work)flow</span>
-									<li> <code>suite.rc</code> -&gt; <code>flow.cylc</code>
-							 </ul></li>
+						 <li class="fragment"> <span class="quote">terminology and filenames</span>
+						 <ul>
+								 <li> suite -&gt; (work)flow
+								 <li> <code>suite.rc</code> -&gt; <code>flow.cylc</code>
+						 </ul></li>
 
 						</ul>
+					 <aside class="notes">
+							 cylc play etc.: c.f. cylc run (cold or warm start), restart,
+							 hold, release; with "run" destructively overwriting files in
+							 existing run-dir and preventing subsequent restart
+					 </aside>
+	
 						</section>
+
+					 <section>
+							<div style="width:100%; position:absolute; left:0; top:0"/>
+								 <img src="hjo/media/cise-cylcpage.png"/>
+							</div>
+							<div style="position:absolute; top:0; right:0"><strong>CiSE 2019</strong></div>
+					 </section>
 
 						<section>
 							<h4>what's changing (4/4)</h4>
 						<ul>
-							 <li class="fragment"> code repositories: was 1, now 6+</li>
-							 <li class="fragment"> packaging:<br/> <code>conda install cylc</code></li>
-							 <li class="fragment"> cylc <span class="quote">plugins</span>
+							 <li class="fragment"> migration to Python 3</li>
+							 <li class="fragment"> code management: 6+ repositories (was 1)</li>
+							 <li class="fragment"> packaging: <code>conda install cylc</code></li>
+							 <li class="fragment"> cylc plugins</li>
 							 <li class="fragment"> documentation (arggh)</li>
-							 <li class="fragment"> security: authentication,
-							 authorization</li>
+							 <li class="fragment"> authentication (user and job)</li>
+							 <li class="fragment"> fine-grained authorization</li>
 							 <li class="fragment"> ...</li>
 					 </ul>
 					 <aside class="notes">
@@ -307,17 +332,15 @@ span.quote {
 							</ul>
 					 </aside>
 					 </section>
-
-
 		 </section>
 
 		 <section>
 				 <section>
-						 <h2>Cylc web UI and TUI</h2>
+						 <h2>Cylc web UI<br/> &amp; Cylc TUI</h2>
 				 </section>
 				 <section>
 							<div style="width:100%; position:absolute; left:0; top:0"/>
-								 <img src="hjo/media/cylc-ui-demo-1.gif"/>
+								 <img src="hjo/media/cylc-ui-demo.gif"/>
 							</div>
 					 </section>
   				 <section>
@@ -334,25 +357,16 @@ span.quote {
 	
 					 <section>
 							<div style="width:100%; position:absolute; left:0; top:0"/>
-								 <img src="hjo/media/cylc-tui-demo-1.gif"/>
+								 <img src="hjo/media/cylc-tui-demo.gif"/>
 							</div>
 					 </section>
 			 </section>
-	
+
 		 <section>
-  				 <section>
-							<div style="width:100%; position:absolute; left:0; top:0"/>
-								 <img src="hjo/media/cylc-ui-demo-1.gif"/>
-							</div>
-					 </section>
 					 <section>
-							<div style="width:100%; position:absolute; left:0; top:0"/>
-								 <img src="hjo/media/cylc-tui-demo-1.gif"/>
-							</div>
+							 <h2>Spawn on<br/> Demand</h2>
 					 </section>
-			 </section>
-	
-		 <section>
+
 					 <section>
 							<div style="width:100%; position:absolute; left:0; top:0"/>
 								 <img src="hjo/media/SoS.png"/>
@@ -382,18 +396,157 @@ span.quote {
 							</aside>
 					 </section>
 
+					 <section>
+							<div style="width:100%; position:absolute; left:0; top:0"/>
+								 <img src="hjo/media/n-dist-1.svg"/>
+							</div>
+					 </section>
+					 <section>
+							<div style="width:100%; position:absolute; left:0; top:0"/>
+								 <img src="hjo/media/n-dist-2.svg"/>
+							</div>
+					 </section>
+					 <section>
+							<div style="width:100%; position:absolute; left:0; top:0"/>
+								 <img src="hjo/media/n-dist-3.svg"/>
+							</div>
+					 </section>
+					 <section>
+							<div style="width:100%; position:absolute; left:0; top:0"/>
+								 <img src="hjo/media/n-dist-4.svg"/>
+							</div>
+					 </section>
+					 <section>
+							<div style="width:100%; position:absolute; left:0; top:0"/>
+								 <img src="hjo/media/n-dist-5.svg"/>
+							</div>
+							<aside class="notes">
+									- n=0 (active): submitted, running, (or unhandled-failed)
+									- n=1: what comes next, including ready-but-held-back tasks
+									- makes graph view useful even in very large suites
+									- the rationale behind what you see in the UI makes sense
+							</aside>
+					 </section>
+
+
+
+
+					 <section>
+							<div style="width:100%; position:absolute; left:0; top:0"/>
+								 <img src="hjo/media/suicide.png"/>
+							</div>
+					 </section>
+	
+					 <section>
+						<pre><code class="ini">[scheduling]  # Cylc 7
+   cycling mode = integer
+   initial cycle point = 1
+   [[dependencies]]
+      [[[P1]]]
+         graph = """
+            pre => model
+            model:fail => diagnose => recover
+            model | recover => post
+            model => !diagnose & !recover  # ???
+         """
+</code></pre>
+</section>
+					 <section>
+						<pre><code class="ini">[scheduling]  # Cylc 8
+   cycling mode = integer
+   initial cycle point = 1
+   [[graph]]
+      P1 = """
+         pre => model
+         model:fail => diagnose => recover
+         model | recover => post
+      """
+</code></pre>
+</section>
+
 
 		 </section>
 
 
 		 <section>
+				 <section>
+						 <h2><span style="color:red">When</span> Cylc 8.0.0?</h2>
+				 </section>
+
+				 <section style="font-size:80%">
+						 <h4>done already</h4>
+						 <ul>
+								 <li>Python 3 migration</li>
+								 <li>architecture: new components and network layers </li>
+								 <li>Hub spawns Cylc UI Servers (JupyterHub!)</li>
+								 <li>web UI core (Vue.js) and tree view</li>
+								 <li>incremental data update subscriptions</li>
+								 <li>spawn-on-demand scheduler</li>
+								 <li>secure back-end job authentication (CurveZMQ)</li>
+								 <li>packaging via <code>pip</code> and <code>conda</code></li>
+								 <li>platforms support</li>
+								 <li>suite installation to job platforms</li>
+								 <li>many config changes</li>
+						 </ul>
+				 </section>
+
+				 <section style="font-size:80%">
+						 <h4>still to be done</h4>
+						 <ul>
+								 <li>Cylc UI:
+								 <ul>
+										 <li>finish UI command integration</li>
+										 <li>display non-task entities (xtriggers, queues, ...)</li>
+										 <li>new graph view</li>
+										 <li>start stopped suites</li>
+								 </ul>
+								 <li>suite installation and new `cylc run` semantics<br/>
+								 (with plugin for `rose-suite.conf` back-compat)</li>
+								 <li>finish graph-based windowing (scheduler and UIS)
+								 <ul>
+										 <li>including loading historical tasks from the DB</li>
+								 </ul></li>
+								 <li>cross-user access and fine-grained authorization</li>
+								 <li>documentation rewrite</li>
+								 <li>cylc review (rose bush) fallback?</li>
+								 <li>... and a million details</li>
+						 </ul>
+				 </section>
+
+				 <section style="font-size:80%">
+						 <h4>timeline</h4>
+						 <p>some delays (pandemic, team size, ...) but:</p>
+						 <br/>
+						 <ul>
+								 <li> first beta release <code>cylc-8.0b0</code> Jan 2021??
+								 <ul>
+										 <li>some non-critical features missing (e.g. graph view)</li>
+										 <li>encourage heavy testing</li>
+								 </ul></li>
+								 <br/>
+								 <li> first full release <code>cylc-8.0</code> late Q2 2021?</li>
+						 </ul>
+						 <aside class="notes">
+								 "critical" vs essential!
+								 Graph view is essential to Cylc, but not critical because you
+								 can run any workflow perfectly well without it
+
+								 Note we are going as fast as we possibly can.
+						 </aside>
+				 </section>
+
+	
+		 </section>
+
+		 <section>
 
 					 <section>
-							<div style="width:100%; position:absolute; left:0; top:0"/>
+							 <h4>thanks to the Cylc team</h4>
 								 <img src="hjo/media/mug-shots.png"/>
-							</div>
+								 <br/>
+								 <span style="font-size:50%">(plus former members and
+										 contributors too)</span>
 					 </section>
-
 		 </section>
 
 		 </div>
