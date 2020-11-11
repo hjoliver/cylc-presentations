@@ -51,10 +51,10 @@ span.quotebold {
 			<section>
 					 <section>
 							 <ul>
-									 <li> recap: why Cylc 8?
-									 <li> what's not changing?
-									 <li> what is changing?
-									 <li> when?
+									 <li> Recap: why Cylc 8?
+									 <li> What's not changing?
+									 <li> What is changing?
+									 <li> When can I have it?
 							 </ul>
 							<aside class="notes">
 							</aside>
@@ -63,8 +63,7 @@ span.quotebold {
 	
 			<section>
 					 <section>
-							 <h2>why is cylc<br/>
-									 changing?</h2>
+							 <h2>Why Cylc 8?</h2>
 					 </section>
 	
 					 <section>
@@ -181,22 +180,17 @@ span.quotebold {
 
 					 <section>
 					 <ul>
-							 <li> no barrier between cycles
-							 <span style="font-size:50%"><br/>(our original raison
-									 d'etre)</span></li>
-							 <li> support for Cylc 7 <code>suite.rc</code>
-							 <span style="font-size:50%"><br/>(with deprecations)</span></li>
-							 <li> support for Cylc 7 CLI syntax 
-							 <span style="font-size:50%"><br/>(with deprecations)</span></li>
-							 <li> ~all user-facing Cylc 7 functionality</br>
-							 <span style="font-size:50%">(supported by tests)</span></li>
+							 <li> No barrier between cycles!
+							 <span style="font-size:70%"><br/>(our raison d'etre)</span></li>
+							 <li> Support for Cylc 7 <code>suite.rc</code> syntax
+							 <span style="font-size:70%"><br/>(with deprecations)</span></li>
+							 <li> All <em>important</em> user-facing Cylc 7
+							 functionality</br> <span style="font-size:70%">(supported by
+							 tests)</span></li>
 					 </ul>
 					 <aside class="notes">
-							 core: xtriggers, event handling, all control functionality (in
-							 general terms, if not in detail or implementation)
 					 </aside>
 					 </section>
-
 			 </section>
 
 			<section>
@@ -204,17 +198,18 @@ span.quotebold {
 							 <h2>what <span style="color:red">IS</span><br/> changing?</h2>
 					 </section>
 
-					 <section style="font-size:80%">
+					 <section style="font-size:90%">
 							<h4>what's changing (1/4)</h4>
 					 <ul>
-							 <li> <span class="quotebold">new architecture:</span>
+							 <li> <span class="quotebold">New architecture:</span>
 							 <ul>
-									 <li> <span class="quote">components:</span><u>Hub</u>,
+									<li> <span class="quote">components:</span><br/><u>Hub</u>,
 									 <u>web UI</u>, <u>UI Server</u>, Scheduler, CLI</li>
-									 <li> <span class="quote">network:</span> Protobuf, ZeroMQ, GraphQL, WebSocket</li> 
+									 <li> <span class="quote">network:</span><br/> Protobuf, ZeroMQ, GraphQL, WebSocket</li> 
 							 </ul></li>
-							 <li class="fragment"><span class="quotebold"> web UI</span>
+							 <li class="fragment"><span class="quotebold">Web UI</span>
 							 <ul>
+									<li> Javascript, Vue.js </li>
 									 <li> integrated "gscan"</li>
 									 <li> separation of task and job states <br/>(and fewer
 									 states, without loss of information)</li>
@@ -227,13 +222,14 @@ span.quotebold {
 					 <section style="font-size:90%">
 							<h4>what's changing (2/4)</h4>
 					 <ul>
-							 <li> <span class="quotebold">new "spawn on demand" scheduler</span>
+							 <li> <span class="quotebold">New "spawn on demand" scheduler</span>
 							 <ul>
 									 <li> much more efficient and scalable</li>
 									 <li> no suicide triggers for path branching</li>
-									 <li> no implicit prev-instance submit dependence</li>
-									 <li> allows a better "window on the workflow"</li>
-									 <li> no leakage of internal implementation</li>
+									 <li> no implicit dep. on previous-instance submit</li>
+									 <li> allows a better UI "window on the workflow"</li>
+									 <li> no leakage of internal "task pool" implementation into
+									 user-space</li>
 							 </ul></li>
 					 </ul>
 					 <aside class="notes">
@@ -251,7 +247,7 @@ span.quotebold {
 
 					 <ul>
 							<ul>
-								 <li> <code>rose suite-run+</code> migrated to Cylc
+								 <li>Migration of <code>rose suite-run+</code> to Cylc
 							<ul>
 								 <li> <span class="quote">platforms</span> support</li>
 								 <li> <span class="quote">suite install</span> (src to run-dir; job hosts)</li>
@@ -259,6 +255,13 @@ span.quotebold {
 								 <ul>
 										 <li> play, pause, resume (and reflow)</li>
 										 <li> new run-dir for each new install/run</li>
+										 <pre><code class="ini">
+~/cylc-run/
+  `- my-flow/
+      |- run1/
+      |- run2/
+      |- run3/
+      `- runN -> run3  # symlink</code></pre>
 								 </ul></li>
 						 </ul> </li>
 
@@ -400,11 +403,18 @@ span.quotebold {
 							<div style="width:100%; position:absolute; left:0; top:0"/>
 								 <img src="hjo/media/SoS.png"/>
 							</div>
+							<div style="font-size:50%; position:absolute; right:100px; top:100px"/>
+							Cylc 7 "spawn on submit"
+					 </div>
+
 					 </section>
 					 <section>
 							<div style="width:100%; position:absolute; left:0; top:0"/>
 								 <img src="hjo/media/SoD.png"/>
 							</div>
+							<div style="font-size:50%; position:absolute; right:100px; top:100px"/>
+							Cylc 8 "spawn on demand"
+					 </div>
 							<aside class="notes">
 
 									<p>
@@ -526,7 +536,6 @@ span.quotebold {
 					</div>
 							<div id="infinite-cycling-2" style="width:900px; height:700px; border: 1px dashed slategray;">
 							</div>
-							<span style="font-size:10px; position:absolute; bottom:0; left:0">Credit: Oliver Sanders</span>
 							<aside class="notes">
 					 </section>
 
@@ -538,7 +547,6 @@ span.quotebold {
 	
 							<div id="infinite-cycling-3" style="width:900px; height:700px; border: 1px dashed slategray;">
 							</div>
-							<span style="font-size:10px; position:absolute; bottom:0; left:0">Credit: Oliver Sanders</span>
 							<aside class="notes">
 									<p>
 									multiple workflow wavefronts, if you like, traveling through
@@ -569,6 +577,7 @@ span.quotebold {
 								 <li>platforms support</li>
 								 <li>suite installation to job platforms</li>
 								 <li>many config changes</li>
+								 <li>...</li>
 						 </ul>
 				 </section>
 
@@ -591,7 +600,7 @@ span.quotebold {
 								 <li>cross-user access and fine-grained authorization</li>
 								 <li>documentation rewrite</li>
 								 <li>cylc review (rose bush) fallback?</li>
-								 <li>... and a million details</li>
+								 <li>...</li>
 						 </ul>
 				 </section>
 
@@ -601,13 +610,13 @@ span.quotebold {
 						 progress nonetheless (see previous slides)</p>
 						 <br/>
 						 <ul>
-								 <li> First beta release <code>cylc-8.0b0</code> Jan 2021??
+								 <li> First beta release <code>cylc-8.0b0</code> Jan 2021 at best
 								 <ul>
-										 <li>some non-critical features missing (e.g. UI graph view)</li>
+										 <li>some sub-essential features missing (e.g. UI graph view)</li>
 										 <li>we will encourage heavy testing at this point</li>
 								 </ul></li>
 								 <br/>
-								 <li> First full release <code>cylc-8.0</code> late Q2 2021?</li>
+								 <li> First full release <code>cylc-8.0</code> in Q2 2021</li>
 						 </ul>
 						 <aside class="notes">
 								 "critical" vs essential! Graph view is essential to Cylc, but
