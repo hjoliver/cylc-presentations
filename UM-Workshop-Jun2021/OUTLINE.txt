@@ -1,0 +1,47 @@
+
+RECAP
+ - Python 2, GUI
+ - Web UI
+    => new architecture
+ - increasing demands
+    => efficiency
+
+WHAT'S CHANGED SINCE THE NOV WORKSHOP
+ - deja vu?
+ - many of the features shown in Nov that were flagged as planned or in-progress are now complete
+
+8.0.0 RELEASE?
+ - show Nov 2020 slide (b0 Jan 2021 at best) - not too far behind
+ - we're currently on 2nd beta release, very much usable
+ - for the last year, aiming for 30 June 8.0
+ - somewhat arbitrary when we make the cut-off, BUT:
+   - still a few things we haven't quite finished off
+   - current aim: September for deployment as default version at Met Office (and Feb for operations)
+   - 8.0 sometime before that
+
+WHAT'S NEW
+ - architecture: client/server => hub, UIS, UI, scheduler
+ - UI:
+   - CLI (TUI)
+   - web UI
+   - task-job separation
+ - efficiency:
+   - incremental push data updates from scheduler => UI server => UI
+   - shared data store in the UI
+   - spawn-on-demand scheduler
+   - UI n-window
+ - security
+   - authentication
+   - authorization
+ - rose suite-run migration
+   - cylc install
+   - run1/2/.../N
+   - play, pause, stop
+
+UI examples (updated)
+
+Scheduler Efficiency and SoD Examples
+ - reflow, and start-from-task!
+   - better warm start, replace checkpoint restart
+ - SoD mitigates the cost of parameterized cycling
+ - suicide triggers etc.

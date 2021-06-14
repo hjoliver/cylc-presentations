@@ -1,0 +1,700 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>Cylc 8 June 2021</title>
+
+    <link rel="stylesheet" href="dist/reset.css">
+    <link rel="stylesheet" href="dist/reveal.css">
+    <link rel="stylesheet" href="dist/theme/hjo.css" id="theme">
+    <!-- Theme used for syntax highlighted code -->
+    <link rel="stylesheet" href="plugin/highlight/school-book.css" id="highlight-theme">
+    <style>
+section {
+  color: slategray;
+}
+code {
+  color:#00b3fd;
+  font-weight:bold;
+}
+strong {
+  color:#eebb00;
+}
+    </style>
+
+  </head>
+  <body>
+    <div class="reveal">
+      <div id="myLogo" style="background: url('hjo/media/cylc-logo.png');
+         background-size: 150px;
+         background-repeat: no-repeat;
+         position: absolute;
+         bottom: 15px;
+         left: 15px;
+         width: 150px;
+         height: 60px;"></div>
+
+      <div class="slides">
+
+        <section>
+          <section>
+            <h1>
+              Cylc 8 Project Update
+            </h1>
+            <h4>
+              UM User Workshop
+              June 2021
+            </h4>
+            <p>Hilary Oliver, NIWA</p>
+            <aside class="notes">
+            </aside>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <div style="width:100%; position:absolute; left:0; top:0">
+              <img src="hjo/media/python2-gtk.png"/>
+            </div>
+            <!--
+              Python 2 RIP image credit: datree.io
+            -->
+            <aside class="notes">
+              <ul>
+                <li>The Cylc 7 scheduler and CLI are Python 2 based, and Python 2
+                  is now 10 months past EOL</li>
+                <li>The Cylc 7 GUI is a Python 2 PyGTK desktop
+                  application, and PyGTK is obsolete - there is no Python 3
+                  version</li>
+              </ul>
+              <p>All stakeholders we consulted wanted a web UI, for remote
+              access, integration with site identity management, and better
+              integration with other web UIs.</p>
+
+              <p>
+              This has major architectural implications.
+              </p>
+
+            </aside>
+          </section>
+
+          <section data-background-image="hjo/media/ubx-big.png" data-background-size="100%">
+            <aside class="notes">
+              Also, Cylc already has to support workflows that look from a
+              distance like ink smudges, and Cylc 7 is running into its limits.
+              In order to support our needs into the NGMS era we needed to
+              address efficiency: in the scheduler, network, and UI.
+            </aside>
+          </section>
+
+        </section>
+
+        <section>
+          <section>
+            <h2>Deja Vu?</h2>
+            <p>any progress since November 2020? (yes!)</p>
+            <aside class="notes">
+              This presentation in some ways will not look much different
+              to that of the Nov 2020 workshop. However, then I was presentation
+              a lot of stuff that was planned or in-progress, and now a lot of
+              that stuff is done.
+            </aside>
+          </section>
+          <section>
+            <div style="width:100%; position:absolute; left:0; top:0">
+              <img src="hjo/media/cylc-8-architecture.svg"/>
+            </div>
+            <aside class="notes">
+              It's frickin' complicated!
+            </aside>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h2>terminology</h2>
+          </section>
+          <section>
+            <ul>
+              <li><strong>Suite</strong>
+                <ul>
+                  <li style="font-size:70%">...</li>
+                  <li style="font-size:70%">...</li>
+                </ul>
+              </li>
+              <li><strong>Suite daemon</strong>
+                <ul><li style="font-size:70%">...</li></ul>
+              </li>
+              <li><strong>Batch system</strong>
+                <ul><li style="font-size:70%">...</li></ul>
+              </li>
+              <li><strong>Job hosts</strong>
+                <ul><li style="font-size:70%">...</li></ul>
+              </li>
+ 
+            </ul>
+          </section>
+
+          <section>
+            <ul>
+              <li><strong style="text-decoration:line-through">
+                  Suite</strong> is now <strong>WORKFLOW</strong>
+                <ul>
+                  <li style="font-size:70%">(a more widely understood term)</li>
+                  <li style="font-size:70%">
+                    <code style="text-decoration:line-through">suite.rc</code>
+                    =&gt;
+                    <code>flow.cylc</code>
+                  </li>
+                </ul>
+              </li>
+              <li><strong style="text-decoration:line-through">
+                  Suite daemon</strong> is now <strong>SCHEDULER</strong>
+                <ul><li style="font-size:70%">(a more widely understood term)</li></ul>
+              </li>
+              <li><strong style="text-decoration:line-through">
+                  Batch system</strong> is now <strong>JOB RUNNER</strong>
+                <ul><li style="font-size:70%">(they're not all “batch systems”)</li></ul>
+              </li>
+              <li><strong style="text-decoration:line-through">
+                  Job hosts</strong> =&gt; <strong>PLATFORMS</strong>
+                <ul><li style="font-size:70%">(resilience to hosts going down)</li></ul>
+              </li>
+            </ul>
+          </section>
+
+        <section>
+						<pre><code class="ini"># Cylc 7
+[runtime]
+  [[model]]
+    [[[remote]]]
+      host = hpc1.login.1
+    [[[job]]
+      batch system = pbs
+  [[model_cleanup]]
+      [[[remote]]]  # Deprecated Cylc 7
+        host = hpc1.login.1
+      [[[job]]
+        batch system = background
+
+</code></pre>
+        </section>
+        <section>
+						<pre><code class="ini"># Cylc 8
+# Use "platform" definitions in global config
+# Hosts, job runners, etc.
+[runtime]
+  [[model]]
+     platform = hpc1
+  [[model_cleanup]]
+     platform = hpc1_background
+</code></pre>
+<aside class="notes">
+ Platforms can have same hosts w/ different job runners.
+ (Platform hosts and job runners in global config).
+
+</aside>
+        </section>
+
+        </section>
+
+        <section>
+          <section>
+            <h2>task states</h2>
+          </section>
+ 
+          <section>
+            <div>
+              <img src="hjo/media/cylc7-task-states.png" height="500px"/>
+            </div>
+            <aside class="notes">
+              Cylc 7: 13 task states! 
+            </aside>
+          </section>
+ 
+          <section>
+            <div>
+              <img src="hjo/media/cylc8-task-states.png"/>
+            </div>
+            <aside class="notes">
+              Cylc 8: task/job separation allows us to pare down to the minimum
+            </aside>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h2>CLI &amp; workflow installation</h2>
+          </section>
+          <section>
+            <ul>
+              <li><code>rose suite-run</code>
+                <ul style="font-size:80%">
+                  <li>...</li>
+                </ul>
+              </li>
+              <li><code>cylc run, restart</code>
+                <ul style="font-size:80%">
+                  <li>...</li>
+                </ul>
+              </li>
+              <li><code>cylc monitor</code></li>
+            </ul>
+          </section>
+
+          <section>
+            <ul>
+              <li><code style="text-decoration:line-through">
+                  rose suite-run</code> =&gt; <code>cylc install</code>
+                <ul style="font-size:80%">
+                  <li>workflow installation is now native to Cylc</li>
+                </ul>
+              </li>
+              <li><code style="text-decoration:line-through">
+                  cylc run, restart</code> =&gt; <code>cylc play</code>
+                <ul style="font-size:80%">
+                  <li><strong>safety:</strong> restart by default</li>
+                </ul>
+              </li>
+              <li><code style="text-decoration:line-through">
+                  cylc monitor</code> =&gt; <code>cylc tui</code></li>
+            </ul>
+          </section>
+          <section>
+            <div style="width:100%; position:absolute; left:0; top:0">
+              <img src="hjo/media/cylc-8-cli-demo.gif"/>
+            </div>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h2>GUI</h2>
+          </section>
+          <section>
+            <div style="width:120%; position:absolute; left:-10%; top:0">
+              <img src="hjo/media/cylc-8-ui-demo.gif"/>
+            </div>
+          </section>
+        </section>
+ 
+        <section>
+          <section>
+            <h2>job scripts</h2>
+          </section>
+          <section>
+              <img src="hjo/media/subshell.png"/>
+                    <p>it's now safe for tasks to change Python environment</p>
+              <aside class="notes">
+              </aside>
+          </section>
+        </section>
+
+        <section>
+
+          <section>
+            <h2>scheduler</h2>
+            <p>new algorithm!</p>
+          </section>
+
+          <section>
+            <div style="width:100%; position:absolute; left:0; top:0">
+              <img src="hjo/media/cycling-1.png"/>
+            </div>
+            <div style="width:100%; position:absolute; left:0; top:0">
+              <img class="fragment" src="hjo/media/cycling-2b0.png"/>
+            </div>
+            <div style="width:100%; position:absolute; left:0; top:0">
+              <img class="fragment" src="hjo/media/cycling-2b00a.png"/>
+            </div>
+            <div style="width:100%; position:absolute; left:0; top:0">
+              <img class="fragment" src="hjo/media/cycling-2b000a.png"/>
+            </div>
+            <div style="width:100%; position:absolute; left:0; top:0">
+              <img class="fragment" src="hjo/media/cycling-2b000b.png"/>
+            </div>
+            <div style="width:100%; position:absolute; left:0; top:0">
+              <img class="fragment" src="hjo/media/cycling-2b.png"/>
+            </div>
+
+            <div style="width:100%; position:absolute; left:0; top:0">
+              <img class="fragment" src="hjo/media/cycling-2.png"/>
+            </div>
+            <div style="width:100%; position:absolute; left:0; top:0">
+              <img class="fragment" src="hjo/media/cycling.png"/>
+            </div>
+            <div style="width:100%; position:absolute; left:0; top:0">
+              <img class="fragment" src="hjo/media/cycling-running.png"/>
+            </div>
+            <aside class="notes">
+              <p>First a quick reminder of how Cylc manages cycling systems,
+              because this is relevant to what comes next:</p>
+
+              <p>We don't just run successive cycles one after the other.
+              Instead, we take account of any real inter-cycle dependence
+              and unroll the cycle loop to get <b>a single potentially
+                INFINITE workflow composed of repeating tasks.</b></p>
+
+              <p>An at run time you can think of this as a wavefront of active
+              tasks advancing along the abstract workflow graph.</p>
+            </aside>
+          </section>
+
+          <section>
+            <div style="width:100%; position:absolute; left:0; top:0">
+              <img src="hjo/media/SoS.png"/>
+            </div>
+            <div style="font-size:50%; position:absolute; right:100px; top:100px">
+              Cylc 7 "spawn on submit"
+            </div>
+
+          </section>
+          <section>
+            <div style="width:100%; position:absolute; left:0; top:0">
+              <img src="hjo/media/SoD.png"/>
+            </div>
+            <div style="font-size:50%; position:absolute; right:100px; top:100px">
+              Cylc 8 "spawn on demand"
+            </div>
+            <aside class="notes">
+
+              <p>
+              The "task pool": Python objects that represent the tasks in
+              the infinite graph that the scheduler has to be aware of at
+              this point in time.
+              </p>
+
+              <ul>
+                <li> small suite: 4 tasks per cycle
+                  <li> Cylc 0-7: at least one running or waiting cycle-point
+                    instance of every task in the suite, PLUS all succeeded
+                    tasks in the current window .
+                    <ul>
+                      <li> in this example, active tasks (green) spread of 5
+                        cycle points: task pool 16 (but up to 20 or more)
+                    </ul>
+                    <li> NOTE the task pool does not populate whole cycles! and
+                      it is near impossible for users to understand the rationale
+                      for exactly what they see in the GUI.
+
+                      <li> in Cylc 7 task pool bloat is the major performance
+                        limiting factor in huge suites. Runahead limiting only
+                        limits the task pool across cycles, not within a cycle.
+                        Queue limiting limits active tasks (which protects external
+                        resources) but not the internal task pool.
+              </ul>
+              <p>
+              Cylc 8: task pool size 3!! (actually the blue waiting task
+              would not even be there unless it has a pre-success
+              dependence on the upstream tasks and was held back by for
+              external (non-graph) reasons.
+              </p>
+
+              <p>
+              this is a massive step forward because even huge suites typically
+              have much smaller number tasks active at any given time.
+              </p>
+
+            </aside>
+          </section>
+
+          <section>
+            <!--
+              <div style="width:100%; position:absolute; left:0; top:0">
+              <img src="hjo/media/n-dist-1.svg"/>
+              </div>
+            -->
+            <div style="width:100%; position:absolute; left:0; top:0">
+              <img src="hjo/media/n-dist-2.svg"/>
+            </div>
+            <div class="fragment" style="width:100%; position:absolute; left:0; top:0; background:white"/>
+              <img src="hjo/media/n-dist-3.svg"/>
+            </div>
+            <div class="fragment" style="width:100%; position:absolute; left:0; top:0; background:white"/>
+              <img src="hjo/media/n-dist-4.svg"/>
+            </div>
+            <div class="fragment" style="width:100%; position:absolute; left:0; top:0; background:white"/>
+              <img src="hjo/media/n-dist-5.svg"/>
+            </div>
+            <aside class="notes">
+              Spawn on demand also allows us to make a sensible graph-based
+              window on the workflow
+              <ul>
+                <li>
+                  - n=0 (active): submitted, running, (or unhandled-failed)
+                  <li>
+                    - n=1: what comes next, including ready-but-held-back tasks
+                    <li>
+                      - makes graph view useful even in very large suites
+                      <li>
+                        - the rationale behind what you see in the UI makes sense
+            </aside>
+          </section>
+
+          <section>
+            <ul>
+              <li> efficiency (incl. for parameterized cycling)</li>
+              <li> start at any task(s): no checkpoint restart</li>
+              <li> reflow: multiple wavefronts of activity</li>
+              <li> no suicide triggers for alternate paths</li>
+              <li> no implicit dep. on previous-instance submit</li>
+              <li> tasks can run out of cycle point order</li>
+              <li> no unnec. stalls downstream of failed tasks</li>
+              <li> intuitive window based on active tasks</li>
+              <li> lighter load on the network and the UI</li>
+            </ul>
+            <aside class="notes">
+            </aside>
+          </section>
+
+          <!-- ANIM: MUST BE FOLLOWED BY data-state=postanim (PAUSE WORKFLOW) -->
+          <section data-state="anim-2">
+            <div style="position:absolute; top:100px; right:0">
+              <span style="font-size:50%">Cylc 8: spawn-on-demand</span>
+            </div>
+            <div id="infinite-cycling-2" style="width:900px; height:700px; border: 1px dashed slategray;">
+            </div>
+            <aside class="notes">
+          </section>
+
+          <!-- POSTANIM2: PAUSE WORKFLOW ON MOVE TO NEXT SLIDE -->
+          <section data-state="anim-3 postanim-2">
+            <div style="position:absolute; top:100px; right:0">
+              <span style="font-size:50%">Cylc 8: spawn-on-demand<br/>REFLOW</span>
+            </div>
+
+            <div id="infinite-cycling-3" style="width:900px; height:700px; border: 1px dashed slategray;">
+            </div>
+            <aside class="notes">
+              <p>
+              multiple workflow wavefronts, if you like, traveling through
+              the infinite graph. A new front can be triggered simply by
+              triggering the task or tasks at the head of it.
+              </p>
+            </aside>
+          </section>
+        </section>
+
+        <section>
+          <!-- POSTANIM3: PAUSE WORKFLOW ON MOVE TO NEXT SLIDE -->
+          <section data-state="postanim-3">
+            <h2><span style="color:red">When</span> Cylc 8.0.0?</h2>
+          </section>
+
+          <section style="font-size:80%">
+            <h4>done already</h4>
+            <ul>
+              <li>Python 3 migration</li>
+              <li>architecture: new components and network layers </li>
+              <li>Hub spawns Cylc UI Servers (JupyterHub!)</li>
+              <li>web UI core (Vue.js) and tree view</li>
+              <li>incremental data update subscriptions</li>
+              <li>spawn-on-demand scheduler</li>
+              <li>secure back-end job authentication (CurveZMQ)</li>
+              <li>packaging via <code>pip</code> and <code>conda</code></li>
+              <li>platforms support</li>
+              <li>suite installation to job platforms</li>
+              <li>many config changes</li>
+              <li>...</li>
+            </ul>
+          </section>
+
+          <section style="font-size:80%">
+            <h4>still to be done</h4>
+            <ul>
+              <li>Cylc UI:
+                <ul>
+                  <li>finish UI command integration</li>
+                  <li>display non-task entities (xtriggers, queues, ...)</li>
+                  <li>new graph view</li>
+                  <li>start stopped suites</li>
+                </ul>
+                <li>suite installation and new `cylc run` semantics<br/>
+                  (with plugin for `rose-suite.conf` back-compat)</li>
+                <li>finish graph-based windowing (scheduler and UIS)
+                  <ul>
+                    <li>including loading historical tasks from the DB</li>
+                  </ul></li>
+                  <li>cross-user access and fine-grained authorization</li>
+                  <li>documentation rewrite</li>
+                  <li>cylc review (rose bush) fallback?</li>
+                  <li>...</li>
+            </ul>
+          </section>
+
+          <section style="font-size:80%">
+            <h4>timeline</h4>
+            <p>Behind schedule (team size, pandemic impact, ...) but good
+            progress nonetheless (see previous slides)</p>
+            <br/>
+            <ul>
+              <li> First beta release <code>cylc-8.0b0</code> Jan 2021 at best
+                <ul>
+                  <li>some sub-essential features missing (e.g. UI graph view)</li>
+                  <li>we will encourage heavy testing at this point</li>
+                </ul></li>
+                <br/>
+                <li> First full release <code>cylc-8.0</code> in Q2 2021</li>
+            </ul>
+            <aside class="notes">
+              "critical" vs essential! Graph view is essential to Cylc, but
+              not critical - you can run workflows perfectly well without it
+              (in fact in Cylc 7 it is useless for large suites)
+
+              Perhaps we underestimated the scale of the task too (but in
+              the spin-up period 2 years ago we had anticipated having
+              several more people).
+
+              Note we are going as fast as we possibly can.
+            </aside>
+          </section>
+
+
+        </section>
+
+        <section>
+
+          <section>
+            <h4>thanks to the Cylc team</h4>
+            <img src="hjo/media/mug-shots.png"/>
+            <br/>
+            <span style="font-size:50%">(plus former team members and
+              contributors too)</span>
+          </section>
+        </section>
+
+      </div>
+    </div>
+
+
+    <script src="dist/reveal.js"></script>
+    <script src="plugin/notes/notes.js"></script>
+    <script src="plugin/markdown/markdown.js"></script>
+    <script src="plugin/highlight/highlight.js"></script>
+    <script src="plugin/fullscreen/plugin.js"></script>
+    <script>
+      // More info about initialization & config:
+      // - https://revealjs.com/initialization/
+      // - https://revealjs.com/config/
+      Reveal.initialize({
+              hash: true,
+              width: 960,
+              height: 800,
+              // Learn about plugins: https://revealjs.com/plugins/
+              plugins: [ RevealMarkdown, RevealHighlight, RevealNotes, RevealFullscreen ],
+              transition:'none',
+            });
+    </script>
+
+    <script>
+      Reveal.on('beer', event => {
+              count_down();
+            }, false);
+
+
+      function count_down() {
+              // Set the date we're counting down to
+              var countDownDate = new Date().getTime() + 45*60000;
+              // Update the count down every 1 second
+              var x = setInterval(function() {
+                      var now = new Date().getTime();
+                      // Find the distance between now and the count down date
+                      var d = countDownDate - now;
+                      // Time calculations for days, hours, minutes and seconds
+                      var min = Math.floor((d % (1000 * 60 * 60)) / (1000 * 60));
+                      var sec = Math.floor((d % (1000 * 60)) / 1000);
+                      // Display the result in the element with id="cdown"
+                      document.getElementById("cdown").innerHTML = min.toString().padStart(2, "0") + ":" + sec.toString().padStart(2,"0");
+                    }, 1000);
+            }
+    </script>
+
+    <script src="hjo/js/minicylc.js"></script>
+    <script type="text/javascript" src="hjo/js/jquery.min.js"></script>
+
+    <script>
+
+      // write dependencies
+      const deps = [];
+      for (let i=0; i<100; i++) {
+              deps.push(`a${i} => c${i} => d${i}`);
+              deps.push(`a${i} => b${i}`);
+              deps.push(`a${i} => a${i+1}`);
+              deps.push(`c${i} => b${i+1}`);
+            }
+
+      // create graph
+      const infinite_animation = $('<embed style="background:#eaeaea;"/>')
+        .addClass('minicylc')
+        .data('focus', true)
+        .data('randomFactor', 0.5)
+        .data('dependencies', deps.join('//'))
+        .attr('src', 'hjo/media/infinite-workflow.svg')[0]
+      $('#infinite-cycling').append(infinite_animation);
+
+      const infinite_animation_2 = $('<embed style="background:#eaeaea;"/>')
+        .addClass('minicylc')
+        .data('focus', true)
+        .data('randomFactor', 0.5)
+        .data('dependencies', deps.join('//'))
+        .data('succeed_fill', 'white')
+        .attr('src', 'hjo/media/infinite-workflow.svg')[0]
+      $('#infinite-cycling-2').append(infinite_animation_2);
+
+      const infinite_animation_3 = $('<embed style="background:#eaeaea;"/>')
+        .addClass('minicylc')
+        .data('focus', true)
+        .data('randomFactor', 0.5)
+        .data('dependencies', deps.join('//'))
+        .data('succeed_fill', 'white')
+        .data('reflow', 'a7')
+        .attr('src', 'hjo/media/infinite-workflow.svg')[0]
+      $('#infinite-cycling-3').append(infinite_animation_3);
+
+
+      const infinite_worklow = undefined
+      const infinite_worklow_2 = undefined
+      const infinite_worklow_3 = undefined
+
+      Reveal.on('anim', event => {
+              console.log(event);
+              if (typeof infinite_workflow === 'undefined') {
+                      infinite_workflow = new MiniCylc(infinite_animation, true);
+                      infinite_workflow.run();
+                    }
+              infinite_workflow.release();
+            }, false);
+
+      Reveal.on('postanim', event => {
+              infinite_workflow.hold();
+            }, false);
+
+      Reveal.on('anim-2', event => {
+              if (typeof infinite_workflow_2 === 'undefined') {
+                      infinite_workflow_2 = new MiniCylc(infinite_animation_2, true);
+                      infinite_workflow_2.run();
+                    }
+              infinite_workflow_2.release();
+            }, false);
+
+      Reveal.on('postanim-2', event => {
+              infinite_workflow_2.hold();
+            }, false);
+
+      Reveal.on('anim-3', event => {
+              if (typeof infinite_workflow_3 === 'undefined') {
+                      infinite_workflow_3 = new MiniCylc(infinite_animation_3, true);
+                      infinite_workflow_3.run();
+                    }
+              infinite_workflow_3.release();
+            }, false);
+
+      Reveal.on('postanim-3', event => {
+              infinite_workflow_3.hold();
+            }, false);
+
+    </script>
+
+  </body>
+</html>
