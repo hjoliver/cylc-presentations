@@ -94,14 +94,22 @@ strong {
         <section>
           <section>
             <h2>Deja Vu?</h2>
-            <p>any progress since November 2020? (yes!)</p>
+            <p class="fragment">Have we progressed since Nov 2020?<br/></p>
+            <p class="fragment"><strong>(erm, yes!)</strong></p>
             <aside class="notes">
               This presentation in some ways will not look much different
-              to that of the Nov 2020 workshop. However, then I was presentation
-              a lot of stuff that was planned or in-progress, and now a lot of
-              that stuff is done.
+              to that of the Nov 2020 workshop. However, then I was presenting
+              a lot that was planned or in-progress, and now a lot of
+              that is done.
             </aside>
           </section>
+
+        </section>
+        <section>
+          <section>
+            <h2>architecture</h2>
+          </section>
+ 
           <section>
             <div style="width:100%; position:absolute; left:0; top:0">
               <img src="hjo/media/cylc-8-architecture.svg"/>
@@ -119,19 +127,12 @@ strong {
           <section>
             <ul>
               <li><strong>Suite</strong>
-                <ul>
-                  <li style="font-size:70%">...</li>
-                  <li style="font-size:70%">...</li>
-                </ul>
               </li>
               <li><strong>Suite daemon</strong>
-                <ul><li style="font-size:70%">...</li></ul>
               </li>
               <li><strong>Batch system</strong>
-                <ul><li style="font-size:70%">...</li></ul>
               </li>
               <li><strong>Job hosts</strong>
-                <ul><li style="font-size:70%">...</li></ul>
               </li>
  
             </ul>
@@ -139,8 +140,8 @@ strong {
 
           <section>
             <ul>
-              <li><strong style="text-decoration:line-through">
-                  Suite</strong> is now <strong>WORKFLOW</strong>
+              <li><span style="text-decoration:line-through">
+                  Suite</span> is now <strong>WORKFLOW</strong>
                 <ul>
                   <li style="font-size:70%">(a more widely understood term)</li>
                   <li style="font-size:70%">
@@ -150,23 +151,24 @@ strong {
                   </li>
                 </ul>
               </li>
-              <li><strong style="text-decoration:line-through">
-                  Suite daemon</strong> is now <strong>SCHEDULER</strong>
+              <li><span style="text-decoration:line-through">
+                  Suite daemon</span> is now <strong>SCHEDULER</strong>
                 <ul><li style="font-size:70%">(a more widely understood term)</li></ul>
               </li>
-              <li><strong style="text-decoration:line-through">
-                  Batch system</strong> is now <strong>JOB RUNNER</strong>
+              <li><span style="text-decoration:line-through">
+                  Batch system</span> is now <strong>JOB RUNNER</strong>
                 <ul><li style="font-size:70%">(they're not all “batch systems”)</li></ul>
               </li>
-              <li><strong style="text-decoration:line-through">
-                  Job hosts</strong> =&gt; <strong>PLATFORMS</strong>
+              <li><span style="text-decoration:line-through">
+                  Job hosts</span> replaced by <strong>PLATFORMS</strong>
                 <ul><li style="font-size:70%">(resilience to hosts going down)</li></ul>
               </li>
             </ul>
           </section>
 
+          <!--
         <section>
-						<pre><code class="ini"># Cylc 7
+						<pre><code class="ini"># Cylc 7 suite.rc
 [runtime]
   [[model]]
     [[[remote]]]
@@ -174,7 +176,7 @@ strong {
     [[[job]]
       batch system = pbs
   [[model_cleanup]]
-      [[[remote]]]  # Deprecated Cylc 7
+      [[[remote]]]
         host = hpc1.login.1
       [[[job]]
         batch system = background
@@ -182,14 +184,15 @@ strong {
 </code></pre>
         </section>
         <section>
-						<pre><code class="ini"># Cylc 8
-# Use "platform" definitions in global config
-# Hosts, job runners, etc.
+						<pre><code class="ini"># Cylc 8 flow.cylc
 [runtime]
   [[model]]
      platform = hpc1
   [[model_cleanup]]
      platform = hpc1_background
+
+# "Platforms" defined in global config
+# (hosts, job runners, etc.)
 </code></pre>
 <aside class="notes">
  Platforms can have same hosts w/ different job runners.
@@ -197,105 +200,10 @@ strong {
 
 </aside>
         </section>
-
-        </section>
-
-        <section>
-          <section>
-            <h2>task states</h2>
-          </section>
- 
-          <section>
-            <div>
-              <img src="hjo/media/cylc7-task-states.png" height="500px"/>
-            </div>
-            <aside class="notes">
-              Cylc 7: 13 task states! 
-            </aside>
-          </section>
- 
-          <section>
-            <div>
-              <img src="hjo/media/cylc8-task-states.png"/>
-            </div>
-            <aside class="notes">
-              Cylc 8: task/job separation allows us to pare down to the minimum
-            </aside>
-          </section>
-        </section>
-
-        <section>
-          <section>
-            <h2>CLI &amp; workflow installation</h2>
-          </section>
-          <section>
-            <ul>
-              <li><code>rose suite-run</code>
-                <ul style="font-size:80%">
-                  <li>...</li>
-                </ul>
-              </li>
-              <li><code>cylc run, restart</code>
-                <ul style="font-size:80%">
-                  <li>...</li>
-                </ul>
-              </li>
-              <li><code>cylc monitor</code></li>
-            </ul>
-          </section>
-
-          <section>
-            <ul>
-              <li><code style="text-decoration:line-through">
-                  rose suite-run</code> =&gt; <code>cylc install</code>
-                <ul style="font-size:80%">
-                  <li>workflow installation is now native to Cylc</li>
-                </ul>
-              </li>
-              <li><code style="text-decoration:line-through">
-                  cylc run, restart</code> =&gt; <code>cylc play</code>
-                <ul style="font-size:80%">
-                  <li><strong>safety:</strong> restart by default</li>
-                </ul>
-              </li>
-              <li><code style="text-decoration:line-through">
-                  cylc monitor</code> =&gt; <code>cylc tui</code></li>
-            </ul>
-          </section>
-          <section>
-            <div style="width:100%; position:absolute; left:0; top:0">
-              <img src="hjo/media/cylc-8-cli-demo.gif"/>
-            </div>
-          </section>
-        </section>
-        <section>
-          <section>
-            <h2>GUI</h2>
-          </section>
-          <section>
-            <div style="width:120%; position:absolute; left:-10%; top:0">
-              <img src="hjo/media/cylc-8-ui-demo.gif"/>
-            </div>
-          </section>
-        </section>
- 
-        <section>
-          <section>
-            <h2>job scripts</h2>
-          </section>
-          <section>
-              <img src="hjo/media/subshell.png"/>
-                    <p>it's now safe for tasks to change Python environment</p>
-              <aside class="notes">
-              </aside>
-          </section>
-        </section>
-
-        <section>
-
+        -->
           <section>
             <h2>scheduler</h2>
-            <p>new algorithm!</p>
+            <p>new scheduling algorithm</p>
           </section>
 
           <section>
@@ -400,6 +308,31 @@ strong {
           </section>
 
           <section>
+            <ul style="font-size:80%">
+              <li> scheduler <strong>efficiency</strong> (incl. for parameterized cycling)</li>
+              <li class="fragment"> network and UI <strong>efficiency</strong> (w/ incremental push update)</li>
+              <li class="fragment"> <strong>start from any task(s)</strong> in the graph
+                <ul>
+                  <li class="fragment"> better "warm start"</li>
+                  <li class="fragment"> checkpoint restart not needed</li>
+                  <li class="fragment"> run partial graphs</li>
+                </ul>
+              </li>
+              <li class="fragment"> <strong>reflow</strong> multiple wavefronts of activity</li>
+              <li class="fragment"> <strong>suicide triggers</strong> not needed for alternate paths</li>
+              <li class="fragment"> <strong>no implicit dependence</strong> on previous-instance submit
+                <ul>
+              <li class="fragment"> tasks can run out of cycle point order</li>
+              <li class="fragment"> no unnecessary stalls downstream of failed tasks</li>
+                </ul>
+              </li>
+              <li class="fragment"> <strong>intuitive "window"</strong> based on active tasks</li>
+            </ul>
+            <aside class="notes">
+            </aside>
+          </section>
+
+          <section>
             <!--
               <div style="width:100%; position:absolute; left:0; top:0">
               <img src="hjo/media/n-dist-1.svg"/>
@@ -432,21 +365,6 @@ strong {
             </aside>
           </section>
 
-          <section>
-            <ul>
-              <li> efficiency (incl. for parameterized cycling)</li>
-              <li> start at any task(s): no checkpoint restart</li>
-              <li> reflow: multiple wavefronts of activity</li>
-              <li> no suicide triggers for alternate paths</li>
-              <li> no implicit dep. on previous-instance submit</li>
-              <li> tasks can run out of cycle point order</li>
-              <li> no unnec. stalls downstream of failed tasks</li>
-              <li> intuitive window based on active tasks</li>
-              <li> lighter load on the network and the UI</li>
-            </ul>
-            <aside class="notes">
-            </aside>
-          </section>
 
           <!-- ANIM: MUST BE FOLLOWED BY data-state=postanim (PAUSE WORKFLOW) -->
           <section data-state="anim-2">
@@ -479,77 +397,271 @@ strong {
         <section>
           <!-- POSTANIM3: PAUSE WORKFLOW ON MOVE TO NEXT SLIDE -->
           <section data-state="postanim-3">
-            <h2><span style="color:red">When</span> Cylc 8.0.0?</h2>
+            <h2>workflow config</h2>
+          </section>
+          <section style="font-size:80%">
+            <p>
+            i.e. <code>flow.cylc</code> (formerly <code>suite.rc</code>)
+            </p>
+            <ul>
+              <li>Many improvements,<br/> e.g. graph syntax, platforms</li>
+              <li>But, <strong>back-compatible</strong> <br/> w/ deprecation warnings</li>
+            </ul>
+        </section>
+<!--
+        <section>
+
+            <pre><code class="ini">[scheduling]
+   initial cycle point = now
+   [[dependencies]]  # Deprecated Cylc 7
+      [[[R1]]]
+         graph = "prep => foo"
+      [[[R/^/P1D]]]
+         graph = "foo => bar => baz"</code></pre>
+
+        </section>
+        <section>
+
+            <pre><code class="ini">[scheduling]
+   initial cycle point = now
+   [[graph]]  # Cylc 8
+      R1 = "prep => foo"
+      R/^/P1D = "foo => bar => baz"</code></pre>
+          </section>
+  -->
+          </section>
+
+
+        <section>
+          <section>
+            <h2>task states</h2>
+          </section>
+ 
+          <section>
+            <div>
+              <img src="hjo/media/cylc7-task-states.png" height="500px"/>
+            </div>
+            <aside class="notes">
+              Cylc 7: 13 task states! 
+            </aside>
+          </section>
+ 
+          <section>
+            <div>
+              <img src="hjo/media/cylc8-task-states.png"/>
+            </div>
+            <aside class="notes">
+              Cylc 8: task/job separation allows us to pare down to the minimum
+            </aside>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h2>CLI &amp; workflow installation</h2>
+          </section>
+          <section>
+            <ul>
+              <li><code>rose suite-run</code></li>
+              <li><code>rose suite-clean</code></li>
+              <li><code>cylc run, restart</code></li>
+              <li><code>cylc monitor</code></li>
+            </ul>
+            <aside class="notes">
+              With plugin for <code>rose suite-run</code> back-compat.
+            </aside>
+ 
+          </section>
+
+          <section>
+            <ul>
+              <li><span style="text-decoration:line-through">
+                    rose suite-run</code></span> =&gt; <code>cylc install</code>
+              </li>
+              <li><span style="text-decoration:line-through"><code style="color:slategray">
+                    rose suite-clean</code></span> =&gt; <code>cylc clean</code>
+              </li>
+ 
+              <li><span style="text-decoration:line-through"><code style="color:slategray">
+                    cylc run, restart</code></span> =&gt; <code>cylc play</code>
+              </li>
+              <li><span style="text-decoration:line-through"><code style="color:slategray">
+                    cylc monitor</code></span> =&gt; <code>cylc tui</code></li>
+            </ul>
+            <aside class="notes">
+                  - workflow management is now native to Cylc
+                  - safety: restart by default
+            </aside>
+                </ul>
+
+          </section>
+          <section>
+            <div style="width:100%; position:absolute; left:0; top:0">
+              <img src="hjo/media/cylc-8-tui-demo.gif"/>
+            </div>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h2>web UI</h2>
+          </section>
+          <!--
+          <section>
+            <ul style="font-size:80%">
+              <li>web UI, responsive design</li>
+              <li class="fragment">integrated multi-workflow side-bar (gscan)</li>
+              <li class="fragment">incremental updates by subscription, <br/>from Schedulers to UI Server to UI</li>
+              <li class="fragment">shared data store, reactively updates tabbed views</li> 
+              <li class="fragment">graph-based active task centric window on the workflow</li> 
+              <li class="fragment">command integration</li> 
+            </ul>
+        </section>
+          -->
+ 
+          <section>
+            <div style="width:120%; position:absolute; left:-10%; top:0">
+              <img src="hjo/media/cylc-8-ui-demo.gif"/>
+            </div>
+            <aside class="notes">
+            </aside>
+          </section>
+        </section>
+ 
+        <section>
+          <section>
+            <h2>job scripts</h2>
+          </section>
+          <section>
+              <img src="hjo/media/subshell.png"/>
+                    <p style="font-size:80%">it's now safe for tasks to change Python environment</p>
+              <aside class="notes">
+              </aside>
+          </section>
+        </section>
+
+
+        <section>
+          <!-- POSTANIM3: PAUSE WORKFLOW ON MOVE TO NEXT SLIDE -->
+          <section data-state="postanim-3">
+            <h2>authorisation</h2>
+          </section>
+          <section>
+            <img src="hjo/media/cylc-8-auth.png"/>
+          </section>
+        </section>
+ 
+        <section>
+          <section>
+            <h2>Cylc 8 Timeline</h2>
+            <p>current release:<br/>
+            <code>cylc-8.0b1</code> (2nd beta)</p>
           </section>
 
           <section style="font-size:80%">
-            <h4>done already</h4>
-            <ul>
+            <h4>what's done (1/3)</h4>
+            <ul style="font-size:70%">
               <li>Python 3 migration</li>
-              <li>architecture: new components and network layers </li>
-              <li>Hub spawns Cylc UI Servers (JupyterHub!)</li>
-              <li>web UI core (Vue.js) and tree view</li>
-              <li>incremental data update subscriptions</li>
-              <li>spawn-on-demand scheduler</li>
+              <li>packaging: <code>pip</code> and <code>conda</code></li>
+              <li>architecture: new components, network layers</li>
+              <li>hub: authenticate, spawn and proxy Cylc UI Servers</li>
+              <li><code>cylc tui</code> terminal UI</li>
+              <li>scheduler-UIS network layer (ZeroMQ, Protobuf)</li>
+              <li>UIS-UI network layer (Websocket, GraphQL)</li>
+              <li>incremental push data update subscriptions</li>
+              <li>efficient spawn-on-demand scheduler</li>
               <li>secure back-end job authentication (CurveZMQ)</li>
-              <li>packaging via <code>pip</code> and <code>conda</code></li>
+             <li>...</li>
+            </ul>
+            <aside class="notes">
+              MAJOR items knocked off already
+            </aside>
+          </section>
+
+          <section style="font-size:80%">
+            <h4>what's done (2/3)</h4>
+            <ul style="font-size:70%">
+             <li>...</li>
               <li>platforms support</li>
-              <li>suite installation to job platforms</li>
-              <li>many config changes</li>
+              <li>initialize job platforms</li>
+              <li>all config changes</li>
+              <li>task state rationalisation</li>
+              <li><code>cylc install</code> workflow installation</li>
+              <li><code>cylc clean</code> workflow clean-up</li>
+              <li><code>rose-suite.conf</code> back-compat plugin</li>
+              <li><code>cylc play</code> safe run semantics</li>
+              <li>graph-based windowing (scheduler and UIS)
+              <li>cylc review (rose bush) fallback option</li>
               <li>...</li>
             </ul>
           </section>
 
           <section style="font-size:80%">
-            <h4>still to be done</h4>
-            <ul>
-              <li>Cylc UI:
+            <h4>what's done (2/3)</h4>
+            <ul style="font-size:70%">
+              <li>...</li>
+               <li>web UI (Vue.js):
                 <ul>
-                  <li>finish UI command integration</li>
-                  <li>display non-task entities (xtriggers, queues, ...)</li>
-                  <li>new graph view</li>
-                  <li>start stopped suites</li>
+                  <li>responsive design</li>
+                  <li>GraphQL subscriptions</li>
+                  <li>delta-driven data store </li>
+                  <li>reactive tree view </li>
+                  <li>view tabs (lumino)</li>
+                  <li>integrated gscan </li>
+                  <li>show installed workflows</li>
+                  <li>start stopped workflows</li>
+                  <li>task/job state theming </li>
+                  <li>command integration</li>
+                  <li>display custom outputs</li>
+                  <li>task queue, hold, and runahead indicators</li>
+                  <li></li>
                 </ul>
-                <li>suite installation and new `cylc run` semantics<br/>
-                  (with plugin for `rose-suite.conf` back-compat)</li>
-                <li>finish graph-based windowing (scheduler and UIS)
-                  <ul>
-                    <li>including loading historical tasks from the DB</li>
-                  </ul></li>
-                  <li>cross-user access and fine-grained authorization</li>
-                  <li>documentation rewrite</li>
-                  <li>cylc review (rose bush) fallback?</li>
-                  <li>...</li>
+              </li>
+              <li>...</li>
             </ul>
           </section>
 
           <section style="font-size:80%">
-            <h4>timeline</h4>
-            <p>Behind schedule (team size, pandemic impact, ...) but good
-            progress nonetheless (see previous slides)</p>
-            <br/>
+            <h3>Cylc 8.0.0: SOON!</h3>
             <ul>
-              <li> First beta release <code>cylc-8.0b0</code> Jan 2021 at best
-                <ul>
-                  <li>some sub-essential features missing (e.g. UI graph view)</li>
-                  <li>we will encourage heavy testing at this point</li>
-                </ul></li>
-                <br/>
-                <li> First full release <code>cylc-8.0</code> in Q2 2021</li>
-            </ul>
-            <aside class="notes">
-              "critical" vs essential! Graph view is essential to Cylc, but
-              not critical - you can run workflows perfectly well without it
-              (in fact in Cylc 7 it is useless for large suites)
-
-              Perhaps we underestimated the scale of the task too (but in
-              the spin-up period 2 years ago we had anticipated having
-              several more people).
-
-              Note we are going as fast as we possibly can.
-            </aside>
+              <li><b>finish</b> authorization and cross-user operation</li>
+                  <li>web UI:
+                    <ul>
+                      <li>view job logs of active tasks</li>
+                      <li>install source workflows</li>
+                      <li><b>finish</b> GraphQL subscription merging</li>
+                      <li><b>finish</b> delta-driven gscan</li>
+                      <li><b>finish</b> hubless operation: Jupyter Server</li>
+                      <li><b>finish</b> table view?</li> 
+                    </ul>
+                  </li>
+                  <li><b>finish</b> documentation update</li>
+                </ul>
+                <aside class="notes">
+                  September deadline for default version at Met Office.
+                </aside>
           </section>
-
+          <section>
+            <h3>Cylc 8.x?</h3>
+            <ul style="font-size:70%">
+              <li>UI
+              <ul>
+                  <li>graph view</li>
+                  <li>static graph visualization</li>
+                  <li>dot view</li>
+                  <li>broadcast view</li>
+                  <li><code>cylc trigger --edit</code></li>
+                  <li>load historical task data from DB</li>
+                  <li>hierarchical gscan</li>
+              </ul>
+              </li>
+                  <li>GraphQL subscriptions at the scheduler</li>
+                  <li>delta-driven TUI</li>
+                  <li>finish load-balanced spawner</li>
+                  <li>subscribe to mutation (command) updates</li>
+                  <li>universal ID and associated CLI changes</li>
+                  <li>...</li>
+                </ul>
+          </section>
 
         </section>
 
